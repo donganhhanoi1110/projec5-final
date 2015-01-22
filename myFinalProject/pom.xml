@@ -16,7 +16,8 @@
 	<properties>
 		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 		<jstl.version>1.2</jstl.version>
-		<spring.version>3.1.1.RELEASE</spring.version>
+		<spring.version>3.2.8.RELEASE</spring.version>
+		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
@@ -108,7 +109,25 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+	<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<!-- Spring Security JSP Taglib -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
 		<!-- Everything Else -->
 		<dependency>
 			<groupId>jstl</groupId>

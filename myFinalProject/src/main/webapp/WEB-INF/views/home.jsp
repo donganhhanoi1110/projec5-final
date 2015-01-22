@@ -7,8 +7,8 @@
 
 </head>
 <body>
-	<c:if test="${loginSession == null}"><jsp:forward
-			page="/login.jsp" /></c:if>
+<%-- 	<c:if test="${loginSession == null}"><jsp:forward
+			page="/login.jsp" /></c:if> --%>
 	<div id="page-top-outer">
 
 		<div id="page-center" style="background-color: white;">
