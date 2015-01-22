@@ -1,160 +1,225 @@
 package com.csc.fresher.java.domain;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="customer")
 public class Customer {
-
-	public Long c_ID;
 	
-	public Long c_AccountNumber;
+	@Id
+	@Column(name="id")
+	@GeneratedValue
+	private Long id;
 	
-	public String c_AccountType;
+	@Column(name="account_Number")
+	private Long accountNumber;
 
-	public String c_FirstName;
+	@Column(name="account_Type")
+	private String accountType;
 
-	public String c_LastName;
+	@Column(name="first_Name")
+	private String firstName;
+
+	@Column(name="last_Name")
+	private String lastName;
+
+	@Column(name="mid_Name")
+	private String  middleName;
+
+	@Column(name="id_Number")
+	private long idNumber;
+
+	@Column(name="phone1")
+	private long phone1;
+
+	@Column(name="phone2")
+	private long phone2;
+
+	@Column(name="address1")
+	private String address1;
+
+	@Column(name="address2")
+	private String address2;
+
+	@Column(name="email")
+	private String email;
+
+	@Column(name="state")
+	private String state;
 	
-	public String c_MiddleName;
+	@OneToMany
+	@JoinColumn(name="customer1")
+	private List<SavingAccount> transactions;
 	
-	public long c_IDNumber;
-	
-	public long c_Phone1;
-	
-	public long c_Phone2;
-	
-	public String c_Address1;
-	
-	public String c_Address2;
-	
-	public String c_Email;
-	
-	public String c_State;
 
-	public Long getC_ID() {
-		return c_ID;
+
+
+
+	public Long getId() {
+		return id;
 	}
 
-	public void setC_ID(Long c_ID) {
-		this.c_ID = c_ID;
+
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public Long getC_AccountNumber() {
-		return c_AccountNumber;
+
+
+	public Long getAccountNumber() {
+		return accountNumber;
 	}
 
-	public void setC_AccountNumber(Long c_AccountNumber) {
-		this.c_AccountNumber = c_AccountNumber;
+
+
+	public void setAccountNumber(Long accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 
-	public String getC_AccountType() {
-		return c_AccountType;
+
+
+	public String getAccountType() {
+		return accountType;
 	}
 
-	public void setC_AccountType(String c_AccountType) {
-		this.c_AccountType = c_AccountType;
+
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
-	public String getC_FirstName() {
-		return c_FirstName;
+
+
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setC_FirstName(String c_FirstName) {
-		this.c_FirstName = c_FirstName;
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getC_LastName() {
-		return c_LastName;
+
+
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setC_LastName(String c_LastName) {
-		this.c_LastName = c_LastName;
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getC_MiddleName() {
-		return c_MiddleName;
+
+
+	public String getMiddleName() {
+		return middleName;
 	}
 
-	public void setC_MiddleName(String c_MiddleName) {
-		this.c_MiddleName = c_MiddleName;
+
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
 	}
 
-	public long getC_IDNumber() {
-		return c_IDNumber;
+
+
+	public long getIdNumber() {
+		return idNumber;
 	}
 
-	public void setC_IDNumber(long c_IDNumber) {
-		this.c_IDNumber = c_IDNumber;
+
+
+	public void setIdNumber(long idNumber) {
+		this.idNumber = idNumber;
 	}
 
-	public long getC_Phone1() {
-		return c_Phone1;
+
+
+	public long getPhone1() {
+		return phone1;
 	}
 
-	public void setC_Phone1(long c_Phone1) {
-		this.c_Phone1 = c_Phone1;
+
+
+	public void setPhone1(long phone1) {
+		this.phone1 = phone1;
 	}
 
-	public long getC_Phone2() {
-		return c_Phone2;
+
+
+	public long getPhone2() {
+		return phone2;
 	}
 
-	public void setC_Phone2(long c_Phone2) {
-		this.c_Phone2 = c_Phone2;
+
+
+	public void setPhone2(long phone2) {
+		this.phone2 = phone2;
 	}
 
-	public String getC_Address1() {
-		return c_Address1;
+
+
+	public String getAddress1() {
+		return address1;
 	}
 
-	public void setC_Address1(String c_Address1) {
-		this.c_Address1 = c_Address1;
+
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
 	}
 
-	public String getC_Address2() {
-		return c_Address2;
+
+
+	public String getAddress2() {
+		return address2;
 	}
 
-	public void setC_Address2(String c_Address2) {
-		this.c_Address2 = c_Address2;
+
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
 	}
 
-	public String getC_Email() {
-		return c_Email;
+
+
+	public String getEmail() {
+		return email;
 	}
 
-	public void setC_Email(String c_Email) {
-		this.c_Email = c_Email;
+
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getC_State() {
-		return c_State;
+
+
+	public String getState() {
+		return state;
 	}
 
-	public void setC_State(String c_State) {
-		this.c_State = c_State;
+
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
-	public Customer(Long c_ID, Long c_AccountNumber, String c_AccountType,
-			String c_FirstName, String c_LastName, String c_MiddleName,
-			long c_IDNumber, long c_Phone1, long c_Phone2, String c_Address1,
-			String c_Address2, String c_Email, String c_State) {
-		super();
-		this.c_ID = c_ID;
-		this.c_AccountNumber = c_AccountNumber;
-		this.c_AccountType = c_AccountType;
-		this.c_FirstName = c_FirstName;
-		this.c_LastName = c_LastName;
-		this.c_MiddleName = c_MiddleName;
-		this.c_IDNumber = c_IDNumber;
-		this.c_Phone1 = c_Phone1;
-		this.c_Phone2 = c_Phone2;
-		this.c_Address1 = c_Address1;
-		this.c_Address2 = c_Address2;
-		this.c_Email = c_Email;
-		this.c_State = c_State;
-	}
-	
-	
+
+
 	public Customer() {
 	}
-	
-	
+
 }

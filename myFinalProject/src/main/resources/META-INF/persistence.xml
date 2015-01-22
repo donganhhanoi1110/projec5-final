@@ -5,8 +5,15 @@
 	<persistence-unit name="FinalProject"
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+
+		<class>com.csc.fresher.java.domain.Customer</class>
+		<class>com.csc.fresher.java.domain.InterestRate</class>
+		<class>com.csc.fresher.java.domain.SavingAccount</class>
+		<class>com.csc.fresher.java.domain.Transaction</class>
 		<class>com.csc.fresher.java.domain.User</class>
-		
+
+
 		<properties>
 			<property name="hibernate.connection.charSet" value="UTF-8" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mydb" />
