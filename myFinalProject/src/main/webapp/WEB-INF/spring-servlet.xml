@@ -22,21 +22,26 @@
 	<!-- Use @Controller annotations for MVC controller definitions -->
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
-	<mvc:resources mapping="/resources/**" location="/resources/" />
+
 	<!-- View resolver -->
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/views/" />
-		<property name="suffix" value=".jsp" />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass">
+			<value>
+				org.springframework.web.servlet.view.tiles2.TilesView
+			</value>
+		</property>
 	</bean>
 	<bean id="tilesConfigurer"
-		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer"
-		p:definitions="/WEB-INF/layouts/tiles.xml" />
-
-	<bean id="tilesViewResolver"
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver"
-		p:viewClass="org.springframework.web.servlet.view.tiles2.TilesView" />
+		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/layouts/tiles.xml</value>
+			</list>
+		</property>
+	</bean>
 </beans>

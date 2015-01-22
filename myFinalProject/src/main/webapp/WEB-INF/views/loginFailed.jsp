@@ -1,15 +1,9 @@
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><tiles:insertAttribute name="title" /></title>
-<!--[if IE]>
-<link rel="stylesheet" href="resources/css/ie.css"
-type="text/css" media="screen, projection">
-<![endif]-->
-
-
+<meta charset="ISO-8859-1">
+<title>CSC Banking System</title>
 <link rel="stylesheet" href="css/style_home.css" type="text/css" />
 <link rel="stylesheet" type="text/css" href="css/site.css">
 <link rel="stylesheet" href="css/screen.css" type="text/css" />
@@ -39,16 +33,32 @@ type="text/css" media="screen, projection">
 		});
 	});
 </script>
-
 </head>
 <body>
+	<c:if test="${loginSession == null}"><jsp:forward
+			page="/login.jsp" /></c:if>
+	<div id="page-top-outer">
 
-		<tiles:insertAttribute name="header" />
-		<tiles:insertAttribute name="menu" />
-		
+		<div id="page-center" style="background-color: white;">
 
-		<tiles:insertAttribute name="body" />
-		<tiles:insertAttribute name="footer" />
-	
+			<!-- start logo -->
+			<div id="logo" style="padding-left: 50px">
+				<a href="home.html"><img src="images/logo.png" width="229" height="74"
+					alt="" /></a>
+			</div>
+		</div>
+	</div>
+	<h1 style="color:red; margin: 100px;">Login Failed!!! Click here to go to <a href="/daonjpa/login.jsp" >Login Page</a></h1>
+
+	<!-- start footer -->
+	<div id="footer">
+		<!--  start footer-left -->
+		<div id="footer-left">
+			&copy; Copyright 2014 DAOnJPA| Java Fresher Training Program. <span
+				id="spanYear"></span> <a href="http://www.csc.com" target="_blank">www.csc.com</a>
+		</div>
+		<!--  end footer-left -->
+		<div class="clear">&nbsp;</div>
+	</div>
 </body>
 </html>

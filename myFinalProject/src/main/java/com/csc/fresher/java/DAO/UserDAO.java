@@ -1,6 +1,7 @@
 package com.csc.fresher.java.DAO;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -9,6 +10,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
 
 import com.csc.fresher.java.controller.EntityManagerFactoryUtil;
+import com.csc.fresher.java.domain.Customer;
 import com.csc.fresher.java.domain.User;
 
 
@@ -47,6 +49,8 @@ public class UserDAO {
 									User.class);
 			query.setParameter("loginId", id);
 			query.setParameter("password", pass);
+			User a= query.getSingleResult();
+			System.out.println(a.toString());
 			check = query.getResultList().size() > 0;
 			entr.commit();
 		} catch (Exception e) {

@@ -16,7 +16,10 @@
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
-
+<definition name="loginFailed" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/loginFailed.jsp" />
+	</definition>
 	
 
 </tiles-definitions>

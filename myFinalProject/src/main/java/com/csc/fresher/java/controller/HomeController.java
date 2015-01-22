@@ -31,7 +31,7 @@ public class HomeController {
 	public ModelAndView getAccountList(HttpServletRequest request, Model model) {
 		// Create a new AccountDAO
 
-		ModelAndView model1 = new ModelAndView("home");
+		ModelAndView model1 = new ModelAndView("myHome");
 
 		// Get the list of all accounts from DB
 		try {

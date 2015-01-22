@@ -29,8 +29,8 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	@Column(name = "role")
-	private String role;
+	@Column(name = "enable")
+	private String enable;
 
 
 	public User() {
@@ -68,22 +68,24 @@ public class User {
 	}
 
 
-	public String getRole() {
-		return role;
+	public String getEnable() {
+		return enable;
 	}
 
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setEnable(String enable) {
+		this.enable = enable;
 	}
 
 
-	public User(int userId, String userName, String password, String role) {
+	public User(int userId, String userName, String password, String enable) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
 		this.password = password;
-		this.role = role;
+		this.enable = enable;
 	}
+
+
 
 }
