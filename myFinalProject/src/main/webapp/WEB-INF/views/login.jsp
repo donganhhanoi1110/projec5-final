@@ -35,18 +35,8 @@
 	<c:if test="${not empty msg}">
 		<div class="msg">${msg}</div>
 	</c:if>
-	<div id="page-top-outer">
 
-		<div id="page-center" style="background-color: white;">
 
-			<!-- start logo -->
-			<div id="logo" style="padding-left: 50px">
-				<a href=""><img src="images/logo.png" width="229" height="74"
-					alt="" /></a>
-			</div>
-		</div>
-	</div>
-	<div class="nav-outer-repeat"></div>
 
 	<div id="content-outer">
 		<!-- start content -->

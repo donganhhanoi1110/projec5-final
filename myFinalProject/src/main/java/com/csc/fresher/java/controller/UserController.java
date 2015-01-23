@@ -30,16 +30,7 @@ public class UserController {
 		// Read account info from request and save into Account object
 		String loginId = request.getParameter("loginId");
 		String password = request.getParameter("password");
-		UserDAO cusDAO = new UserDAO();
-
-		if (cusDAO.checkLogin(loginId, password)) {
-			System.out.println(" login ok!!!");
-
-			return ("forward:/setLoginSession.html");
-		} else {
-			System.out.println(" login failed!!!");
-			return ("loginFailed");
-		}
+		return "myHome";
 
 	}
 
