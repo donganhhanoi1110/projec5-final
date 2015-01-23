@@ -7,6 +7,7 @@ import java.util.List;
 
 
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.csc.fresher.java.domain.User;
 import com.csc.fresher.java.service.UserService;
 
 
@@ -40,7 +42,8 @@ public class HomeController {
 
 		// Get the list of all accounts from DB
 		try {
-
+			
+			model1.addObject("listUser",userService.getAllUser());
 			return model1;
 		} catch (Exception e) {
 			model1.addObject("ERROR_CODE", "You get error");
@@ -49,24 +52,43 @@ public class HomeController {
 		}
 
 	}
-	@RequestMapping(value = "/homePost",method=RequestMethod.GET)
-	public ModelAndView getAccountList2(HttpServletRequest request, Model model) {
+	
+	@RequestMapping(value = "/createUser")
+	public ModelAndView createUser(HttpServletRequest request, Model model) {
 		// Create a new AccountDAO
+String message="";
+ModelAndView modelview = new ModelAndView("forward:/home");
+		String username=request.getParameter("username");
+		String password=request.getParameter("password");
+		String enable=request.getParameter("enable");
 
-		ModelAndView model1 = new ModelAndView("myHome");
-		String loginId = request.getParameter("loginId");
-		String password = request.getParameter("password");
-		
+		User user=new User(0,username,password,enable);
 		// Get the list of all accounts from DB
+		System.out.println(user.toString());
+		modelview.addObject("ERROR_CODE", user.toString());
 		try {
-			model1.addObject("minh",userService.getUser(loginId, password));
-			return model1;
+		
+			boolean check=userService.createUser(user);
+			if(check)
+			{
+				message="You have created User successfully!!!";
+				
+				modelview.addObject("message",message);
+				
+			}
+			else{
+				message="You have created User FAILED!!!";
+				modelview.addObject("message",message);
+			}
+			return modelview;
+
 		} catch (Exception e) {
-			model1.addObject("ERROR_CODE", "You get error");
-			return model1;
+			modelview.addObject("ERROR_CODE", "You get error");
+			return modelview;
 
 		}
 
 	}
+
 
 }

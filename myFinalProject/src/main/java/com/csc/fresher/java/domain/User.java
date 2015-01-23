@@ -18,7 +18,6 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-	@GeneratedValue
 	@Column(name = "id")
 	private int userId;
 
@@ -83,6 +82,13 @@ public class User {
 		this.userName = userName;
 		this.password = password;
 		this.enable = enable;
+	}
+
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName
+				+ ", password=" + password + ", enable=" + enable + "]";
 	}
 
 

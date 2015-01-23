@@ -9,18 +9,7 @@
 <body>
 	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
 			page="/login.jsp" /></c:if> --%>
-	<div id="page-top-outer">
 
-		<div id="page-center" style="background-color: white;">
-
-			<!-- start logo -->
-			<div id="logo" style="padding-left: 50px">
-				<a href=""><img src="images/logo.png" width="229" height="74"
-					alt="" /></a>
-			</div>
-		</div>
-	</div>
-	<div class="nav-outer-repeat"></div>
 
 	<div id="content-outer">
 		<!-- start content -->
@@ -29,7 +18,7 @@
 			<!--  start page-heading -->
 			<div id="page-heading">
 				<h1>Account Management</h1>
-				<h1 style="color: red">${minh}</h1>
+				<h1 style="color: red">${message}</h1>
 			</div>
 			<table border="0" width="100%" cellpadding="0" cellspacing="0"
 				id="content-table">
@@ -50,12 +39,10 @@
 						<div id="content-table-inner">
 							<div id="page-heading">
 								<h1 style="color: red;">
-									<c:if test="${!
-
-empty ERROR_CODE }">
-										<c:out value="${ERROR_CODE }"></c:out>
+									<c:if test="${!empty ERROR_CODE }">
+										<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
 										<script>
-											alert("You must have something...");
+											alert("Add User Successfully...");
 										</script>
 									</c:if>
 								</h1>
@@ -63,45 +50,87 @@ empty ERROR_CODE }">
 
 							</div>
 
-							<div class="panel-body">
+							<div id="hide">
+								<div style="float: left;">
+									<table border="0" width="100%" cellpadding="0" cellspacing="0">
+										<tr valign="top">
+											<td>
+												<form action="createUser.html" >
+													<table border="0" cellpadding="0" cellspacing="0"
+														id="id-form">
+													
+														<tr>
+															<th valign="top">User Name:</th>
+															<td><input type="text" class="css-input"
+																name="username" /></td>
+														</tr>
+														<tr>
+															<th valign="top">Password:</th>
+															<td><input type="text" class="css-input"
+																name="password" /></td>
+															<td></td>
+														</tr>
+														<tr>
+															<th valign="top">Enable</th>
+															<td><input type="text" class="css-input"
+																name="enable" /></td>
+															<td></td>
+														</tr>
+														<tr>
+															<td></td>
+															<td><input type="submit" class="myButton"
+																value="Save" id="addAccount" /></td>
+															<td></td>
+														</tr>
+													</table>
+												</form>
+											</td>
+										</tr>
+
+									</table>
+								</div>
+								<div style="float: right; margin-right: 20%;">
 
 
-								<form action="homePost.html" class="form-horizontal" role="form"
-									method="get">
-									<div class="form-group">
-										<label for="username" class="col-md-2 control-label">Username</label>
-										<div class="col-md-8">
+									<a class="myButton" href="addCard.html" style="margin: 5px;">
+										Create Card</a> <a class="myButton" href="addNewTransaction.html">
+										Create Transaction</a>
 
 
-											<input type="text" name="loginId" class="form-control"
-												id="username" placeholder="username">
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="password" class="col-md-2 control-label">Password</label>
-										<div class="col-md-8">
-
-
-											<input type="password" name="password" class="form-control"
-												id="password" placeholder="Password">
-										</div>
-									</div>
-
-
-									<div class="form-group">
-										<div class="col-md-offset-2 col-md-8">
-
-
-											<button type="submit" class="btn btn-primary">Sign
-
-
-												in</button>
-										</div>
-									</div>
-
-								</form>
+								</div>
 							</div>
 
+
+							<div id="show">
+								<b> >>>Manage User<<< </b>
+							</div>
+							<div class="panel-body">
+								<div class="dataTable_wrapper">
+									<table class="mytable1" id="dataTables-example">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>User Name</th>
+												<th>Password</th>
+												<th>Enable</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="user" items="${listUser}">
+												<c:if test="${user.userName != null}">
+													<tr>
+														<td>${user.userId}</td>
+														<td>${user.userName}</td>
+														<td>${user.password}</td>
+														<td>${user.enable}</td>
+
+													</tr>
+												</c:if>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
 
 						</div>
 					</td>

@@ -1,5 +1,7 @@
 package com.csc.fresher.java.service;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -32,5 +34,10 @@ public class UserService {
 	public String getUser(String id, String pass) {
 		return this.getUserDAO().getUser(id, pass);
 	}
-	
+	public List<User> getAllUser() {
+		return this.getUserDAO().getAllUser();
+	}
+	public boolean createUser(User user) {
+		return this.getUserDAO().createUser(user);
+	}
 }
