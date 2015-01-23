@@ -12,6 +12,12 @@ import org.springframework.stereotype.Service;
 import com.csc.fresher.java.dao.UserDAO;
 import com.csc.fresher.java.domain.User;
 
+/**
+ * User Service class call method from DAO for controller to do get Data or business logic
+ * 
+ * @author Anh Minh Nguyen
+ *
+ */
 @Service
 public class UserService {
 	
@@ -31,13 +37,37 @@ public class UserService {
 
 
 
-	public String getUser(String id, String pass) {
-		return this.getUserDAO().getUser(id, pass);
+	public User getUser(int id) {
+		return this.getUserDAO().getUser(id);
 	}
+	
 	public List<User> getAllUser() {
 		return this.getUserDAO().getAllUser();
 	}
+	
 	public boolean createUser(User user) {
 		return this.getUserDAO().createUser(user);
 	}
+	
+	 public boolean updateUser(User User) {
+	    	return this.getUserDAO().updateUser(User);
+	    }
+	 
+	    /**
+	     * Delete User by their Id.
+	     *
+	     * @param UserId the User Id.
+	     */
+	    public boolean deleteUserById(int UserId) {
+	       return this.getUserDAO().deleteUserById(UserId);
+	    }
+	 
+	    /**
+	     * Delete User entity.
+	     *
+	     * @param User the object to be deleted.
+	     */
+	    public boolean deleteUser(User User) {
+	    	return this.getUserDAO().deleteUser(User);
+	    }
 }

@@ -41,9 +41,16 @@
 								<h1 style="color: red;">
 									<c:if test="${!empty ERROR_CODE }">
 										<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
+										<c:if test="${ ERROR_CODE == '1'}">
 										<script>
-											alert("Add User Successfully...");
+											alert("Successfully!!!");
 										</script>
+										</c:if>
+										<c:if test="${ ERROR_CODE == '0'}">
+										<script>
+											alert("You are getting Error when Create, Update or Delete!!!");
+										</script>
+										</c:if>
 									</c:if>
 								</h1>
 								<h1>Add Account Information</h1>
@@ -55,10 +62,10 @@
 									<table border="0" width="100%" cellpadding="0" cellspacing="0">
 										<tr valign="top">
 											<td>
-												<form action="createUser.html" >
+												<form action="createUser.html">
 													<table border="0" cellpadding="0" cellspacing="0"
 														id="id-form">
-													
+
 														<tr>
 															<th valign="top">User Name:</th>
 															<td><input type="text" class="css-input"
@@ -113,6 +120,8 @@
 												<th>User Name</th>
 												<th>Password</th>
 												<th>Enable</th>
+												<th>Delete User</th>
+												<th>Edit User</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -123,6 +132,10 @@
 														<td>${user.userName}</td>
 														<td>${user.password}</td>
 														<td>${user.enable}</td>
+														<td><a href="deleteUser.html?userId=${user.userId}"
+															class="myButton">Delete</a></td>
+															<td><a href="editUser.html?userId=${user.userId}"
+															class="myButton">Edit</a></td>
 
 													</tr>
 												</c:if>

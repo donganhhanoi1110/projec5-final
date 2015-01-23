@@ -11,12 +11,17 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp" />
 	</definition>
-
+	<!--User view definition -->
 	<definition name="myHome" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/user/home.jsp" />
 	</definition>
-<definition name="loginFailed" extends="DefaultTemplate">
+	<definition name="editMyUser" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/user/editUser.jsp" />
+	</definition>
+	<!--End User view definition -->
+	<definition name="loginFailed" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/loginFailed.jsp" />
 	</definition>
@@ -24,18 +29,20 @@
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/admin.jsp" />
 	</definition>
-		<definition name="login" extends="DefaultTemplate">
+	<definition name="login" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
 	</definition>
-		<definition name="403" extends="DefaultTemplate">
+	<definition name="403" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/403.jsp" />
 	</definition>
-		<definition name="hello" extends="DefaultTemplate">
+	<definition name="hello" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/hello.jsp" />
 	</definition>
-	
+
+
+
 
 </tiles-definitions>

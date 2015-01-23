@@ -39,7 +39,28 @@ public class HomeController {
 		// Create a new AccountDAO
 
 		ModelAndView model1 = new ModelAndView("myHome");
-
+	/*	boolean check=false;
+		System.out.println("\nGet user id=5");
+		User user=new User();
+		user=userService.getUser(5);
+		System.out.println("\nUpdate to minh123");
+		user.setUserName("minh");
+		
+	
+		System.out.println("\nDelete user ngan");
+		if(userService.deleteUserById(8))
+		{
+			System.out.println("Delete ngan successfully!!!");
+		}
+	
+		user.setPassword("1234");
+		userService.updateUser(user);*/
+		
+		
+		//userService.deleteUserById(9);
+		
+	
+		
 		// Get the list of all accounts from DB
 		try {
 			
@@ -53,42 +74,7 @@ public class HomeController {
 
 	}
 	
-	@RequestMapping(value = "/createUser")
-	public ModelAndView createUser(HttpServletRequest request, Model model) {
-		// Create a new AccountDAO
-String message="";
-ModelAndView modelview = new ModelAndView("forward:/home");
-		String username=request.getParameter("username");
-		String password=request.getParameter("password");
-		String enable=request.getParameter("enable");
-
-		User user=new User(0,username,password,enable);
-		// Get the list of all accounts from DB
-		System.out.println(user.toString());
-		modelview.addObject("ERROR_CODE", user.toString());
-		try {
-		
-			boolean check=userService.createUser(user);
-			if(check)
-			{
-				message="You have created User successfully!!!";
-				
-				modelview.addObject("message",message);
-				
-			}
-			else{
-				message="You have created User FAILED!!!";
-				modelview.addObject("message",message);
-			}
-			return modelview;
-
-		} catch (Exception e) {
-			modelview.addObject("ERROR_CODE", "You get error");
-			return modelview;
-
-		}
-
-	}
+	
 
 
 }
