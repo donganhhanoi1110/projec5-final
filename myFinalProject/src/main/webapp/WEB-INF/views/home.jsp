@@ -7,7 +7,7 @@
 
 </head>
 <body>
-<%-- 	<c:if test="${loginSession == null}"><jsp:forward
+	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
 			page="/login.jsp" /></c:if> --%>
 	<div id="page-top-outer">
 
@@ -29,7 +29,7 @@
 			<!--  start page-heading -->
 			<div id="page-heading">
 				<h1>Account Management</h1>
-				
+				<h1 style="color: red">${minh}</h1>
 			</div>
 			<table border="0" width="100%" cellpadding="0" cellspacing="0"
 				id="content-table">
@@ -50,7 +50,9 @@
 						<div id="content-table-inner">
 							<div id="page-heading">
 								<h1 style="color: red;">
-									<c:if test="${!empty ERROR_CODE }">
+									<c:if test="${!
+
+empty ERROR_CODE }">
 										<c:out value="${ERROR_CODE }"></c:out>
 										<script>
 											alert("You must have something...");
@@ -61,93 +63,46 @@
 
 							</div>
 
-							<div id="hide">
-								<div style="float: left;">
-									<table border="0" width="100%" cellpadding="0" cellspacing="0">
-										<tr valign="top">
-											<td>
-												<form action="createAccount.html" method="post">
-													<table border="0" cellpadding="0" cellspacing="0"
-														id="id-form">
-														<tr>
-															<th valign="top">Account Type:</th>
-															<td><select id="selectAccountType"
-																name="accountType" class="css-input">
-																	<option value="Deposit Account">Deposit
-																		Account</option>
-																	<option value="Saving Account">Saving Account</option>
-																	<option value="Others">Others</option>
-															</select></td>
-															<td></td>
-														</tr>
-														<tr>
-															<th valign="top">Account Number</th>
-															<td><input type="text" class="css-input"
-																name="accountNumber" /></td>
-														</tr>
-														<tr>
-															<th valign="top">Account Name:</th>
-															<td><input type="text" class="css-input"
-																name="accountName" /></td>
-															<td></td>
-														</tr>
-														<tr>
-															<th valign="top">Account Amount:</th>
-															<td><input type="text" class="css-input"
-																name="accountAmount" /></td>
-															<td></td>
-														</tr>
-														<tr>
-															<td></td>
-															<td><input type="submit" class="myButton"
-																value="Save" id="addAccount" /></td>
-															<td></td>
-														</tr>
-													</table>
-												</form>
-											</td>
-										</tr>
-
-									</table>
-								</div>
-								<div style="float: right; margin-right: 20%;">
-
-									
-									<a class="myButton" href="addCard.html" style="margin: 5px;"> Create Card</a>
-									<a class="myButton" href="addNewTransaction.html" > Create Transaction</a>
-								
-
-								</div>
-							</div>
-
-
-							<div id="show">Add Account Information</div>
 							<div class="panel-body">
-								<div class="dataTable_wrapper">
-									<table class="mytable1" id="dataTables-example">
-										<thead>
-											<tr>
-												<th>Account Number</th>
-												<th>Account Name</th>
-												<th>Account Type</th>
-												<th>Account Amount</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="account" items="${listAccount}">
-												<c:if test="${account.accountName != null}">
-													<tr>
-														<td>${account.accountNumber}</td>
-														<td>${account.accountName}</td>
-														<td>${account.accountType}</td>
-														<td>${account.availableNumber}</td>
-													</tr>
-												</c:if>
-											</c:forEach>
-										</tbody>
-									</table>
-								</div>
+
+
+								<form action="homePost.html" class="form-horizontal" role="form"
+									method="get">
+									<div class="form-group">
+										<label for="username" class="col-md-2 control-label">Username</label>
+										<div class="col-md-8">
+
+
+											<input type="text" name="loginId" class="form-control"
+												id="username" placeholder="username">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="password" class="col-md-2 control-label">Password</label>
+										<div class="col-md-8">
+
+
+											<input type="password" name="password" class="form-control"
+												id="password" placeholder="Password">
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<div class="col-md-offset-2 col-md-8">
+
+
+											<button type="submit" class="btn btn-primary">Sign
+
+
+												in</button>
+										</div>
+									</div>
+
+								</form>
 							</div>
+
+
 						</div>
 					</td>
 					<td id="tbl-border-right"></td>
@@ -160,9 +115,9 @@
 			</table>
 			<br />
 		</div>
-	
+
 	</div>
 
-	
+
 </body>
 </html>
