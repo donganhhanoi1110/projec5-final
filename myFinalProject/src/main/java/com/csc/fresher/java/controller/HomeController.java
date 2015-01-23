@@ -56,10 +56,10 @@ public class HomeController {
 		ModelAndView model1 = new ModelAndView("myHome");
 		String loginId = request.getParameter("loginId");
 		String password = request.getParameter("password");
-		model1.addObject("minh",userService.checkLogin(loginId, password));
+		
 		// Get the list of all accounts from DB
 		try {
-
+			model1.addObject("minh",userService.getUser(loginId, password));
 			return model1;
 		} catch (Exception e) {
 			model1.addObject("ERROR_CODE", "You get error");

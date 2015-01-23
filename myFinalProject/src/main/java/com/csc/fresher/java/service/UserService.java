@@ -4,31 +4,33 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.csc.fresher.java.dao.UserDAO;
 import com.csc.fresher.java.domain.User;
 
 @Service
 public class UserService {
-
-	@PersistenceContext
-	private EntityManager em;
 	
-	public String checkLogin(String id, String pass) {
-		
-			String check="";
-					TypedQuery<User> query = em
-							.createQuery(
-									"SELECT c FROM "
-											+ User.class.getName()
-											+ " c Where c.userName= :loginId and c.password= :password",
-											User.class);
-					query.setParameter("loginId", id);
-					query.setParameter("password", pass);
-					User a= query.getSingleResult();
-					System.out.println(a.toString());
-				
-				return a.getUserName()+"_"+a.getPassword();
-		
-			}
+	UserDAO userDAO;
+	
+	
+	
+	public UserDAO getUserDAO() {
+		return userDAO;
+	}
+
+
+	@Autowired
+	public void setUserDAO(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
+
+
+
+	public String getUser(String id, String pass) {
+		return this.getUserDAO().getUser(id, pass);
+	}
+	
 }

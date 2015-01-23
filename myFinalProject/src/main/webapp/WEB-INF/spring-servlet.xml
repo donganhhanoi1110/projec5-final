@@ -69,5 +69,5 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 <bean name="userService" class="com.csc.fresher.java.service.UserService"></bean>
-
+<bean name="userDAO" class="com.csc.fresher.java.dao.UserDAO"></bean>
 </beans>
