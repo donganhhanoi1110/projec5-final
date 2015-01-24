@@ -1,4 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,14 +44,14 @@
 									<c:if test="${!empty ERROR_CODE }">
 										<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
 										<c:if test="${ ERROR_CODE == '1'}">
-										<script>
-											alert("Successfully!!!");
-										</script>
+											<script>
+												alert("Successfully!!!");
+											</script>
 										</c:if>
 										<c:if test="${ ERROR_CODE == '0'}">
-										<script>
-											alert("You are getting Error when Create, Update or Delete!!!");
-										</script>
+											<script>
+												alert("You are getting Error when Create, Update or Delete!!!");
+											</script>
 										</c:if>
 									</c:if>
 								</h1>
@@ -62,7 +64,9 @@
 									<table border="0" width="100%" cellpadding="0" cellspacing="0">
 										<tr valign="top">
 											<td>
-												<form action="createUser.html">
+												<form action="createUser.html" method="post">
+													<input type="hidden" name="${_csrf.parameterName}"
+														value="${_csrf.token}" />
 													<table border="0" cellpadding="0" cellspacing="0"
 														id="id-form">
 
@@ -134,7 +138,7 @@
 														<td>${user.enable}</td>
 														<td><a href="deleteUser.html?userId=${user.userId}"
 															class="myButton">Delete</a></td>
-															<td><a href="editUser.html?userId=${user.userId}"
+														<td><a href="editUser.html?userId=${user.userId}"
 															class="myButton">Edit</a></td>
 
 													</tr>

@@ -42,14 +42,14 @@
 									<c:if test="${!empty ERROR_CODE }">
 										<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
 										<c:if test="${ ERROR_CODE == '1'}">
-										<script>
-											alert("Successfully!!!");
-										</script>
+											<script>
+												alert("Successfully!!!");
+											</script>
 										</c:if>
 										<c:if test="${ ERROR_CODE == '0'}">
-										<script>
-											alert("You are getting Error!!!");
-										</script>
+											<script>
+												alert("You are getting Error!!!");
+											</script>
 										</c:if>
 									</c:if>
 								</h1>
@@ -57,49 +57,56 @@
 
 							</div>
 							<table border="0" width="100%" cellpadding="0" cellspacing="0">
-				<tr valign="top">
-					<td>
-						<form action="editUserProfile.html" method="get">
-						
-							<table border="0" cellpadding="0" cellspacing="0" id="id-form">
-							<c:forEach var="user" items="${userProfile}" >
-								<tr>
-									<th valign="top">ID :</th>
-									<td><input type="hidden" class="inp-form" name="userId" value="${user.userId}"/> ${user.userId}</td>
+								<tr valign="top">
+									<td>
+										<form action="editUserProfile.html" method="post">
+											<input type="hidden" name="${_csrf.parameterName}"
+												value="${_csrf.token}" />
+											<table border="0" cellpadding="0" cellspacing="0"
+												id="id-form">
+
+												<c:forEach var="user" items="${userProfile}">
+													<tr>
+														<th valign="top">ID :</th>
+														<td><input type="hidden" class="inp-form"
+															name="userId" value="${user.userId}" /> ${user.userId}</td>
+													</tr>
+													<tr>
+														<th valign="top">User Name</th>
+														<td><input type="text" class="css-input"
+															name="userName" value="${user.userName}" /></td>
+													</tr>
+													<tr>
+														<th valign="top">Password:</th>
+														<td><input type="text" class="css-input"
+															name="password" value="${user.password}" /></td>
+														<td></td>
+													</tr>
+													<tr>
+														<th valign="top">Enable:</th>
+														<td><input type="text" class="css-input"
+															name="enable" value="${user.enable}" /></td>
+														<td></td>
+													</tr>
+
+													<tr>
+														<td></td>
+														<td><input type="submit" class="myButton"
+															value="Update User" /></td>
+														<td></td>
+													</tr>
+												</c:forEach>
+											</table>
+										</form>
+									</td>
 								</tr>
-								<tr>
-									<th valign="top">User Name</th>
-									<td><input type="text" class="css-input" name="userName" value="${user.userName}"/></td>
-								</tr>
-								<tr>
-									<th valign="top">Password:</th>
-									<td><input type="text" class="css-input" name="password" value="${user.password}"/></td>
-									<td></td>
-								</tr>
-								<tr>
-									<th valign="top">Enable:</th>
-									<td><input type="text" class="css-input" name="enable" value="${user.enable}"/></td>
-									<td></td>
-								</tr>
-								
-								<tr>
-									<td></td>
-									<td><input type="submit" class="myButton" value="Update User"
-										 /></td>
-									<td></td>
-								</tr>
-								</c:forEach>
+
 							</table>
-						</form>
-					</td>
-				</tr>
-				
-			</table>
-
-					
 
 
-					
+
+
+
 
 						</div>
 					</td>

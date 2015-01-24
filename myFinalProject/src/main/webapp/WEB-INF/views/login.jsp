@@ -51,7 +51,6 @@
 
 
 							<form action="<c:url 
-
 value='/j_spring_security_check' />"
 								class="form-horizontal" role="form" name='loginForm'
 								method="post">
