@@ -1,10 +1,15 @@
 package com.csc.fresher.java.domain;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -16,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,8 +36,8 @@ public class User {
 
 	@Column(name = "enable")
 	private String enable;
-
-
+	
+	
 	public User() {
 
 	}
@@ -78,6 +83,7 @@ public class User {
 	}
 
 
+	
 	public User(int userId, String userName, String password, String enable) {
 		super();
 		this.userId = userId;
@@ -86,12 +92,15 @@ public class User {
 		this.enable = enable;
 	}
 
-
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName
-				+ ", password=" + password + ", enable=" + enable + "]";
+				+ ", password=" + password + ", enable=" + enable
+				+"]";
 	}
+
+
+
 
 
 

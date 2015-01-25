@@ -17,7 +17,7 @@
 
 			<!--  start page-heading -->
 			<div id="page-heading">
-				<h1>Account Management</h1>
+			
 				<h1 style="color: red">${message}</h1>
 			</div>
 			<table border="0" width="100%" cellpadding="0" cellspacing="0"
@@ -63,7 +63,7 @@
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" />
 											<table border="0" cellpadding="0" cellspacing="0"
-												id="id-form">
+												class="table table-striped table-bordered" id="id-form">
 
 												<c:forEach var="user" items="${userProfile}">
 													<tr>
@@ -73,27 +73,27 @@
 													</tr>
 													<tr>
 														<th valign="top">User Name</th>
-														<td><input type="text" class="css-input"
+														<td><input type="text" class="form-control"
 															name="userName" value="${user.userName}" /></td>
 													</tr>
 													<tr>
 														<th valign="top">Password:</th>
-														<td><input type="text" class="css-input"
+														<td><input type="text" class="form-control"
 															name="password" value="${user.password}" /></td>
-														<td></td>
+										
 													</tr>
 													<tr>
 														<th valign="top">Enable:</th>
-														<td><input type="text" class="css-input"
+														<td><input type="text" class="form-control"
 															name="enable" value="${user.enable}" /></td>
-														<td></td>
+											
 													</tr>
 
 													<tr>
 														<td></td>
 														<td><input type="submit" class="myButton"
 															value="Update User" /></td>
-														<td></td>
+												
 													</tr>
 												</c:forEach>
 											</table>

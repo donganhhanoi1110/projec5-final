@@ -68,6 +68,13 @@
 		id="transactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-<bean name="userService" class="com.csc.fresher.java.service.UserService"></bean>
-<bean name="userDAO" class="com.csc.fresher.java.dao.UserDAO"></bean>
+	<!--Declare DAO, and Service for Spring can understand that you are using 
+		that -->
+		<!--User  -->
+	<bean name="userService" class="com.csc.fresher.java.service.UserService"></bean>
+	<bean name="userDAO" class="com.csc.fresher.java.dao.UserDAO"></bean>
+	
+	<!--Transaction  -->
+	<bean name="transactionService" class="com.csc.fresher.java.service.TransactionService"></bean>
+	<bean name="transactionDAO" class="com.csc.fresher.java.dao.TransactionDAO"></bean>
 </beans>

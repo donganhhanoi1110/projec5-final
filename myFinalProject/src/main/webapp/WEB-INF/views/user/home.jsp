@@ -5,8 +5,82 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<meta name="_csrf" content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>CSC Banking System</title>
 
+
+<script type="text/javascript">
+	$(function() {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
+		});
+	});
+	$(document)
+			.ready(
+					function() {
+						$("#table").DataTable({
+							responsive : true
+						});
+						$("#show").click(function() {
+							$("#hide").slideToggle();
+						});
+						$(document)
+								.on(
+										"click",
+										"#linkDeleteUser",
+										function(e) {
+											e.preventDefault();
+
+											var confirmMessage = confirm("Do you date to delete this user?");
+											if (confirmMessage) {
+												//to delete user page
+												var userId = $(this).attr(
+														"user");
+												/* 	$(this).closest("tr").remove(); */
+
+												//if you want to reload the page
+												//window.location.href = 'deleteUser?userId=' + userId;
+												// if you user ajax
+												$
+														.ajax({
+															type : 'post',
+															url : 'deleteUserJson',
+															data : 'userId='
+																	+ userId,
+															datatype : 'json',
+															success : function(
+																	data) {
+																console
+																		.log(data);
+																if (data.login == true) {
+																	if (data.success == true) {
+																		alert("Delete successfully!");
+																		if (data.error_code == '0') {
+																			window.location.href = 'home?ERROR_CODE='
+																					+ data.error_code;
+																		} else {
+																			window.location.href = 'home';
+																		}
+
+																	} else {
+																		alert("Delete Failed");
+																	}
+																} else {
+																	window.location.href = 'login';
+																}
+															}
+														});
+
+											} else {
+												//do nothing
+											}
+										});
+					});
+</script>
 </head>
 <body>
 	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
@@ -19,11 +93,11 @@
 
 			<!--  start page-heading -->
 			<div id="page-heading">
-				<h1>Account Management</h1>
+		
 				<h1 style="color: red">${message}</h1>
 			</div>
 			<table border="0" width="100%" cellpadding="0" cellspacing="0"
-				id="content-table">
+		id="content-table">
 				<tr>
 					<th rowspan="3" class="sized"><img
 						src="images/shared/side_shadowleft.jpg" width="20" height="300"
@@ -55,50 +129,44 @@
 										</c:if>
 									</c:if>
 								</h1>
-								<h1>Add Account Information</h1>
+								<h1>Add User Information</h1>
 
 							</div>
 
 							<div id="hide">
 								<div style="float: left;">
-									<table border="0" width="100%" cellpadding="0" cellspacing="0">
-										<tr valign="top">
-											<td>
-												<form action="createUser.html" method="post">
-													<input type="hidden" name="${_csrf.parameterName}"
-														value="${_csrf.token}" />
-													<table border="0" cellpadding="0" cellspacing="0"
-														id="id-form">
 
-														<tr>
-															<th valign="top">User Name:</th>
-															<td><input type="text" class="css-input"
-																name="username" /></td>
-														</tr>
-														<tr>
-															<th valign="top">Password:</th>
-															<td><input type="text" class="css-input"
-																name="password" /></td>
-															<td></td>
-														</tr>
-														<tr>
-															<th valign="top">Enable</th>
-															<td><input type="text" class="css-input"
-																name="enable" /></td>
-															<td></td>
-														</tr>
-														<tr>
-															<td></td>
-															<td><input type="submit" class="myButton"
-																value="Save" id="addAccount" /></td>
-															<td></td>
-														</tr>
-													</table>
-												</form>
-											</td>
-										</tr>
+									<form action="createUser.html" method="post">
+										<table border="0" cellpadding="0" cellspacing="0" id="id-form"
+											class="table table-striped table-bordered">
+											<input type="hidden" name="${_csrf.parameterName}"
+												value="${_csrf.token}" />
+											<tr>
+												<th valign="top">User Name:</th>
+												<td><input type="text" class="form-control"
+													name="username" /></td>
+											</tr>
+											<tr>
+												<th valign="top">Password:</th>
+												<td><input type="text" class="form-control"
+													name="password" /></td>
+									
+											</tr>
+											<tr>
+												<th valign="top">Enable</th>
+												<td><input type="text" class="form-control"
+													name="enable" /></td>
+									
+											</tr>
+											<tr>
+												<td></td>
+												<td><input type="submit" class="myButton" value="Save"
+													id="addAccount" /></td>
+									
+											</tr>
+										</table>
+									</form>
 
-									</table>
 								</div>
 								<div style="float: right; margin-right: 20%;">
 
@@ -117,7 +185,8 @@
 							</div>
 							<div class="panel-body">
 								<div class="dataTable_wrapper">
-									<table class="mytable1" id="dataTables-example">
+									<table class="mytable1 table table-striped table-bordered "
+										id="table">
 										<thead>
 											<tr>
 												<th>ID</th>
@@ -136,8 +205,8 @@
 														<td>${user.userName}</td>
 														<td>${user.password}</td>
 														<td>${user.enable}</td>
-														<td><a href="deleteUser.html?userId=${user.userId}"
-															class="myButton">Delete</a></td>
+														<td><a user="${user.userId}" href=""
+															id="linkDeleteUser" class="myButton"> Delete </a></td>
 														<td><a href="editUser.html?userId=${user.userId}"
 															class="myButton">Edit</a></td>
 

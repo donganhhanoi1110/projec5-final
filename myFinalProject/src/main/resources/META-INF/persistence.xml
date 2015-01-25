@@ -6,7 +6,8 @@
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>com.csc.fresher.java.domain.User</class>
-
+		<class>com.csc.fresher.java.domain.Transaction</class>
+		
 
 	 <properties>
         <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>

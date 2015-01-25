@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.csc.fresher.java.dao.UserDAO;
+import com.csc.fresher.java.domain.AjaxResponse;
 import com.csc.fresher.java.domain.User;
 import com.csc.fresher.java.service.UserService;
 
@@ -114,7 +116,47 @@ public class UserController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
-
+	@RequestMapping(value = "/deleteUserJson")
+	public @ResponseBody AjaxResponse deleteUser(HttpServletRequest request, HttpSession session) {
+		// Read account info from request and save into Account object
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		AjaxResponse response = new AjaxResponse();
+		String message="";
+		String error_code="";
+		boolean check=false;
+		if (session.getAttribute("loginSession") != null) {
+		try {
+		
+			// Check error when Delete to Database
+			if (	userService.deleteUserById(userId)) {
+				message = "Delete User" + userId + " Successfully";
+				error_code="1";
+				check=true;
+				
+			} else {
+				message = "Delete User" + userId + " FAIL";
+				error_code="0";
+				check=false;
+		
+			}
+		} catch (Exception e) {
+			System.out.println("Delete User Controller has Error");
+			message = "Delete User Controller has Error";
+			error_code="0";
+			check=false;
+		
+		}
+		
+		response.setSuccess(check);
+		response.setMessage(message);
+		response.setError_code(error_code);
+		response.setLogin(true);
+		
+		} else {
+			response.setLogin(false);
+		}
+		return response;
+	}
 	@RequestMapping(value = "/editUser")
 	public ModelAndView editUser(HttpServletRequest request, Model model,
 			HttpSession session) {
@@ -158,7 +200,7 @@ public class UserController {
 				User user = new User(userId, userName, password, enable);
 				// Check error when Update to Database
 				if (userService.updateUser(user)) {
-					message = "Create User" + userName + " Successfully";
+					message = "Edit User *_" + userName + "_* Successfully";
 
 					model.addAttribute("message", message);
 				} else {
