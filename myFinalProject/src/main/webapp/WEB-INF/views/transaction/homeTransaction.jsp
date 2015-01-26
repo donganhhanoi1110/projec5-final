@@ -242,6 +242,8 @@
 															<td><a
 																href="denyTransaction.html?TransactionId=${Transaction.id}"
 																class="myButton">Deny</a></td>
+															<input type="hidden" name="${_csrf.parameterName}"
+																value="${_csrf.token}" />
 														</sec:authorize>
 														<td><a Transaction="${Transaction.id}" href=""
 															id="linkDeleteTransaction" class="myButton"> Delete </a></td>

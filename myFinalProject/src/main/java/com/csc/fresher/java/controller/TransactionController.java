@@ -262,5 +262,69 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
+	@RequestMapping(value = "/approveTransaction")
+	public ModelAndView approveTransaction(HttpServletRequest request,
+			Model model, HttpSession session) {
+		ModelAndView modelview = new ModelAndView("forward:/homeTransaction");
+
+		String message = "";
+
+		if (session.getAttribute("loginSession") != null) {
+			try {
+				int TransactionId = Integer.parseInt(request
+						.getParameter("TransactionId"));
+				
+				Transaction tran=TransactionService.getTransaction(TransactionId);
+				tran.setState("done");
+				// Check error when Update to Database
+				if (!TransactionService.updateTransaction(tran)) {
+					message = "Approve Transaction" + TransactionId + " FAIL";
+					modelview.addObject("ERROR_CODE", "0");
+					modelview.addObject("message", message);
+				}
+			} catch (Exception e) {
+				System.out.println("Approve Transaction Controller has Error");
+				message = "Approve Transaction Controller has Error";
+				modelview.addObject("ERROR_CODE", "0");
+				modelview.addObject("message", message);
+				return modelview;
+			}
+			return modelview;
+		} else {
+			return new ModelAndView("redirect:/login");
+		}
+	}
+	@RequestMapping(value = "/denyTransaction")
+	public ModelAndView denyTransaction(HttpServletRequest request,
+			Model model, HttpSession session) {
+		ModelAndView modelview = new ModelAndView("forward:/homeTransaction");
+
+		String message = "";
+
+		if (session.getAttribute("loginSession") != null) {
+			try {
+				int TransactionId = Integer.parseInt(request
+						.getParameter("TransactionId"));
+				
+				Transaction tran=TransactionService.getTransaction(TransactionId);
+				tran.setState("deny");
+				// Check error when Update to Database
+				if (!TransactionService.updateTransaction(tran)) {
+					message = "Approve Transaction" + TransactionId + " FAIL";
+					modelview.addObject("ERROR_CODE", "0");
+					modelview.addObject("message", message);
+				}
+			} catch (Exception e) {
+				System.out.println("Approve Transaction Controller has Error");
+				message = "Approve Transaction Controller has Error";
+				modelview.addObject("ERROR_CODE", "0");
+				modelview.addObject("message", message);
+				return modelview;
+			}
+			return modelview;
+		} else {
+			return new ModelAndView("redirect:/login");
+		}
+	}
 
 }
