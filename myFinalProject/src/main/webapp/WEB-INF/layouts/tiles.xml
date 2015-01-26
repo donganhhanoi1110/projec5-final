@@ -15,7 +15,7 @@
 
 	<definition name="login" template="/WEB-INF/views/login.jsp">
 	</definition>
-	
+	<!-- User -->
 	<definition name="myHome" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/user/home.jsp" />
@@ -24,6 +24,18 @@
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/user/editUser.jsp" />
 	</definition>
+	<!-- /User -->
+	
+	<!-- Transaction -->
+	<definition name="homeTransaction" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/transaction/homeTransaction.jsp" />
+	</definition>
+	<definition name="editMyTransaction" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/transaction/editTransaction.jsp" />
+	</definition>
+	<!-- /Transaction -->
 <definition name="loginFailed" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/loginFailed.jsp" />
@@ -32,9 +44,8 @@
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/admin.jsp" />
 	</definition>
-		<definition name="403" extends="DefaultTemplate">
-		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/403.jsp" />
+		<definition name="403" template="/WEB-INF/views/403.jsp">
+		
 	</definition>
 		<definition name="hello" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />

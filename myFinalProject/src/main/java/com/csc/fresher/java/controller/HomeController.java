@@ -34,6 +34,7 @@ public class HomeController {
 
 	@Autowired
 	private UserService userService;
+	
 	@Autowired
 	private TransactionService transactionService;
 
@@ -54,24 +55,24 @@ public class HomeController {
 //			 * For Test @Many to many
 //			 */
 //			Transaction tran1 = new Transaction(0, 20000, "20/1/2015",
-//					"20/1/2015", "new");
+//					"20/1/2015",2, "new");
 //			Transaction tran2 = new Transaction(0, 10000, "20/1/2015",
-//					"20/1/2015", "active");
+//					"20/1/2015",2, "active");
 //		
 //			//Add  transaction to database
 //			transactionService.createTransaction(tran1);
 //			transactionService.createTransaction(tran2);
-//			Collection<Transaction> tranSet1 = new HashSet<Transaction>();
-//			tranSet1.add(tran1);
-//			tranSet1.add(tran2);
-//			Collection<Transaction> tranSet2 = new HashSet<Transaction>();
-//			tranSet2.add(tran2);
-//			tranSet2.add(tran1);
-//			User user1 = new User(0, "user1", "123", "1",tranSet1);
-//			User user2 = new User(0, "user2", "1234", "1",tranSet2);
+//			
+//			
+//			User user1 = new User(4, "user1", "123", 1);
+//		
+//			User user2 = new User(5, "user2", "1234", 1);
+//			Set<User> tranSet1 = new HashSet<User>();
+//			tranSet1.add(user1);
+//			tranSet1.add(user2);
+//			tran1.setTransactions(tranSet1);
 //			//Add user to database
-//			userService.createUser(user1);
-//			userService.createUser(user2);
+//			transactionService.updateTransaction(tran1);			
 			return modelview;
 
 		} catch (Exception e) {

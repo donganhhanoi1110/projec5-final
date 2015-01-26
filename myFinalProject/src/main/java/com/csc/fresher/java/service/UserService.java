@@ -18,7 +18,7 @@ import com.csc.fresher.java.domain.User;
  * @author Anh Minh Nguyen
  *
  */
-@Service
+@Service("userService")
 public class UserService {
 	
 	UserDAO userDAO;

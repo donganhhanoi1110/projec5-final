@@ -4,7 +4,18 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>CSC Banking System</title>
-
+<link href="css/ui-lightness/jquery-ui-1.9.2.custom.min.css"
+	rel="stylesheet">
+<script type="text/javascript"
+	src="js/jquery/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#datepicker").datepicker({
+			inline : true,
+			format : 'dd-mm-yyyy hh:mm:ss '
+		});
+	});
+</script>
 </head>
 <body>
 	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
@@ -17,7 +28,7 @@
 
 			<!--  start page-heading -->
 			<div id="page-heading">
-			
+
 				<h1 style="color: red">${message}</h1>
 			</div>
 			<table border="0" width="100%" cellpadding="0" cellspacing="0"
@@ -53,47 +64,60 @@
 										</c:if>
 									</c:if>
 								</h1>
-								<h1>Edit User Information</h1>
+								<h1>Edit Transaction Information</h1>
 
 							</div>
 							<table border="0" width="100%" cellpadding="0" cellspacing="0">
 								<tr valign="top">
 									<td>
-										<form action="editUserProfile.html" method="post">
+										<form action="editTransactionProfile.html" method="post">
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" />
 											<table border="0" cellpadding="0" cellspacing="0"
 												class="table table-striped table-bordered" id="id-form">
 
-												<c:forEach var="user" items="${userProfile}">
+												<c:forEach var="Transaction" items="${TransactionProfile}">
 													<tr>
 														<th valign="top">ID :</th>
 														<td><input type="hidden" class="inp-form"
-															name="userId" value="${user.userId}" /> ${user.userId}</td>
+															name="TransactionId" value="${Transaction.id}" />
+															${Transaction.id}</td>
 													</tr>
 													<tr>
-														<th valign="top">User Name</th>
+														<th valign="top">Amount</th>
 														<td><input type="text" class="form-control"
-															name="userName" value="${user.userName}" /></td>
+															name="TransactionName" value="${Transaction.amount}" /></td>
 													</tr>
 													<tr>
-														<th valign="top">Password:</th>
-														<td><input type="text" class="form-control"
-															name="password" value="${user.password}" /></td>
-										
+														<th valign="top">Start Time:</th>
+														<td><input type="hidden" class="form-control"
+															name="password" value="${Transaction.dateStart}" />${Transaction.dateStart}</td>
+
 													</tr>
 													<tr>
-														<th valign="top">Enable:</th>
+														<th valign="top">End Time:</th>
+														<td><input type="hidden" class="form-control"
+															name="enable" value="${Transaction.dateEnd}" />${Transaction.dateEnd}</td>
+
+													</tr>
+													<tr>
+														<th valign="top">Saving Account ID:</th>
 														<td><input type="text" class="form-control"
-															name="enable" value="${user.enable}" /></td>
-											
+															name="enable" value="${Transaction.savingAccountId}" /></td>
+
 													</tr>
 
 													<tr>
+														<th valign="top">State:</th>
+														<td><input type="text" class="form-control"
+															name="enable" value="${Transaction.state}" /></td>
+
+													</tr>
+													<tr>
 														<td></td>
 														<td><input type="submit" class="myButton"
-															value="Update User" /></td>
-												
+															value="Update Transaction" /></td>
+
 													</tr>
 												</c:forEach>
 											</table>

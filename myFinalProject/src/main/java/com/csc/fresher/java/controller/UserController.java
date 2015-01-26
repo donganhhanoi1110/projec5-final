@@ -44,7 +44,7 @@ public class UserController {
 
 	}
 
-	@RequestMapping(value = "/createUser",method = RequestMethod.POST)
+	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
 	public ModelAndView createUser(HttpServletRequest request, Model model,
 			HttpSession session) {
 		// Create a new AccountDAO
@@ -54,7 +54,7 @@ public class UserController {
 			ModelAndView modelview = new ModelAndView("forward:/home");
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-			String enable = request.getParameter("enable");
+			int enable = Integer.parseInt(request.getParameter("enable"));
 
 			User user = new User(0, username, password, enable);
 			// Get the list of all accounts from DB
@@ -116,47 +116,50 @@ public class UserController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
+
 	@RequestMapping(value = "/deleteUserJson")
-	public @ResponseBody AjaxResponse deleteUser(HttpServletRequest request, HttpSession session) {
+	public @ResponseBody AjaxResponse deleteUser(HttpServletRequest request,
+			HttpSession session) {
 		// Read account info from request and save into Account object
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		AjaxResponse response = new AjaxResponse();
-		String message="";
-		String error_code="";
-		boolean check=false;
+		String message = "";
+		String error_code = "";
+		boolean check = false;
 		if (session.getAttribute("loginSession") != null) {
-		try {
-		
-			// Check error when Delete to Database
-			if (	userService.deleteUserById(userId)) {
-				message = "Delete User" + userId + " Successfully";
-				error_code="1";
-				check=true;
-				
-			} else {
-				message = "Delete User" + userId + " FAIL";
-				error_code="0";
-				check=false;
-		
+			try {
+
+				// Check error when Delete to Database
+				if (userService.deleteUserById(userId)) {
+					message = "Delete User" + userId + " Successfully";
+					error_code = "1";
+					check = true;
+
+				} else {
+					message = "Delete User" + userId + " FAIL";
+					error_code = "0";
+					check = false;
+
+				}
+			} catch (Exception e) {
+				System.out.println("Delete User Controller has Error");
+				message = "Delete User Controller has Error";
+				error_code = "0";
+				check = false;
+
 			}
-		} catch (Exception e) {
-			System.out.println("Delete User Controller has Error");
-			message = "Delete User Controller has Error";
-			error_code="0";
-			check=false;
-		
-		}
-		
-		response.setSuccess(check);
-		response.setMessage(message);
-		response.setError_code(error_code);
-		response.setLogin(true);
-		
+
+			response.setSuccess(check);
+			response.setMessage(message);
+			response.setError_code(error_code);
+			response.setLogin(true);
+
 		} else {
 			response.setLogin(false);
 		}
 		return response;
 	}
+
 	@RequestMapping(value = "/editUser")
 	public ModelAndView editUser(HttpServletRequest request, Model model,
 			HttpSession session) {
@@ -185,17 +188,20 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/editUserProfile",method=RequestMethod.POST)
+	@RequestMapping(value = "/editUserProfile", method = RequestMethod.POST)
 	public ModelAndView editUserProfile(HttpServletRequest request,
 			Model model, HttpSession session) {
-		if (session.getAttribute("loginSession") != null) {
-			String userName = request.getParameter("userName");
-			String password = request.getParameter("password");
-			String enable = request.getParameter("enable");
+		ModelAndView modelview = new ModelAndView("forward:/home");
 
-			String message = "";
-			ModelAndView modelview = new ModelAndView("forward:/home");
+		String message = "";
+	
+		if (session.getAttribute("loginSession") != null) {
 			try {
+				String userName = request.getParameter("userName");
+				String password = request.getParameter("password");
+				int enable = Integer.parseInt(request.getParameter("enable"));
+
+
 				int userId = Integer.parseInt(request.getParameter("userId"));
 				User user = new User(userId, userName, password, enable);
 				// Check error when Update to Database
@@ -204,13 +210,13 @@ public class UserController {
 
 					model.addAttribute("message", message);
 				} else {
-					message = "Create User" + userName + " FAIL";
+					message = "Edit User" + userName + " FAIL";
 					modelview.addObject("ERROR_CODE", "0");
 					modelview.addObject("message", message);
 				}
 			} catch (Exception e) {
 				System.out.println("Create User Controller has Error");
-				message = "Create User Controller has Error";
+				message = "Edit User Controller has Error";
 				modelview.addObject("ERROR_CODE", "0");
 				modelview.addObject("message", message);
 				return modelview;

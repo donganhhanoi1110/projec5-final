@@ -5,12 +5,12 @@
 
 <nav class="col-md-3 navigator">
 	<ul>
-		<li><a style="color: blue;" href="home"><span class="fa fa-user"></span>
+		<li><a style="color: blue;" href="home"><span class="fa fa-home"></span>
 				 Home</a></li>
-		<li><a href="#dasfa"><span class="fa fa-info"></span>
-				lakjsdfalkdjsf </a></li>
-		<li><a href="#dasfa"><span class="fa fa-random"></span>
-				lakjsdfalkdjsf </a></li>
+		<li><a href="homeTransaction"><span class="fa fa-university"></span>
+				Manage Tranasaction </a></li>
+		<li><a href="#homeUser"><span class="fa fa-users"></span>
+				Manage User </a></li>
 		<li><a href="#dasfa"><c:url value="/j_spring_security_logout"
 					var="logoutUrl" />
 				<form action="${logoutUrl}" method="post" id="logoutForm">
@@ -21,7 +21,7 @@
 						document.getElementById("logoutForm").submit();
 					}
 				</script> <c:if test="${pageContext.request.userPrincipal.name != null}">
-					<div  class="fa fa-random  style="color: white;">
+					<div  class="fa fa-chevron-circle-right  style="color: white;">
 						Welcome : <span style="color: red;">${pageContext.request.userPrincipal.name}</span>
 						| <a  href="javascript:formSubmit()">
 							Logout</a> 

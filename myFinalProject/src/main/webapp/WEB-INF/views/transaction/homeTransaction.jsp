@@ -31,26 +31,26 @@
 						$(document)
 								.on(
 										"click",
-										"#linkDeleteUser",
+										"#linkDeleteTransaction",
 										function(e) {
 											e.preventDefault();
 
-											var confirmMessage = confirm("Do you date to delete this user?");
+											var confirmMessage = confirm("Do you date to delete this Transaction?");
 											if (confirmMessage) {
-												//to delete user page
-												var userId = $(this).attr(
-														"user");
+												//to delete Transaction page
+												var TransactionId = $(this)
+														.attr("Transaction");
 												/* 	$(this).closest("tr").remove(); */
 
 												//if you want to reload the page
-												//window.location.href = 'deleteUser?userId=' + userId;
-												// if you user ajax
+												//window.location.href = 'deleteTransaction?TransactionId=' + TransactionId;
+												// if you Transaction ajax
 												$
 														.ajax({
 															type : 'post',
-															url : 'deleteUserJson',
-															data : 'userId='
-																	+ userId,
+															url : 'deleteTransactionJson',
+															data : 'TransactionId='
+																	+ TransactionId,
 															datatype : 'json',
 															success : function(
 																	data) {
@@ -60,10 +60,10 @@
 																	if (data.success == true) {
 																		alert("Delete successfully!");
 																		if (data.error_code == '0') {
-																			window.location.href = 'home?ERROR_CODE='
+																			window.location.href = 'homeTransaction?ERROR_CODE='
 																					+ data.error_code;
 																		} else {
-																			window.location.href = 'home';
+																			window.location.href = 'homeTransaction';
 																		}
 
 																	} else {
@@ -93,11 +93,11 @@
 
 			<!--  start page-heading -->
 			<div id="page-heading">
-		
+
 				<h1 style="color: red">${message}</h1>
 			</div>
 			<table border="0" width="100%" cellpadding="0" cellspacing="0"
-		id="content-table">
+				id="content-table">
 				<tr>
 					<th rowspan="3" class="sized"><img
 						src="images/shared/side_shadowleft.jpg" width="20" height="300"
@@ -129,40 +129,40 @@
 										</c:if>
 									</c:if>
 								</h1>
-								<h1>Add User Information</h1>
+								<h1>Add Transaction Information</h1>
 
 							</div>
 
 							<div id="hide">
 								<div style="float: left;">
 
-									<form action="createUser.html" method="post">
+									<form action="createTransaction.html" method="post">
 										<table border="0" cellpadding="0" cellspacing="0" id="id-form"
 											class="table table-striped table-bordered">
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" />
 											<tr>
-												<th valign="top">User Name:</th>
+												<th valign="top">Transaction Name:</th>
 												<td><input type="text" class="form-control"
-													name="username" /></td>
+													name="Transactionname" /></td>
 											</tr>
 											<tr>
 												<th valign="top">Password:</th>
 												<td><input type="text" class="form-control"
 													name="password" /></td>
-									
+
 											</tr>
 											<tr>
 												<th valign="top">Enable</th>
 												<td><input type="text" class="form-control"
 													name="enable" /></td>
-									
+
 											</tr>
 											<tr>
 												<td></td>
 												<td><input type="submit" class="myButton" value="Save"
 													id="addAccount" /></td>
-									
+
 											</tr>
 										</table>
 									</form>
@@ -181,7 +181,7 @@
 
 
 							<div id="show">
-								<b> >>>Manage User<<< </b>
+								<b> >>>Manage Transaction<<< </b>
 							</div>
 							<div class="panel-body">
 								<div class="dataTable_wrapper">
@@ -190,24 +190,31 @@
 										<thead>
 											<tr>
 												<th>ID</th>
-												<th>User Name</th>
-												<th>Password</th>
-												<th>Enable</th>
-												<th>Delete User</th>
-												<th>Edit User</th>
+												<th>Amount</th>
+												<th>Start Time</th>
+												<th>End Time</th>
+												<th>Saving Account Id</th>
+												<th>State</th>
+												<th>Delete Transaction</th>
+												<th>Edit Transaction</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="user" items="${listUser}">
-												<c:if test="${user.userName != null}">
+											<c:forEach var="Transaction" items="${listTransaction}">
+												<c:if test="${Transaction.id != null}">
 													<tr>
-														<td>${user.userId}</td>
-														<td>${user.userName}</td>
-														<td>${user.password}</td>
-														<td>${user.enable}</td>
-														<td><a user="${user.userId}" href=""
-															id="linkDeleteUser" class="myButton"> Delete </a></td>
-														<td><a href="editUser.html?userId=${user.userId}"
+														<td>${Transaction.id}</td>
+															<td>${Transaction.amount}</td>
+														<td>${Transaction.dateStart}</td>
+														<td>${Transaction.dateEnd}</td>
+														<td>${Transaction.savingAccountId}</td>
+														<td>${Transaction.state}</td>
+
+														<td><a Transaction="${Transaction.id}"
+															href="" id="linkDeleteTransaction" class="myButton">
+																Delete </a></td>
+														<td><a
+															href="editTransaction.html?TransactionId=${Transaction.id}"
 															class="myButton">Edit</a></td>
 
 													</tr>

@@ -18,7 +18,7 @@ import com.csc.fresher.java.domain.Transaction;
  * @author Anh Minh Nguyen
  *
  */
-@Service
+@Service("transactionService")
 public class TransactionService {
 	
 	TransactionDAO TransactionDAO;

@@ -2,25 +2,29 @@ package com.csc.fresher.java.domain;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
- * Entity class for customer table. This is a simple POJO class with annotations
+ * Entity class for user table. This is a simple POJO class with annotations
  * to define mapping with DB table
  * 
- * @author vuhuynh
+ * @author Nguyen Anh Minh
  *
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user", uniqueConstraints = {
+		@UniqueConstraint(columnNames = "user_name")})
 public class User implements Serializable  {
 
 	@Id
@@ -35,11 +39,22 @@ public class User implements Serializable  {
 	private String password;
 
 	@Column(name = "enable")
-	private String enable;
+	private int enable;
 	
-	
+	@ManyToMany( mappedBy = "transactions")
+	private Set<Transaction> users;
 	public User() {
 
+	}
+
+
+	public Set<Transaction> getUsers() {
+		return users;
+	}
+
+
+	public void setUsers(Set<Transaction> users) {
+		this.users = users;
 	}
 
 
@@ -73,18 +88,18 @@ public class User implements Serializable  {
 	}
 
 
-	public String getEnable() {
+	public int getEnable() {
 		return enable;
 	}
 
 
-	public void setEnable(String enable) {
+	public void setEnable(int enable) {
 		this.enable = enable;
 	}
 
 
 	
-	public User(int userId, String userName, String password, String enable) {
+	public User(int userId, String userName, String password, int enable) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
