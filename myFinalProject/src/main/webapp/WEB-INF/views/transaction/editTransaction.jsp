@@ -80,37 +80,37 @@
 													<tr>
 														<th valign="top">ID :</th>
 														<td><input type="hidden" class="inp-form"
-															name="TransactionId" value="${Transaction.id}" />
+															name="transactionId" value="${Transaction.id}" />
 															${Transaction.id}</td>
 													</tr>
 													<tr>
 														<th valign="top">Amount</th>
 														<td><input type="text" class="form-control"
-															name="TransactionName" value="${Transaction.amount}" /></td>
+															name="transactionAmount" value="${Transaction.amount}" /></td>
 													</tr>
 													<tr>
 														<th valign="top">Start Time:</th>
 														<td><input type="hidden" class="form-control"
-															name="password" value="${Transaction.dateStart}" />${Transaction.dateStart}</td>
+															name="transactionDateStart" value="${Transaction.dateStart}" />${Transaction.dateStart}</td>
 
 													</tr>
 													<tr>
 														<th valign="top">End Time:</th>
 														<td><input type="hidden" class="form-control"
-															name="enable" value="${Transaction.dateEnd}" />${Transaction.dateEnd}</td>
+															name="transactionDateEnd" value="${Transaction.dateEnd}" />${Transaction.dateEnd}</td>
 
 													</tr>
 													<tr>
 														<th valign="top">Saving Account ID:</th>
 														<td><input type="text" class="form-control"
-															name="enable" value="${Transaction.savingAccountId}" /></td>
+															name="transactionSavingAccountId" value="${Transaction.savingAccountId}" /></td>
 
 													</tr>
 
 													<tr>
 														<th valign="top">State:</th>
 														<td><input type="text" class="form-control"
-															name="enable" value="${Transaction.state}" /></td>
+															name="transactionState" value="${Transaction.state}" /></td>
 
 													</tr>
 													<tr>

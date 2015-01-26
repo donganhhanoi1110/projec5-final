@@ -3,7 +3,7 @@
 <%@page session="true"%>
 
 
-<nav class="col-md-3 navigator">
+<nav class="col-md-3 navigator myMenu">
 	<ul>
 		<li><a style="color: blue;" href="home"><span class="fa fa-home"></span>
 				 Home</a></li>

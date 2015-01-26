@@ -141,21 +141,50 @@
 											class="table table-striped table-bordered">
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" />
+
 											<tr>
-												<th valign="top">Transaction Name:</th>
+												<th valign="top">Amount</th>
 												<td><input type="text" class="form-control"
-													name="Transactionname" /></td>
+													name="transactionAmount" /></td>
 											</tr>
 											<tr>
-												<th valign="top">Password:</th>
+												<th valign="top">Start Time:</th>
 												<td><input type="text" class="form-control"
-													name="password" /></td>
+													name="transactionDateStart" /></td>
 
 											</tr>
 											<tr>
-												<th valign="top">Enable</th>
+												<th valign="top">End Time:</th>
 												<td><input type="text" class="form-control"
-													name="enable" /></td>
+													name="transactionDateEnd" /></td>
+
+											</tr>
+											<tr>
+												<th valign="top">Saving Account ID:</th>
+												<td><input type="text" class="form-control"
+													name="transactionSavingAccountId" /></td>
+												<%-- 		<td><select class="form-control"
+													name="transactionSavingAccountId">
+														<c:forEach var="savingaccount"
+															items="${listSavingAccount }">
+															<option value="${savingaccount.id}">${savingaccount.id }
+															</option>
+
+														</c:forEach>
+
+												</select></td> --%>
+
+											</tr>
+
+											<tr>
+												<th valign="top">State:</th>
+												<td><select class="form-control"
+													name="transactionState">
+														<option value="new">new</option>
+														<option value="hold">hold</option>
+														<option value="active">active</option>
+														<option value="done">done</option>
+												</select></td>
 
 											</tr>
 											<tr>
@@ -168,15 +197,7 @@
 									</form>
 
 								</div>
-								<div style="float: right; margin-right: 20%;">
 
-
-									<a class="myButton" href="addCard.html" style="margin: 5px;">
-										Create Card</a> <a class="myButton" href="addNewTransaction.html">
-										Create Transaction</a>
-
-
-								</div>
 							</div>
 
 
@@ -195,6 +216,11 @@
 												<th>End Time</th>
 												<th>Saving Account Id</th>
 												<th>State</th>
+												<sec:authorize access="hasRole('admin')">
+													<th>Approve Transaction</th>
+
+													<th>Deny Transaction</th>
+												</sec:authorize>
 												<th>Delete Transaction</th>
 												<th>Edit Transaction</th>
 											</tr>
@@ -204,15 +230,21 @@
 												<c:if test="${Transaction.id != null}">
 													<tr>
 														<td>${Transaction.id}</td>
-															<td>${Transaction.amount}</td>
+														<td>${Transaction.amount}</td>
 														<td>${Transaction.dateStart}</td>
 														<td>${Transaction.dateEnd}</td>
 														<td>${Transaction.savingAccountId}</td>
 														<td>${Transaction.state}</td>
-
-														<td><a Transaction="${Transaction.id}"
-															href="" id="linkDeleteTransaction" class="myButton">
-																Delete </a></td>
+														<sec:authorize access="hasRole('admin')">
+															<td><a
+																href="approveTransaction.html?TransactionId=${Transaction.id}"
+																class="myButton">Approve</a></td>
+															<td><a
+																href="denyTransaction.html?TransactionId=${Transaction.id}"
+																class="myButton">Deny</a></td>
+														</sec:authorize>
+														<td><a Transaction="${Transaction.id}" href=""
+															id="linkDeleteTransaction" class="myButton"> Delete </a></td>
 														<td><a
 															href="editTransaction.html?TransactionId=${Transaction.id}"
 															class="myButton">Edit</a></td>

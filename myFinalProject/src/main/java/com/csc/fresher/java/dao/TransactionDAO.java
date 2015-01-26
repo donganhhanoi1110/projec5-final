@@ -91,13 +91,13 @@ public class TransactionDAO {
 	 */
 	@Transactional
 	@SuppressWarnings("unchecked")
-	public boolean updateTransaction(Transaction Transaction) {
+	public boolean updateTransaction(Transaction transaction) {
 
 		boolean check = false;
 		try {
-			entityManager.merge(Transaction);
+			entityManager.merge(transaction);
 			check = true;
-			System.out.println("Transaction " + Transaction.getId() + "updated");
+			System.out.println("Transaction " + transaction.getId() + "updated");
 		} catch (Exception e) {
 			System.out.println("\nUpdate Transaction get Error "+ "*_"+e.getMessage()+"*_");
 

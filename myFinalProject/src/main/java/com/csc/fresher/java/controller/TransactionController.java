@@ -39,14 +39,15 @@ public class TransactionController {
 	public ModelAndView getAccountList(HttpServletRequest request, Model model,
 			Principal principal) {
 		// Create a new AccountDAO
-		String error_code= request.getParameter("ERROR_CODE");
+		String error_code = request.getParameter("ERROR_CODE");
 		ModelAndView modelview = new ModelAndView("homeTransaction");
 		modelview.addObject("loginSession", principal.getName());
-		modelview.addObject("ERROR_CODE",error_code);
+		modelview.addObject("ERROR_CODE", error_code);
 		// Get the list of all accounts from DB
 		try {
 
-			modelview.addObject("listTransaction", TransactionService.getAllTransaction());		
+			modelview.addObject("listTransaction",
+					TransactionService.getAllTransaction());
 			return modelview;
 
 		} catch (Exception e) {
@@ -58,24 +59,31 @@ public class TransactionController {
 	}
 
 	@RequestMapping(value = "/createTransaction", method = RequestMethod.POST)
-	public ModelAndView createTransaction(HttpServletRequest request, Model model,
-			HttpSession session) {
+	public ModelAndView createTransaction(HttpServletRequest request,
+			Model model, HttpSession session) {
 		// Create a new AccountDAO
 
 		if (session.getAttribute("loginSession") != null) {
 			String message = "";
 			ModelAndView modelview = new ModelAndView("forward:/home");
-			String Transactionname = request.getParameter("Transactionname");
-			String password = request.getParameter("password");
-			int enable = Integer.parseInt(request.getParameter("enable"));
+			int TransactionId = Integer.parseInt(request
+					.getParameter("TransactionId"));
+			float transactionAmount = Float.parseFloat(request
+					.getParameter("transactionAmount"));
+			String dateStart = request.getParameter("transactionDateStart");
+			String dateEnd = request.getParameter("transactionDateEnd");
+			int savingAccountId = Integer.parseInt(request
+					.getParameter("transactionSavingAccountId"));
+			String state = request.getParameter("transactionState");
 
-			Transaction Transaction = new Transaction();
-			// Get the list of all accounts from DB
-			System.out.println(Transaction.toString());
+			Transaction Transaction = new Transaction(TransactionId,
+					transactionAmount, dateStart, dateEnd, savingAccountId,
+					state);
 
 			try {
 
-				boolean check = TransactionService.createTransaction(Transaction);
+				boolean check = TransactionService
+						.createTransaction(Transaction);
 				if (check) {
 					message = "You have created Transaction successfully!!!";
 
@@ -100,16 +108,19 @@ public class TransactionController {
 	}
 
 	@RequestMapping(value = "/deleteTransaction")
-	public ModelAndView deleteTransaction(HttpServletRequest request, Model model,
-			HttpSession session) {
+	public ModelAndView deleteTransaction(HttpServletRequest request,
+			Model model, HttpSession session) {
 		if (session.getAttribute("loginSession") != null) {
 			String message = "";
-			ModelAndView modelview = new ModelAndView("forward:/home");
+			ModelAndView modelview = new ModelAndView(
+					"forward:/homeTransaction");
 			try {
-				int TransactionId = Integer.parseInt(request.getParameter("TransactionId"));
+				int TransactionId = Integer.parseInt(request
+						.getParameter("TransactionId"));
 				// Check error when Delete to Database
 				if (TransactionService.deleteTransactionById(TransactionId)) {
-					message = "Delete Transaction" + TransactionId + " Successfully";
+					message = "Delete Transaction" + TransactionId
+							+ " Successfully";
 
 					model.addAttribute("message", message);
 				} else {
@@ -131,10 +142,11 @@ public class TransactionController {
 	}
 
 	@RequestMapping(value = "/deleteTransactionJson")
-	public @ResponseBody AjaxResponse deleteTransaction(HttpServletRequest request,
-			HttpSession session) {
+	public @ResponseBody AjaxResponse deleteTransaction(
+			HttpServletRequest request, HttpSession session) {
 		// Read account info from request and save into Account object
-		int TransactionId = Integer.parseInt(request.getParameter("TransactionId"));
+		int TransactionId = Integer.parseInt(request
+				.getParameter("TransactionId"));
 		AjaxResponse response = new AjaxResponse();
 		String message = "";
 		String error_code = "";
@@ -144,7 +156,8 @@ public class TransactionController {
 
 				// Check error when Delete to Database
 				if (TransactionService.deleteTransactionById(TransactionId)) {
-					message = "Delete Transaction" + TransactionId + " Successfully";
+					message = "Delete Transaction" + TransactionId
+							+ " Successfully";
 					error_code = "1";
 					check = true;
 
@@ -174,16 +187,19 @@ public class TransactionController {
 	}
 
 	@RequestMapping(value = "/editTransaction")
-	public ModelAndView editTransaction(HttpServletRequest request, Model model,
-			HttpSession session) {
+	public ModelAndView editTransaction(HttpServletRequest request,
+			Model model, HttpSession session) {
 		// Read account info from request and save into Account object
 		if (session.getAttribute("loginSession") != null) {
 			String message = "";
 			ModelAndView modelview = new ModelAndView("editMyTransaction");
 			try {
-				int TransactionId = Integer.parseInt(request.getParameter("TransactionId"));
-				Transaction Transaction = TransactionService.getTransaction(TransactionId);
-				System.out.println(Transaction.toString() + "-Edit Transaction");
+				int TransactionId = Integer.parseInt(request
+						.getParameter("TransactionId"));
+				Transaction Transaction = TransactionService
+						.getTransaction(TransactionId);
+				System.out
+						.println(Transaction.toString() + "-Edit Transaction");
 				List<Transaction> list = new ArrayList<Transaction>();
 				list.add(Transaction);
 				model.addAttribute("TransactionProfile", list);
@@ -207,28 +223,35 @@ public class TransactionController {
 		ModelAndView modelview = new ModelAndView("forward:/homeTransaction");
 
 		String message = "";
-	
+
 		if (session.getAttribute("loginSession") != null) {
 			try {
-				String TransactionName = request.getParameter("TransactionName");
-				String password = request.getParameter("password");
-				int enable = Integer.parseInt(request.getParameter("enable"));
+				int TransactionId = Integer.parseInt(request
+						.getParameter("transactionId"));
+				float transactionAmount = Float.parseFloat(request
+						.getParameter("transactionAmount"));
+				String dateStart = request.getParameter("transactionDateStart");
+				String dateEnd = request.getParameter("transactionDateEnd");
+				int savingAccountId = Integer.parseInt(request
+						.getParameter("transactionSavingAccountId"));
+				String state = request.getParameter("transactionState");
 
-
-				int TransactionId = Integer.parseInt(request.getParameter("TransactionId"));
-				Transaction Transaction = new Transaction();
+				Transaction Transaction = new Transaction(TransactionId,
+						transactionAmount, dateStart, dateEnd, savingAccountId,
+						state);
 				// Check error when Update to Database
 				if (TransactionService.updateTransaction(Transaction)) {
-					message = "Edit Transaction *_" + TransactionName + "_* Successfully";
+					message = "Edit Transaction *_" + TransactionId
+							+ "_* Successfully";
 
 					model.addAttribute("message", message);
 				} else {
-					message = "Edit Transaction" + TransactionName + " FAIL";
+					message = "Edit Transaction" + TransactionId + " FAIL";
 					modelview.addObject("ERROR_CODE", "0");
 					modelview.addObject("message", message);
 				}
 			} catch (Exception e) {
-				System.out.println("Create Transaction Controller has Error");
+				System.out.println("Edit Transaction Controller has Error");
 				message = "Edit Transaction Controller has Error";
 				modelview.addObject("ERROR_CODE", "0");
 				modelview.addObject("message", message);
