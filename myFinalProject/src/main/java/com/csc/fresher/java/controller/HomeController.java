@@ -24,7 +24,7 @@ import com.csc.fresher.java.service.UserService;
 /**
  * This is a controller for home page when user first accesses the application
  * 
- * @author nvu3
+ * @author Nguyen ANh Minh
  * 
  */
 
@@ -34,7 +34,7 @@ public class HomeController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private TransactionService transactionService;
 
@@ -42,37 +42,42 @@ public class HomeController {
 	public ModelAndView getAccountList(HttpServletRequest request, Model model,
 			Principal principal) {
 		// Create a new AccountDAO
-		String error_code= request.getParameter("ERROR_CODE");
+		String error_code = request.getParameter("ERROR_CODE");
 		ModelAndView modelview = new ModelAndView("myHome");
-		modelview.addObject("loginSession", principal.getName());
-		modelview.addObject("ERROR_CODE",error_code);
+		try {
+			modelview.addObject("loginSession", principal.getName());
+
+		} catch (Exception e) {
+			return new ModelAndView("redirect:/login");
+		}
+		modelview.addObject("ERROR_CODE", error_code);
 		// Get the list of all accounts from DB
 		try {
 
 			modelview.addObject("listUser", userService.getAllUser());
 
-//			/**
-//			 * For Test @Many to many
-//			 */
-//			Transaction tran1 = new Transaction(0, 20000, "20/1/2015",
-//					"20/1/2015",2, "new");
-//			Transaction tran2 = new Transaction(0, 10000, "20/1/2015",
-//					"20/1/2015",2, "active");
-//		
-//			//Add  transaction to database
-//			transactionService.createTransaction(tran1);
-//			transactionService.createTransaction(tran2);
-//			
-//			
-//			User user1 = new User(4, "user1", "123", 1);
-//		
-//			User user2 = new User(5, "user2", "1234", 1);
-//			Set<User> tranSet1 = new HashSet<User>();
-//			tranSet1.add(user1);
-//			tranSet1.add(user2);
-//			tran1.setTransactions(tranSet1);
-//			//Add user to database
-//			transactionService.updateTransaction(tran1);			
+			// /**
+			// * For Test @Many to many
+			// */
+			// Transaction tran1 = new Transaction(0, 20000, "20/1/2015",
+			// "20/1/2015",2, "new");
+			// Transaction tran2 = new Transaction(0, 10000, "20/1/2015",
+			// "20/1/2015",2, "active");
+			//
+			// //Add transaction to database
+			// transactionService.createTransaction(tran1);
+			// transactionService.createTransaction(tran2);
+			//
+			//
+			// User user1 = new User(4, "user1", "123", 1);
+			//
+			// User user2 = new User(5, "user2", "1234", 1);
+			// Set<User> tranSet1 = new HashSet<User>();
+			// tranSet1.add(user1);
+			// tranSet1.add(user2);
+			// tran1.setTransactions(tranSet1);
+			// //Add user to database
+			// transactionService.updateTransaction(tran1);
 			return modelview;
 
 		} catch (Exception e) {

@@ -4,63 +4,65 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
 
-    <title>CSC Banking System</title>
-  <!-- My CSS -->
-   <link href="css/style_home.css" rel="stylesheet">
-    <link href="css/screen.css" rel="stylesheet">
-      <link href="css/site.css" rel="stylesheet">
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+<title>CSC Banking System</title>
+<!-- My CSS -->
+<link href="css/style_home.css" rel="stylesheet">
+<link href="css/screen.css" rel="stylesheet">
+<link href="css/site.css" rel="stylesheet">
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<!-- Custom Fonts -->
+<link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet"
+	type="text/css">
 
-	<link rel="stylesheet" href="css/screen.css" type="text/css" />
+<link rel="stylesheet" href="css/screen.css" type="text/css" />
 
-	<!-- jQuery -->
-    <script src="js/jquery/jquery.js"></script>
-    
-    <script src="js/bootstrap.min.js"></script>
-    
-    <script src="js/jquery.dataTables.min.js"></script>
-    
-    <script src="js/dataTables.bootstrap.min.js"></script>
-    
+<!-- jQuery -->
+<script src="js/jquery/jquery.js"></script>
+
+<script src="js/bootstrap.min.js"></script>
+
+<script src="js/jquery.dataTables.min.js"></script>
+
+<script src="js/dataTables.bootstrap.min.js"></script>
+
 
 </head>
 
 <body>
 	<tiles:insertAttribute name="header" />
-    <div id="wrapper">
+	<div id="wrapper">
 		<tiles:insertAttribute name="menu" />
-        <!-- Navigation -->
-       
+		<!-- Navigation -->
 
-        <!-- Page Content -->
-        <div id="page-wrapper" class="col-md-9">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-<!--                         <h1 class="page-header">Blank</h1> -->
-					<tiles:insertAttribute name="body" />
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container-fluid -->
-        </div>
-        <!-- /#page-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
-<tiles:insertAttribute name="footer" />
+		<!-- Page Content -->
+		<div id="page-wrapper" class="col-md-9">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<!--                         <h1 class="page-header">Blank</h1> -->
+						<tiles:insertAttribute name="body" />
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+	<tiles:insertAttribute name="footer" />
+
 </body>
 
 </html>

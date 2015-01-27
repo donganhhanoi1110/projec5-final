@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,7 @@ public class User implements Serializable  {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private int userId;
-
+	
 	@Column(name = "user_name")
 	private String userName;
 
@@ -40,20 +41,20 @@ public class User implements Serializable  {
 
 	@Column(name = "enable")
 	private int enable;
-	
-	@ManyToMany( mappedBy = "transactions")
-	private Set<Transaction> users;
+
+	@ManyToMany( mappedBy = "transactions",cascade = CascadeType.ALL)
+	private Collection<Transaction> users;
 	public User() {
 
 	}
 
 
-	public Set<Transaction> getUsers() {
+	public Collection<Transaction> getUsers() {
 		return users;
 	}
 
 
-	public void setUsers(Set<Transaction> users) {
+	public void setUsers(Collection<Transaction> users) {
 		this.users = users;
 	}
 

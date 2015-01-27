@@ -2,7 +2,11 @@ package com.csc.fresher.java.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,7 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.csc.fresher.java.dao.TransactionDAO;
 import com.csc.fresher.java.domain.AjaxResponse;
 import com.csc.fresher.java.domain.Transaction;
+import com.csc.fresher.java.domain.User;
 import com.csc.fresher.java.service.TransactionService;
+import com.csc.fresher.java.service.UserService;
 
 @Controller
 public class TransactionController {
@@ -31,43 +37,57 @@ public class TransactionController {
 	 * 
 	 * @author Nguyen ANh Minh
 	 */
-
+	List<User> listUser = new ArrayList<User>();
+	Set<User> userSet = new HashSet<User>();
 	@Autowired
 	private TransactionService TransactionService;
+	@Autowired
+	private UserService UserService;
 
 	@RequestMapping(value = "/homeTransaction")
-	public ModelAndView getAccountList(HttpServletRequest request, Model model,
-			Principal principal) {
+	public ModelAndView getAccountList(HttpServletRequest request, Model model, HttpSession session) {
 		// Create a new AccountDAO
-		String error_code = request.getParameter("ERROR_CODE");
-		ModelAndView modelview = new ModelAndView("homeTransaction");
-		modelview.addObject("loginSession", principal.getName());
-		modelview.addObject("ERROR_CODE", error_code);
-		// Get the list of all accounts from DB
-		try {
+		if (session.getAttribute("loginSession") != null) {
+			User user=null;
+			String username = request.getSession()
+					.getAttribute("loginSession").toString();
+			String error_code = request.getParameter("ERROR_CODE");
+			String message = request.getParameter("message");
+			ModelAndView modelview = new ModelAndView("homeTransaction");
 
-			modelview.addObject("listTransaction",
-					TransactionService.getAllTransaction());
+			modelview.addObject("ERROR_CODE", error_code);
+			modelview.addObject("message", message);
+			// Get the list of all accounts from DB
+
+			try {
+				user=UserService.getUserbyUserName(username);
+				
+				modelview.addObject("listTransaction",
+						TransactionService.getAllTransaction());
+
+			} catch (Exception e) {
+				modelview.addObject("ERROR_CODE", "0");
+				modelview.addObject("message",
+						"You get Error *Home Transaction*");
+
+			}
 			return modelview;
-
-		} catch (Exception e) {
-			modelview.addObject("ERROR_CODE", "You get error");
-			return modelview;
-
+		} else {
+			return new ModelAndView("redirect:/login");
 		}
-
 	}
 
 	@RequestMapping(value = "/createTransaction", method = RequestMethod.POST)
 	public ModelAndView createTransaction(HttpServletRequest request,
 			Model model, HttpSession session) {
 		// Create a new AccountDAO
-
+		User user = null;
 		if (session.getAttribute("loginSession") != null) {
 			String message = "";
-			ModelAndView modelview = new ModelAndView("forward:/home");
-			int TransactionId = Integer.parseInt(request
-					.getParameter("TransactionId"));
+			ModelAndView modelview = new ModelAndView(
+					"forward:/homeTransaction");
+			String username = request.getSession()
+					.getAttribute("loginSession").toString();
 			float transactionAmount = Float.parseFloat(request
 					.getParameter("transactionAmount"));
 			String dateStart = request.getParameter("transactionDateStart");
@@ -76,15 +96,21 @@ public class TransactionController {
 					.getParameter("transactionSavingAccountId"));
 			String state = request.getParameter("transactionState");
 
-			Transaction Transaction = new Transaction(TransactionId,
-					transactionAmount, dateStart, dateEnd, savingAccountId,
-					state);
+			Transaction Transaction = new Transaction(0, transactionAmount,
+					dateStart, dateEnd, savingAccountId, state);
 
 			try {
 
 				boolean check = TransactionService
 						.createTransaction(Transaction);
 				if (check) {
+					
+					// Add to table transactionuser in database
+					user = UserService.getUserbyUserName(username);
+					Collection<User> userSets = Transaction.getTransactions();
+					userSets.add(user);
+					Transaction.setTransactions(userSets);
+					TransactionService.updateTransaction(Transaction);
 					message = "You have created Transaction successfully!!!";
 
 					modelview.addObject("message", message);
@@ -94,6 +120,7 @@ public class TransactionController {
 					modelview.addObject("ERROR_CODE", "0");
 					modelview.addObject("message", message);
 				}
+				
 				return modelview;
 
 			} catch (Exception e) {
@@ -202,6 +229,7 @@ public class TransactionController {
 						.println(Transaction.toString() + "-Edit Transaction");
 				List<Transaction> list = new ArrayList<Transaction>();
 				list.add(Transaction);
+			
 				model.addAttribute("TransactionProfile", list);
 
 			} catch (Exception e) {
@@ -211,6 +239,7 @@ public class TransactionController {
 				modelview.addObject("message", message);
 				return modelview;
 			}
+			
 			return modelview;
 		} else {
 			return new ModelAndView("redirect:/login");
@@ -262,6 +291,7 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
+
 	@RequestMapping(value = "/approveTransaction")
 	public ModelAndView approveTransaction(HttpServletRequest request,
 			Model model, HttpSession session) {
@@ -273,9 +303,10 @@ public class TransactionController {
 			try {
 				int TransactionId = Integer.parseInt(request
 						.getParameter("TransactionId"));
-				
-				Transaction tran=TransactionService.getTransaction(TransactionId);
-				tran.setState("done");
+
+				Transaction tran = TransactionService
+						.getTransaction(TransactionId);
+				tran.setState("active");
 				// Check error when Update to Database
 				if (!TransactionService.updateTransaction(tran)) {
 					message = "Approve Transaction" + TransactionId + " FAIL";
@@ -294,6 +325,7 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
+
 	@RequestMapping(value = "/denyTransaction")
 	public ModelAndView denyTransaction(HttpServletRequest request,
 			Model model, HttpSession session) {
@@ -305,18 +337,19 @@ public class TransactionController {
 			try {
 				int TransactionId = Integer.parseInt(request
 						.getParameter("TransactionId"));
-				
-				Transaction tran=TransactionService.getTransaction(TransactionId);
+
+				Transaction tran = TransactionService
+						.getTransaction(TransactionId);
 				tran.setState("deny");
 				// Check error when Update to Database
 				if (!TransactionService.updateTransaction(tran)) {
-					message = "Approve Transaction" + TransactionId + " FAIL";
+					message = "Deny Transaction" + TransactionId + " FAIL";
 					modelview.addObject("ERROR_CODE", "0");
 					modelview.addObject("message", message);
 				}
 			} catch (Exception e) {
-				System.out.println("Approve Transaction Controller has Error");
-				message = "Approve Transaction Controller has Error";
+				System.out.println("Deny Transaction Controller has Error");
+				message = "Deny Transaction Controller has Error";
 				modelview.addObject("ERROR_CODE", "0");
 				modelview.addObject("message", message);
 				return modelview;
@@ -327,4 +360,37 @@ public class TransactionController {
 		}
 	}
 
+	@RequestMapping(value = "/submitTransaction")
+	public ModelAndView submitTransaction(HttpServletRequest request,
+			Model model, HttpSession session) {
+		ModelAndView modelview = new ModelAndView("forward:/homeTransaction");
+
+		String message = "";
+
+		if (session.getAttribute("loginSession") != null) {
+			try {
+				int TransactionId = Integer.parseInt(request
+						.getParameter("TransactionId"));
+
+				Transaction tran = TransactionService
+						.getTransaction(TransactionId);
+				tran.setState("hold");
+				// Check error when Update to Database
+				if (!TransactionService.updateTransaction(tran)) {
+					message = "Submit Transaction" + TransactionId + " FAIL";
+					modelview.addObject("ERROR_CODE", "0");
+					modelview.addObject("message", message);
+				}
+			} catch (Exception e) {
+				System.out.println("Submit Transaction Controller has Error");
+				message = "Submit Transaction Controller has Error";
+				modelview.addObject("ERROR_CODE", "0");
+				modelview.addObject("message", message);
+				return modelview;
+			}
+			return modelview;
+		} else {
+			return new ModelAndView("redirect:/login");
+		}
+	}
 }

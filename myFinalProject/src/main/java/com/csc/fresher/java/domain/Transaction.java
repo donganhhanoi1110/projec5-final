@@ -47,12 +47,12 @@ public class Transaction  {
 	@JoinTable(name = "transactionuser", joinColumns = { 
 			@JoinColumn(name = "transaction_id") }, 
 			inverseJoinColumns = { @JoinColumn(name = "user_id") })
-	private Set<User> transactions;
-	public Set<User> getTransactions() {
+	private Collection<User> transactions=new HashSet<User>();
+	public Collection<User> getTransactions() {
 		return transactions;
 	}
 
-	public void setTransactions(Set<User> transactions) {
+	public void setTransactions(Collection<User> transactions) {
 		this.transactions = transactions;
 	}
 
@@ -124,6 +124,18 @@ public class Transaction  {
 		this.dateEnd = dateEnd;
 		this.savingAccountId = savingAccountId;
 		this.state = state;
+	}
+
+	public Transaction(int id, float amount, String dateStart, String dateEnd,
+			int savingAccountId, String state, Collection<User> transactions) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
+		this.savingAccountId = savingAccountId;
+		this.state = state;
+		this.transactions = transactions;
 	}
 
 	@Override

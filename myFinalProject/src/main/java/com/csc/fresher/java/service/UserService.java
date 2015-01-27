@@ -44,7 +44,9 @@ public class UserService {
 	public List<User> getAllUser() {
 		return this.getUserDAO().getAllUser();
 	}
-	
+	public User getUserbyUserName(String username) {
+		return this.getUserDAO().getUserbyUserName(username);
+	}
 	public boolean createUser(User user) {
 		return this.getUserDAO().createUser(user);
 	}

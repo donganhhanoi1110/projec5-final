@@ -242,15 +242,21 @@
 															<td><a
 																href="denyTransaction.html?TransactionId=${Transaction.id}"
 																class="myButton">Deny</a></td>
+															<td><a Transaction="${Transaction.id}" href=""
+																id="linkDeleteTransaction" class="myButton"> Delete
+															</a></td>
+															<td><a
+																href="editTransaction.html?TransactionId=${Transaction.id}"
+																class="myButton">Edit</a></td>
 															<input type="hidden" name="${_csrf.parameterName}"
 																value="${_csrf.token}" />
 														</sec:authorize>
-														<td><a Transaction="${Transaction.id}" href=""
-															id="linkDeleteTransaction" class="myButton"> Delete </a></td>
-														<td><a
-															href="editTransaction.html?TransactionId=${Transaction.id}"
-															class="myButton">Edit</a></td>
-
+														<sec:authorize access="hasRole('support')">
+															<td><a
+																href="submitTransaction.html?TransactionId=${Transaction.id}"
+																class="myButton">Submit</a></td>
+														</sec:authorize>
+													
 													</tr>
 												</c:if>
 											</c:forEach>

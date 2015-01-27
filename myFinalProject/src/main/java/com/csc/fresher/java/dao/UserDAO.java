@@ -30,7 +30,6 @@ public class UserDAO {
 	@PersistenceContext
 	public EntityManager entityManager;
 
-	
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public User getUser(int id) {
@@ -38,11 +37,36 @@ public class UserDAO {
 		try {
 			user = entityManager.find(User.class, id);
 			if (user == null) {
-				throw new EntityNotFoundException("Can't find User for ID " + id);
+				throw new EntityNotFoundException("Can't find User for ID "
+						+ id);
 			}
 			System.out.println(user.toString() + "getUser-DAO");
 		} catch (Exception e) {
-			System.out.println("\nGetting user had Errors"+ "*_"+e.getMessage()+"*_");
+			System.out.println("\nGetting user had Errors" + "*_"
+					+ e.getMessage() + "*_");
+
+		}
+		return user;
+
+	}
+
+
+	public User getUserbyUserName(String username) {
+		User user = new User();
+		try {
+			TypedQuery<User> query = entityManager.createQuery("SELECT c FROM "
+					+ User.class.getName() + " c where c.userName=:username",
+					User.class);
+			query.setParameter("username", username);
+			user = query.getSingleResult();
+			if (user == null) {
+				throw new EntityNotFoundException(
+						"Can't find User for UserName " + username);
+			}
+			System.out.println(user.toString() + "getUser-DAO");
+		} catch (Exception e) {
+			System.out.println("\nGetting user had Errors" + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return user;
@@ -58,7 +82,7 @@ public class UserDAO {
 			list = query.getResultList();
 			System.out.println("Get All Users");
 		} catch (Exception e) {
-			System.out.println("\nGet Error "+ "*_"+e.getMessage()+"*_" );
+			System.out.println("\nGet Error " + "*_" + e.getMessage() + "*_");
 
 		}
 		return list;
@@ -77,7 +101,8 @@ public class UserDAO {
 			check = true;
 
 		} catch (Exception e) {
-			System.out.println("\nGet Error with Create User "+ "*_"+e.getMessage()+"*_");
+			System.out.println("\nGet Error with Create User " + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;
@@ -99,7 +124,8 @@ public class UserDAO {
 			check = true;
 			System.out.println("User " + User.getUserName() + "updated");
 		} catch (Exception e) {
-			System.out.println("\nUpdate User get Error "+ "*_"+e.getMessage()+"*_");
+			System.out.println("\nUpdate User get Error " + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;
@@ -118,19 +144,21 @@ public class UserDAO {
 		try {
 			User User = entityManager.find(User.class, UserId);
 			if (User == null) {
-				check=false;
-				throw new EntityNotFoundException("Can't find User for ID " + UserId);
+				check = false;
+				throw new EntityNotFoundException("Can't find User for ID "
+						+ UserId);
 			}
 			System.out.println(User.toString());
 			if (User != null) {
 
 				entityManager.remove(User);
-				check=true;
+				check = true;
 				System.out.println("delete User by ID");
 			}
 		} catch (Exception e) {
-			
-			System.out.println("\nDelete User by ID get Error "+ "*_"+e.getMessage()+"*_");
+
+			System.out.println("\nDelete User by ID get Error " + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;
@@ -146,10 +174,11 @@ public class UserDAO {
 		boolean check = false;
 		try {
 			entityManager.remove(User);
-				check=true;
+			check = true;
 			System.out.println("delete user by User");
 		} catch (Exception e) {
-			System.out.println("\nDelete User get Error" + "*_"+e.getMessage()+"*_");
+			System.out.println("\nDelete User get Error" + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;

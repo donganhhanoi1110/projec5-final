@@ -61,12 +61,14 @@
 		id="entityManagerFactory">
 		<property name="persistenceUnitName" value="persistenceUnit" />
 		<property name="dataSource" ref="dataSource" />
+		
 	</bean>
 
 	<!-- Transaction Manager -->
 	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
 		id="transactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		
 	</bean>
 	<!--Declare DAO, and Service for Spring can understand that you are using 
 		that -->
