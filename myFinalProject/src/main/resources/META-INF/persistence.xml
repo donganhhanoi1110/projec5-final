@@ -6,6 +6,7 @@
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>com.csc.fresher.java.domain.User</class>
+		<class>com.csc.fresher.java.domain.UserRole</class>
 		<class>com.csc.fresher.java.domain.Transaction</class>
 		
 

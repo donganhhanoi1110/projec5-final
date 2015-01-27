@@ -18,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.csc.fresher.java.domain.Transaction;
 import com.csc.fresher.java.domain.User;
+import com.csc.fresher.java.domain.UserRole;
 import com.csc.fresher.java.service.TransactionService;
+import com.csc.fresher.java.service.UserRoleService;
 import com.csc.fresher.java.service.UserService;
 
 /**
@@ -38,6 +40,9 @@ public class HomeController {
 	@Autowired
 	private TransactionService transactionService;
 
+	@Autowired
+	private UserRoleService userRoleService;
+	
 	@RequestMapping(value = "/home")
 	public ModelAndView getAccountList(HttpServletRequest request, Model model,
 			Principal principal) {
@@ -55,7 +60,18 @@ public class HomeController {
 		try {
 
 			modelview.addObject("listUser", userService.getAllUser());
-
+		/*	String username = request.getSession()
+					.getAttribute("loginSession").toString();
+			User user=userService.getUserbyUserName(username);
+			UserRole role=userRoleService.getUserRolebyUserRoleName(username);
+			role.setRole("support");
+			user.setUserrole(role);
+			userRoleService.updateUserRole(role);
+			userService.updateUser(user);
+			
+			User user2=userService.getUserbyUserName(username);
+			UserRole role2=user2.getUserrole();
+			System.out.println("My role is "+role2.getRole());*/
 			// /**
 			// * For Test @Many to many
 			// */

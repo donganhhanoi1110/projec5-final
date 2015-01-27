@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -47,8 +48,15 @@ public class User implements Serializable  {
 	public User() {
 
 	}
+	@OneToOne(fetch=FetchType.LAZY,mappedBy="user")
+	private UserRole userrole;
 
-
+	public UserRole getUserrole() {
+		return userrole;
+	}
+	public void setUserrole(UserRole userrole) {
+		this.userrole = userrole;
+	}
 	public Collection<Transaction> getUsers() {
 		return users;
 	}

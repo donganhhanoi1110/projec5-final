@@ -79,4 +79,8 @@
 	<!--Transaction -->
 	<bean name="transactionService" class="com.csc.fresher.java.service.TransactionService"></bean>
 	<bean name="transactionDAO" class="com.csc.fresher.java.dao.TransactionDAO"></bean>
+	
+	<!--User Role -->
+	<bean name="userRoleService" class="com.csc.fresher.java.service.UserRoleService"></bean>
+	<bean name="userRoleDAO" class="com.csc.fresher.java.dao.UserRoleDAO"></bean>
 </beans>

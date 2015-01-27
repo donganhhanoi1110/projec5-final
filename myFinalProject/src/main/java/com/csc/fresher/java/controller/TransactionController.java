@@ -55,19 +55,19 @@ public class TransactionController {
 			String message = request.getParameter("message");
 			ModelAndView modelview = new ModelAndView("homeTransaction");
 
-			modelview.addObject("ERROR_CODE", error_code);
-			modelview.addObject("message", message);
+			model.addAttribute("ERROR_CODE", error_code);
+			model.addAttribute("message", message);
 			// Get the list of all accounts from DB
 
 			try {
 				user=UserService.getUserbyUserName(username);
 				
-				modelview.addObject("listTransaction",
+				model.addAttribute("listTransaction",
 						TransactionService.getAllTransaction());
 
 			} catch (Exception e) {
-				modelview.addObject("ERROR_CODE", "0");
-				modelview.addObject("message",
+				model.addAttribute("ERROR_CODE", "0");
+				model.addAttribute("message",
 						"You get Error *Home Transaction*");
 
 			}
@@ -113,18 +113,18 @@ public class TransactionController {
 					TransactionService.updateTransaction(Transaction);
 					message = "You have created Transaction successfully!!!";
 
-					modelview.addObject("message", message);
+					model.addAttribute("message", message);
 
 				} else {
 					message = "You have created Transaction FAILED!!!";
-					modelview.addObject("ERROR_CODE", "0");
-					modelview.addObject("message", message);
+					model.addAttribute("ERROR_CODE", "0");
+					model.addAttribute("message", message);
 				}
 				
 				return modelview;
 
 			} catch (Exception e) {
-				modelview.addObject("ERROR_CODE", "0");
+				model.addAttribute("ERROR_CODE", "0");
 				return modelview;
 
 			}
@@ -141,6 +141,7 @@ public class TransactionController {
 			String message = "";
 			ModelAndView modelview = new ModelAndView(
 					"forward:/homeTransaction");
+		
 			try {
 				int TransactionId = Integer.parseInt(request
 						.getParameter("TransactionId"));
@@ -152,14 +153,14 @@ public class TransactionController {
 					model.addAttribute("message", message);
 				} else {
 					message = "Delete Transaction" + TransactionId + " FAIL";
-					modelview.addObject("ERROR_CODE", "0");
-					modelview.addObject("message", message);
+					model.addAttribute("ERROR_CODE", "0");
+					model.addAttribute("message", message);
 				}
 			} catch (Exception e) {
 				System.out.println("Delete Transaction Controller has Error");
 				message = "Delete Transaction Controller has Error";
-				modelview.addObject("ERROR_CODE", "0");
-				modelview.addObject("message", message);
+				model.addAttribute("ERROR_CODE", "0");
+				model.addAttribute("message", message);
 				return modelview;
 			}
 			return modelview;
@@ -235,8 +236,8 @@ public class TransactionController {
 			} catch (Exception e) {
 				System.out.println("Edit Transaction Controller has Error");
 				message = "Edit Transaction Controller has Error";
-				modelview.addObject("ERROR_CODE", "0");
-				modelview.addObject("message", message);
+				model.addAttribute("ERROR_CODE", "0");
+				model.addAttribute("message", message);
 				return modelview;
 			}
 			
@@ -276,14 +277,14 @@ public class TransactionController {
 					model.addAttribute("message", message);
 				} else {
 					message = "Edit Transaction" + TransactionId + " FAIL";
-					modelview.addObject("ERROR_CODE", "0");
-					modelview.addObject("message", message);
+					model.addAttribute("ERROR_CODE", "0");
+					model.addAttribute("message", message);
 				}
 			} catch (Exception e) {
 				System.out.println("Edit Transaction Controller has Error");
 				message = "Edit Transaction Controller has Error";
-				modelview.addObject("ERROR_CODE", "0");
-				modelview.addObject("message", message);
+				model.addAttribute("ERROR_CODE", "0");
+				model.addAttribute("message", message);
 				return modelview;
 			}
 			return modelview;
@@ -310,14 +311,14 @@ public class TransactionController {
 				// Check error when Update to Database
 				if (!TransactionService.updateTransaction(tran)) {
 					message = "Approve Transaction" + TransactionId + " FAIL";
-					modelview.addObject("ERROR_CODE", "0");
-					modelview.addObject("message", message);
+					model.addAttribute("ERROR_CODE", "0");
+					model.addAttribute("message", message);
 				}
 			} catch (Exception e) {
 				System.out.println("Approve Transaction Controller has Error");
 				message = "Approve Transaction Controller has Error";
-				modelview.addObject("ERROR_CODE", "0");
-				modelview.addObject("message", message);
+				model.addAttribute("ERROR_CODE", "0");
+				model.addAttribute("message", message);
 				return modelview;
 			}
 			return modelview;
@@ -344,14 +345,14 @@ public class TransactionController {
 				// Check error when Update to Database
 				if (!TransactionService.updateTransaction(tran)) {
 					message = "Deny Transaction" + TransactionId + " FAIL";
-					modelview.addObject("ERROR_CODE", "0");
-					modelview.addObject("message", message);
+					model.addAttribute("ERROR_CODE", "0");
+					model.addAttribute("message", message);
 				}
 			} catch (Exception e) {
 				System.out.println("Deny Transaction Controller has Error");
 				message = "Deny Transaction Controller has Error";
-				modelview.addObject("ERROR_CODE", "0");
-				modelview.addObject("message", message);
+				model.addAttribute("ERROR_CODE", "0");
+				model.addAttribute("message", message);
 				return modelview;
 			}
 			return modelview;
@@ -378,14 +379,14 @@ public class TransactionController {
 				// Check error when Update to Database
 				if (!TransactionService.updateTransaction(tran)) {
 					message = "Submit Transaction" + TransactionId + " FAIL";
-					modelview.addObject("ERROR_CODE", "0");
-					modelview.addObject("message", message);
+					model.addAttribute("ERROR_CODE", "0");
+					model.addAttribute("message", message);
 				}
 			} catch (Exception e) {
 				System.out.println("Submit Transaction Controller has Error");
 				message = "Submit Transaction Controller has Error";
-				modelview.addObject("ERROR_CODE", "0");
-				modelview.addObject("message", message);
+				model.addAttribute("ERROR_CODE", "0");
+				model.addAttribute("message", message);
 				return modelview;
 			}
 			return modelview;

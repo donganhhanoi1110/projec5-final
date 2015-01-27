@@ -220,9 +220,13 @@
 													<th>Approve Transaction</th>
 
 													<th>Deny Transaction</th>
-												</sec:authorize>
+												
 												<th>Delete Transaction</th>
 												<th>Edit Transaction</th>
+												</sec:authorize>
+												<sec:authorize access="hasRole('support')">
+												<th>Submit Transaction</th>
+												</sec:authorize>
 											</tr>
 										</thead>
 										<tbody>
