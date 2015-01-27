@@ -42,9 +42,31 @@
 		<tiles:insertAttribute name="menu" />
 		<!-- Navigation -->
 
+		<div id="manu_main">
+			<ul>
 
+				<li><a href="homeTransaction.html">Home Transaction</a></li>
+				<li><a href="viewTransaction.html">View All Transaction</a></li>
+
+				<li><a href="#dasfa"><c:url
+							value="/j_spring_security_logout" var="logoutUrl" />
+						<form action="${logoutUrl}" method="post" id="logoutForm">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+						</form> <script>
+							function formSubmit() {
+								document.getElementById("logoutForm").submit();
+							}
+						</script> <c:if test="${pageContext.request.userPrincipal.name != null}">
+							<div class="fa fa-chevron-circle-right  style="color:white;">
+								<a href="javascript:formSubmit()"> Logout</a>
+							</div>
+						</c:if> </a></li>
+			</ul>
+		</div>
 		<!-- Page Content -->
 		<div id="page-wrapper" class="col-md-9">
+
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-12">

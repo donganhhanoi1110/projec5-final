@@ -48,7 +48,21 @@ public class TransactionDAO {
 		return Transaction;
 
 	}
+	public List<Transaction> getTransactionByState(String state) {
+		List<Transaction> list = new ArrayList<Transaction>();
+		try {
+			TypedQuery<Transaction> query = entityManager.createQuery("SELECT c FROM "
+					+ Transaction.class.getName() + " c where c.state=:state", Transaction.class);
+			query.setParameter("state", state);
+			list = query.getResultList();
+			System.out.println("Get All Transactions");
+		} catch (Exception e) {
+			System.out.println("\nGet Error "+ "*_"+e.getMessage()+"*_" );
 
+		}
+		return list;
+
+	}
 	public List<Transaction> getAllTransaction() {
 		List<Transaction> list = new ArrayList<Transaction>();
 		try {

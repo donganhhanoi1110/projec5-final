@@ -51,14 +51,16 @@ public class UserRoleDAO {
 	}
 
 
-	public UserRole getUserRolebyUserName(String username) {
+	public String getUserRolebyUserName(String username) {
 		UserRole UserRole = new UserRole();
+		String role="";
 		try {
 			TypedQuery<UserRole> query = entityManager.createQuery("SELECT c FROM "
 					+ UserRole.class.getName() + " c where c.userName=:username",
 					UserRole.class);
 			query.setParameter("username", username);
 			UserRole = query.getSingleResult();
+			role=UserRole.getRole();
 			if (UserRole == null) {
 				throw new EntityNotFoundException(
 						"Can't find UserRole for UserRoleName " + username);
@@ -69,7 +71,7 @@ public class UserRoleDAO {
 					+ e.getMessage() + "*_");
 
 		}
-		return UserRole;
+		return role;
 
 	}
 

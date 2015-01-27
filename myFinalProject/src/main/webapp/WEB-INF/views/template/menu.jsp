@@ -5,7 +5,7 @@
 
 <nav class="col-md-3 navigator myMenu">
 	<ul>
-		<li><a style="color: blue;" href="home"><span class="fa fa-home"></span>
+		<li><a href="home"><span class="fa fa-home"></span>
 				 Home</a></li>
 		<li><a href="homeTransaction"><span class="fa fa-university"></span>
 				Manage Tranasaction </a></li>

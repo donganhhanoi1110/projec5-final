@@ -2,13 +2,14 @@
 	margin: 0px;
 	padding: 0px;
 }
-#cover_box{
+
+#cover_box {
 	background-color: #CCFFFF;
 	margin: 10px;
 }
+
 #content_left {
 	float: left;
-
 	border-style: solid;
 	border-width: 1px;
 	padding: 10px;
@@ -17,7 +18,8 @@
 
 #content_right {
 	float: right;
-	padding: 10px; border-style : solid;
+	padding: 10px;
+	border-style: solid;
 	border-width: 1px;
 	border-style: solid;
 	margin-right: 5%;
@@ -75,6 +77,11 @@
 	text-decoration: none;
 	color: white;
 	list-style-type: none;
+}
+
+.mytable_wrapper
+ {
+	min-height: 560px;
 }
 
 .mytable {

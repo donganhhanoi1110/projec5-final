@@ -31,9 +31,21 @@
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/transaction/homeTransaction.jsp" />
 	</definition>
+	<definition name="adminTransaction" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/transaction/adminTransaction.jsp" />
+	</definition>
+	<definition name="supportTransaction" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/transaction/supportTransaction.jsp" />
+	</definition>
 	<definition name="editMyTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/transaction/editTransaction.jsp" />
+	</definition>
+	<definition name="viewTransaction" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/transaction/viewTransaction.jsp" />
 	</definition>
 	<!-- /Transaction -->
 <definition name="loginFailed" extends="DefaultTemplate">

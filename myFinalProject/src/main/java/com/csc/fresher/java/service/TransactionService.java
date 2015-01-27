@@ -35,7 +35,9 @@ public class TransactionService {
 		this.TransactionDAO = TransactionDAO;
 	}
 
-
+	public List<Transaction> getTransactionByState(String state) {
+		return this.getTransactionDAO().getTransactionByState(state);
+	}
 
 	public Transaction getTransaction(int id) {
 		return this.getTransactionDAO().getTransaction(id);

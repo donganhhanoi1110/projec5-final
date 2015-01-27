@@ -42,7 +42,7 @@ public class UserRoleService {
 		return this.getUserRoleDAO().getAllUserRole();
 	}
 
-	public UserRole getUserRolebyUserRoleName(String UserRolename) {
+	public String getUserRolebyUserRoleName(String UserRolename) {
 		return this.getUserRoleDAO().getUserRolebyUserName(UserRolename);
 	}
 
