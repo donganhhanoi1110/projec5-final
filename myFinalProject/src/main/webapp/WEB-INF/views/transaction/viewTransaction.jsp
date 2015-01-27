@@ -147,6 +147,7 @@
 												<th>End Time</th>
 												<th>Saving Account Id</th>
 												<th>State</th>
+												<th>View</th>
 
 
 											</tr>
@@ -161,7 +162,9 @@
 														<td>${Transaction.dateEnd}</td>
 														<td>${Transaction.savingAccountId}</td>
 														<td>${Transaction.state}</td>
-
+														<td><a
+															href="viewOneTransaction.html?TransactionId=${Transaction.id}"
+															class="myButton">View</a></td>
 
 													</tr>
 												</c:if>

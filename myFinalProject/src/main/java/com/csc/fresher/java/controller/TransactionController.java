@@ -475,4 +475,36 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
+	@RequestMapping(value = "/viewOneTransaction")
+	public ModelAndView viewOneTransaction(HttpServletRequest request,
+			Model model, HttpSession session) {
+		// Read account info from request and save into Account object
+		if (session.getAttribute("loginSession") != null) {
+			String message = "";
+			ModelAndView modelview = new ModelAndView("viewOneTransaction");
+			try {
+				int TransactionId = Integer.parseInt(request
+						.getParameter("TransactionId"));
+				Transaction Transaction = transactionService
+						.getTransaction(TransactionId);
+				System.out
+						.println(Transaction.toString() + "-Edit Transaction");
+				List<Transaction> list = new ArrayList<Transaction>();
+				list.add(Transaction);
+
+				model.addAttribute("TransactionProfile", list);
+
+			} catch (Exception e) {
+				System.out.println("Edit Transaction Controller has Error");
+				message = "Edit Transaction Controller has Error";
+				model.addAttribute("ERROR_CODE", "0");
+				model.addAttribute("message", message);
+				return modelview;
+			}
+
+			return modelview;
+		} else {
+			return new ModelAndView("redirect:/login");
+		}
+	}
 }

@@ -83,4 +83,5 @@
 	<!--User Role -->
 	<bean name="userRoleService" class="com.csc.fresher.java.service.UserRoleService"></bean>
 	<bean name="userRoleDAO" class="com.csc.fresher.java.dao.UserRoleDAO"></bean>
+	
 </beans>
