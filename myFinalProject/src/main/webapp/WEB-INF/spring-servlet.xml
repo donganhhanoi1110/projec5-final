@@ -88,4 +88,7 @@
 	<bean name="savingAccountService" class="com.csc.fresher.java.service.SavingAccountService"></bean>
 	<bean name="savingAccountDAO" class="com.csc.fresher.java.dao.SavingAccountDAO"></bean>
 
+	<!-- Customer  -->
+	<bean name="customerService" class="com.csc.fresher.java.service.CustomerService"></bean>
+	<bean name="customerDAO" class="com.csc.fresher.java.dao.CustomerDAO"></bean>
 </beans>
