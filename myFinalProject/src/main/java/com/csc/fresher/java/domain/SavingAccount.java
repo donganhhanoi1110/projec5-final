@@ -21,6 +21,9 @@ public class SavingAccount {
 	@Column(name = "id")
 	private int id;
 
+	@Column(name="savingaccount_number")
+	private int savingAccountNumber;
+	
 	@Column(name = "balance_amount")
 	private float balanceAmount;
 
@@ -43,7 +46,7 @@ public class SavingAccount {
 	
 	public SavingAccount(int id, float balanceAmount, int repeatable,
 			String state, Customer customerId, InterestRate interestRateId,
-			List<Transaction> transactions) {
+			List<Transaction> transactions, int savingaccountnumber) {
 		super();
 		this.id = id;
 		this.balanceAmount = balanceAmount;
@@ -52,6 +55,15 @@ public class SavingAccount {
 		this.customerId = customerId;
 		this.interestRateId = interestRateId;
 		this.transactions = transactions;
+		this.savingAccountNumber=savingaccountnumber;
+	}
+
+	public int getSavingAccountNumber() {
+		return savingAccountNumber;
+	}
+
+	public void setSavingAccountNumber(int savingAccountNumber) {
+		this.savingAccountNumber = savingAccountNumber;
 	}
 
 	public List<Transaction> getTransactions() {
@@ -118,13 +130,14 @@ public class SavingAccount {
 	}
 
 	public SavingAccount(int id, float balanceAmount, int repeatable,
-			String state, Customer customerId) {
+			String state, Customer customerId, int savingaccountnumber) {
 		super();
 		this.id = id;
 		this.balanceAmount = balanceAmount;
 		this.repeatable = repeatable;
 		this.state = state;
 		this.customerId = customerId;
+		this.savingAccountNumber=savingaccountnumber;
 	}
 
 	public InterestRate getInterestRateId() {

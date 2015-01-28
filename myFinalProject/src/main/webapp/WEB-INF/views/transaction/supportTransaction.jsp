@@ -97,196 +97,184 @@
 
 				<h1 style="color: red">${message}</h1>
 			</div>
-			<table border="0" width="100%" cellpadding="0" cellspacing="0"
-				id="content-table">
-				<tr>
-					<th rowspan="3" class="sized"><img
-						src="images/shared/side_shadowleft.jpg" width="20" height="300"
-						alt="" /></th>
-					<th class="topleft"></th>
-					<td id="tbl-border-top">&nbsp;</td>
-					<th class="topright"></th>
-					<th rowspan="3" class="sized"><img
-						src="images/shared/side_shadowright.jpg" width="20" height="300"
-						alt="" /></th>
-				</tr>
-				<tr>
-					<td id="tbl-border-left"></td>
-					<td>
-						<div id="content-table-inner">
-							<div id="page-heading">
-								<h1 style="color: red;">
-									<c:if test="${!empty ERROR_CODE }">
-										<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
-										<c:if test="${ ERROR_CODE == '1'}">
-											<script>
-												alert("Successfully!!!");
-											</script>
-										</c:if>
-										<c:if test="${ ERROR_CODE == '0'}">
-											<script>
-												alert("You are getting Error when Create, Update or Delete!!!");
-											</script>
-										</c:if>
+
+			<div id="content-table-inner">
+				<div id="page-heading">
+					<h1 style="color: red;">
+						<c:if test="${!empty ERROR_CODE }">
+							<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
+							<c:if test="${ ERROR_CODE == '1'}">
+								<script>
+									alert("Successfully!!!");
+								</script>
+							</c:if>
+							<c:if test="${ ERROR_CODE == '0'}">
+								<script>
+									alert("You are getting Error when Create, Update or Delete!!!");
+								</script>
+							</c:if>
+						</c:if>
+					</h1>
+					<h1>Add Transaction Information</h1>
+
+				</div>
+
+				<div id="hide">
+					<div style="float: left;">
+
+						<form:form action="createTransactionAttribute.html" method="post"
+							modelAttribute="transaction">
+							<table border="0" cellpadding="0" cellspacing="0" id="id-form"
+								class="table table-striped table-bordered">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
+
+								<tr>
+									<th valign="top"><form:label path="amount">Amount</form:label>
+									</th>
+									<td><form:input path="amount" class="form-control" /></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="dateStart">Date Start</form:label>
+									</th>
+									<td><form:input path="dateStart" class="form-control" /></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="dateEnd">Date End</form:label>
+									</th>
+									<td><form:input path="dateEnd" class="form-control" /></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
+									<td><form:select path="savingAccountId.id"
+											multiple="false">
+											<form:options items="${savingaccountlist}" itemValue="id"
+												itemLabel="savingAccountNumber" />
+										</form:select></td>
+								</tr>
+
+								<tr>
+									<th valign="top"><form:label path="state">State</form:label></th>
+									<td><form:select path="state">
+											<form:option value="new">new</form:option>
+											<form:option value="hold">hold</form:option>
+											<form:option value="active">active</form:option>
+											<form:option value="done">done</form:option>
+										</form:select></td>
+
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
+									<td><form:select path="transactionType">
+											<form:option value="deposit">new</form:option>
+											<form:option value="withdraw">withdraw</form:option>
+
+										</form:select></td>
+
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type="submit" class="myButton" value="Save"
+										id="addAccount" /></td>
+
+								</tr>
+							</table>
+						</form:form>
+
+					</div>
+
+				</div>
+
+
+				<div id="show">
+					<b> >>>Manage Transaction<<< </b>
+				</div>
+				<div class="panel-body">
+					<div class="dataTable_wrapper">
+						<table class="mytable1 table table-striped table-bordered"
+							id="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Amount</th>
+									<th>Start Time</th>
+									<th>End Time</th>
+									<th>Account Number</th>
+									<th>State</th>
+									<th>Transaction Type</th>
+									<sec:authorize access="hasRole('support')">
+										<th>Submit Transaction</th>
+									</sec:authorize>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="Transaction" items="${listNewTransaction}">
+									<c:if test="${Transaction.id != null}">
+										<tr>
+											<td>${Transaction.id}</td>
+											<td>${Transaction.amount}</td>
+											<td>${Transaction.dateStart}</td>
+											<td>${Transaction.dateEnd}</td>
+											<td>${Transaction.savingAccountId.savingAccountNumber}</td>
+											<td>${Transaction.state}</td>
+											<td>${Transaction.transactionType}</td>
+											<sec:authorize access="hasRole('support')">
+												<td><a
+													href="submitTransaction.html?TransactionId=${Transaction.id}"
+													class="myButton">Submit</a></td>
+											</sec:authorize>
+
+										</tr>
 									</c:if>
-								</h1>
-								<h1>Add Transaction Information</h1>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+					<h1>Active Transaction</h1>
+					<div class="dataTable_wrapper">
+						<table class="mytable1 table table-striped table-bordered "
+							id="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Amount</th>
+									<th>Start Time</th>
+									<th>End Time</th>
+									<th>Account Number</th>
+									<th>State</th>
+									<th>Transaction Type</th>
+									<sec:authorize access="hasRole('support')">
+										<th>Send Transaction</th>
+									</sec:authorize>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="Transaction" items="${listActiveTransaction}">
+									<c:if test="${Transaction.id != null}">
+										<tr>
+											<td>${Transaction.id}</td>
+											<td>${Transaction.amount}</td>
+											<td>${Transaction.dateStart}</td>
+											<td>${Transaction.dateEnd}</td>
+											<td>${Transaction.savingAccountId.savingAccountNumber}</td>
+											<td>${Transaction.state}</td>
+											<td>${Transaction.transactionType}</td>
+											<sec:authorize access="hasRole('support')">
+												<td><a
+													href="sendTransaction.html?TransactionId=${Transaction.id}"
+													class="myButton">Send</a></td>
+											</sec:authorize>
 
-							</div>
+										</tr>
+									</c:if>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
 
-							<div id="hide">
-								<div style="float: left;">
+			</div>
 
-									<form:form action="createTransactionAttribute.html"
-										method="post" modelAttribute="transaction">
-										<table border="0" cellpadding="0" cellspacing="0" id="id-form"
-											class="table table-striped table-bordered">
-											<input type="hidden" name="${_csrf.parameterName}"
-												value="${_csrf.token}" />
-
-											<tr>
-												<th valign="top"><form:label path="amount">Amount</form:label>
-												</th>
-												<td><form:input path="amount" class="form-control" /></td>
-											</tr>
-											<tr>
-												<th valign="top"><form:label path="dateStart">Date Start</form:label>
-												</th>
-												<td><form:input path="dateStart" class="form-control" /></td>
-											</tr>
-											<tr>
-												<th valign="top"><form:label path="dateEnd">Date End</form:label>
-												</th>
-												<td><form:input path="dateEnd" class="form-control" /></td>
-											</tr>
-											<tr>
-												<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
-												<td><form:select path="savingAccountId.id"
-														multiple="false">
-														<form:options items="${savingaccountlist}" itemValue="id"
-															itemLabel="state" />
-													</form:select></td>
-											</tr>
-
-											<tr>
-												<th valign="top"><form:label path="state">State</form:label></th>
-												<td><form:select path="state">
-														<form:option value="new">new</form:option>
-														<form:option value="hold">hold</form:option>
-														<form:option value="active">active</form:option>
-														<form:option value="done">done</form:option>
-													</form:select></td>
-
-											</tr>
-											<tr>
-												<td></td>
-												<td><input type="submit" class="myButton" value="Save"
-													id="addAccount" /></td>
-
-											</tr>
-										</table>
-									</form:form>
-
-								</div>
-
-							</div>
-
-
-							<div id="show">
-								<b> >>>Manage Transaction<<< </b>
-							</div>
-							<div class="panel-body">
-								<div class="dataTable_wrapper">
-									<table class="mytable1 table table-striped table-bordered"
-										id="table">
-										<thead>
-											<tr>
-												<th>ID</th>
-												<th>Amount</th>
-												<th>Start Time</th>
-												<th>End Time</th>
-												<th>Account Number</th>
-												<th>State</th>
-												<sec:authorize access="hasRole('support')">
-													<th>Submit Transaction</th>
-												</sec:authorize>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="Transaction" items="${listNewTransaction}">
-												<c:if test="${Transaction.id != null}">
-													<tr>
-														<td>${Transaction.id}</td>
-														<td>${Transaction.amount}</td>
-														<td>${Transaction.dateStart}</td>
-														<td>${Transaction.dateEnd}</td>
-														<td>${Transaction.savingAccountId.customerId.accountNumber}</td>
-														<td>${Transaction.state}</td>
-
-														<sec:authorize access="hasRole('support')">
-															<td><a
-																href="submitTransaction.html?TransactionId=${Transaction.id}"
-																class="myButton">Submit</a></td>
-														</sec:authorize>
-
-													</tr>
-												</c:if>
-											</c:forEach>
-										</tbody>
-									</table>
-								</div>
-								<h1>Active Transaction</h1>
-								<div class="dataTable_wrapper">
-									<table class="mytable1 table table-striped table-bordered "
-										id="table">
-										<thead>
-											<tr>
-												<th>ID</th>
-												<th>Amount</th>
-												<th>Start Time</th>
-												<th>End Time</th>
-												<th>Saving Account Id</th>
-												<th>State</th>
-												<sec:authorize access="hasRole('support')">
-													<th>Send Transaction</th>
-												</sec:authorize>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="Transaction" items="${listActiveTransaction}">
-												<c:if test="${Transaction.id != null}">
-													<tr>
-														<td>${Transaction.id}</td>
-														<td>${Transaction.amount}</td>
-														<td>${Transaction.dateStart}</td>
-														<td>${Transaction.dateEnd}</td>
-														<td>${Transaction.savingAccountId}</td>
-														<td>${Transaction.state}</td>
-
-														<sec:authorize access="hasRole('support')">
-															<td><a
-																href="sendTransaction.html?TransactionId=${Transaction.id}"
-																class="myButton">Send</a></td>
-														</sec:authorize>
-
-													</tr>
-												</c:if>
-											</c:forEach>
-										</tbody>
-									</table>
-								</div>
-							</div>
-
-						</div>
-					</td>
-					<td id="tbl-border-right"></td>
-				</tr>
-				<tr>
-					<th class="sized bottomleft"></th>
-					<td id="tbl-border-bottom">&nbsp;</td>
-					<th class="sized bottomright"></th>
-				</tr>
-			</table>
 			<br />
 		</div>
 

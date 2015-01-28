@@ -96,22 +96,7 @@
 
 				<h1 style="color: red">${message}</h1>
 			</div>
-			<table border="0" width="100%" cellpadding="0" cellspacing="0"
-				id="content-table">
-				<tr>
-					<th rowspan="3" class="sized"><img
-						src="images/shared/side_shadowleft.jpg" width="20" height="300"
-						alt="" /></th>
-					<th class="topleft"></th>
-					<td id="tbl-border-top">&nbsp;</td>
-					<th class="topright"></th>
-					<th rowspan="3" class="sized"><img
-						src="images/shared/side_shadowright.jpg" width="20" height="300"
-						alt="" /></th>
-				</tr>
-				<tr>
-					<td id="tbl-border-left"></td>
-					<td>
+		
 						<div id="content-table-inner">
 							<div id="page-heading">
 								<h1 style="color: red;">
@@ -144,6 +129,7 @@
 												<th>End Time</th>
 												<th>Account Number</th>
 												<th>State</th>
+												<th>Transaction Type</th>
 												<sec:authorize access="hasRole('admin')">
 													<th>Approve Transaction</th>
 													<th>Deny Transaction</th>
@@ -161,8 +147,9 @@
 														<td>${Transaction.amount}</td>
 														<td>${Transaction.dateStart}</td>
 														<td>${Transaction.dateEnd}</td>
-														<td>${Transaction.savingAccountId.customerId.accountNumber}</td>
+														<td>${Transaction.savingAccountId.savingAccountNumber}</td>
 														<td>${Transaction.state}</td>
+															<td>${Transaction.transactionType}</td>
 														<sec:authorize access="hasRole('admin')">
 															<td><a
 																href="approveTransaction.html?TransactionId=${Transaction.id}"
@@ -191,15 +178,6 @@
 							</div>
 
 						</div>
-					</td>
-					<td id="tbl-border-right"></td>
-				</tr>
-				<tr>
-					<th class="sized bottomleft"></th>
-					<td id="tbl-border-bottom">&nbsp;</td>
-					<th class="sized bottomright"></th>
-				</tr>
-			</table>
 			<br />
 		</div>
 

@@ -8,22 +8,59 @@
 	margin: 10px;
 }
 
+#cover_all_box {
+	margin: 20 40px;
+}
+
+.cover_box {
+	overflow: hidden;
+	width: 200px;
+	height: 200px;
+	padding: 20px;
+	text-align: center;
+	background-color: #EEE9E9;
+	margin: 5px;
+	float: left;
+	border-radius: 15px;
+	box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.5), 0px 5px 5px 0px
+		rgba(255, 255, 255, 0.5) inset;
+}
+
+.box_title {
+	font: normal;
+	font-family: serif;
+	font-size: 15px;
+	font-weight: bold;
+	margin-top: 5px;
+}
+
+.cover_box:hover {
+	background-color: orange;
+}
+
+.cover_box img:hover {
+	height: 110px;
+}
+
+#cover_content {
+	overflow: hidden;
+	height: auto;
+	min-height: 300px;
+	width: 100%;
+}
+
 #content_left {
 	float: left;
-	border-style: solid;
-	border-width: 1px;
 	padding: 10px;
 	margin-left: 5%;
 }
 
 #content_right {
 	float: right;
-	padding: 10px;
-	border-style: solid;
-	border-width: 1px;
-	border-style: solid;
-	margin-right: 5%;
+	width: 85%;
+
 	margin-bottom: 10px;
+	padding: 10px;
 }
 
 .myButton {
@@ -79,8 +116,7 @@
 	list-style-type: none;
 }
 
-.mytable_wrapper
- {
+.mytable_wrapper {
 	min-height: 560px;
 }
 

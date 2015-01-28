@@ -55,6 +55,7 @@ public class TransactionController {
 
 	@Autowired
 	private SavingAccountService savingAccountService;
+
 	@RequestMapping(value = "/homeTransaction")
 	public ModelAndView getAccountList(HttpServletRequest request, Model model,
 			HttpSession session) {
@@ -72,10 +73,9 @@ public class TransactionController {
 			// Get the list of all accounts from DB
 
 			try {
-				
+
 				modelview.addObject("transaction", new Transaction());
-				
-			
+
 				String myrole = userRoleService
 						.getUserRolebyUserRoleName(username);
 				System.out.println("My role" + myrole);
@@ -87,8 +87,9 @@ public class TransactionController {
 					modelview.setViewName("adminTransaction");
 				} else {
 					if ("support".equals(myrole)) {
-						List<SavingAccount> savingAccountlist=savingAccountService.getSavingAccountList();
-						
+						List<SavingAccount> savingAccountlist = savingAccountService
+								.getSavingAccountList();
+
 						List<Transaction> listActiveTransaction = transactionService
 								.getTransactionByState("active");
 						List<Transaction> listNewTransaction = transactionService
@@ -97,7 +98,8 @@ public class TransactionController {
 								listActiveTransaction);
 						modelview.addObject("listNewTransaction",
 								listNewTransaction);
-						modelview.addObject("savingaccountlist",savingAccountlist);
+						modelview.addObject("savingaccountlist",
+								savingAccountlist);
 						modelview.setViewName("supportTransaction");
 					}
 				}
@@ -124,78 +126,20 @@ public class TransactionController {
 			String message = "";
 			ModelAndView modelview = new ModelAndView(
 					"forward:/homeTransaction");
-			String username = request.getSession().getAttribute("loginSession")
-					.toString();
 
 			try {
 
 				boolean check = transactionService
 						.createTransaction(transaction);
 				if (check) {
-
-					// Add to table transactionuser in database
+					String username = request.getSession()
+							.getAttribute("loginSession").toString();
+					// Add to table transactionuser in database bcz @ManyToMany
 					user = userService.getUserbyUserName(username);
 					Collection<User> userSets = transaction.getTransactions();
 					userSets.add(user);
 					transaction.setTransactions(userSets);
 					transactionService.updateTransaction(transaction);
-					message = "You have created Transaction successfully!!!";
-
-					modelview.addObject("message", message);
-
-				} else {
-					message = "You have created Transaction FAILED!!!";
-					modelview.addObject("ERROR_CODE", "0");
-					modelview.addObject("message", message);
-				}
-
-				return modelview;
-
-			} catch (Exception e) {
-				modelview.addObject("ERROR_CODE", "0");
-				return modelview;
-
-			}
-		} else {
-			return new ModelAndView("redirect:/login");
-		}
-
-	}
-
-	@RequestMapping(value = "/createTransaction", method = RequestMethod.POST)
-	public ModelAndView createTransaction(HttpServletRequest request,
-			Model model, HttpSession session) {
-		// Create a new AccountDAO
-		User user = null;
-		if (session.getAttribute("loginSession") != null) {
-			String message = "";
-			ModelAndView modelview = new ModelAndView(
-					"forward:/homeTransaction");
-			String username = request.getSession().getAttribute("loginSession")
-					.toString();
-			float transactionAmount = Float.parseFloat(request
-					.getParameter("transactionAmount"));
-			String dateStart = request.getParameter("transactionDateStart");
-			String dateEnd = request.getParameter("transactionDateEnd");
-			int savingAccountId = Integer.parseInt(request
-					.getParameter("transactionSavingAccountId"));
-			String state = request.getParameter("transactionState");
-
-			Transaction Transaction = new Transaction(0, transactionAmount,
-					dateStart, dateEnd, state);
-
-			try {
-
-				boolean check = transactionService
-						.createTransaction(Transaction);
-				if (check) {
-
-					// Add to table transactionuser in database
-					user = userService.getUserbyUserName(username);
-					Collection<User> userSets = Transaction.getTransactions();
-					userSets.add(user);
-					Transaction.setTransactions(userSets);
-					transactionService.updateTransaction(Transaction);
 					message = "You have created Transaction successfully!!!";
 
 					modelview.addObject("message", message);
@@ -301,7 +245,8 @@ public class TransactionController {
 
 	@RequestMapping(value = "/editTransaction")
 	public ModelAndView editTransaction(HttpServletRequest request,
-			Model model, HttpSession session) {
+			Model model, HttpSession session,
+			@ModelAttribute Transaction transaction) {
 		// Read account info from request and save into Account object
 		if (session.getAttribute("loginSession") != null) {
 			String message = "";
@@ -311,12 +256,17 @@ public class TransactionController {
 						.getParameter("TransactionId"));
 				Transaction Transaction = transactionService
 						.getTransaction(TransactionId);
-				System.out
-						.println(Transaction.toString() + "-Edit Transaction");
-				List<Transaction> list = new ArrayList<Transaction>();
-				list.add(Transaction);
+				List<SavingAccount> savingAccountlist = savingAccountService
+						.getSavingAccountList();
 
-				modelview.addObject("TransactionProfile", list);
+				String[] states = { "new", "hold", "active", "done" };
+				String[] transactiontype = { "deposit", "withdraw" };
+
+				modelview.addObject("savingaccountlist", savingAccountlist);
+				modelview.addObject("states", states);
+				modelview.addObject("transactiontype", transactiontype);
+
+				modelview.addObject("transaction", Transaction);
 
 			} catch (Exception e) {
 				System.out.println("Edit Transaction Controller has Error");
@@ -334,33 +284,34 @@ public class TransactionController {
 
 	@RequestMapping(value = "/editTransactionProfile", method = RequestMethod.POST)
 	public ModelAndView editTransactionProfile(HttpServletRequest request,
-			Model model, HttpSession session) {
+			Model model, HttpSession session,
+			@ModelAttribute Transaction transaction) {
 		ModelAndView modelview = new ModelAndView("forward:/homeTransaction");
 
 		String message = "";
 
 		if (session.getAttribute("loginSession") != null) {
 			try {
-				int TransactionId = Integer.parseInt(request
-						.getParameter("transactionId"));
-				float transactionAmount = Float.parseFloat(request
-						.getParameter("transactionAmount"));
-				String dateStart = request.getParameter("transactionDateStart");
-				String dateEnd = request.getParameter("transactionDateEnd");
-				int savingAccountId = Integer.parseInt(request
-						.getParameter("transactionSavingAccountId"));
-				String state = request.getParameter("transactionState");
 
-				Transaction Transaction = new Transaction(TransactionId,
-						transactionAmount, dateStart, dateEnd, state);
+				String username = request.getSession()
+						.getAttribute("loginSession").toString();
+				// Add to table transactionuser in database bcz @ManyToMany
+				User user = userService.getUserbyUserName(username);
+				Collection<User> userSets = transaction.getTransactions();
+				userSets.add(user);
+				transaction.setTransactions(userSets);
+
 				// Check error when Update to Database
-				if (transactionService.updateTransaction(Transaction)) {
-					message = "Edit Transaction *_" + TransactionId
+				if (transactionService.updateTransaction(transaction)) {
+					System.out.println("Update Successfully");
+					message = "Edit Transaction *_" + transaction.getId()
 							+ "_* Successfully";
 
 					modelview.addObject("message", message);
 				} else {
-					message = "Edit Transaction" + TransactionId + " FAIL";
+					System.out.println("Update Failed");
+					message = "Edit Transaction" + transaction.getId()
+							+ " FAIL";
 					modelview.addObject("ERROR_CODE", "0");
 					modelview.addObject("message", message);
 				}

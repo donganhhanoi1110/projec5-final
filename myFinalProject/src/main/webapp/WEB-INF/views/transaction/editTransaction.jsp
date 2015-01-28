@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,117 +32,94 @@
 
 				<h1 style="color: red">${message}</h1>
 			</div>
-			<table border="0" width="100%" cellpadding="0" cellspacing="0"
-				id="content-table">
-				<tr>
-					<th rowspan="3" class="sized"><img
-						src="images/shared/side_shadowleft.jpg" width="20" height="300"
-						alt="" /></th>
-					<th class="topleft"></th>
-					<td id="tbl-border-top">&nbsp;</td>
-					<th class="topright"></th>
-					<th rowspan="3" class="sized"><img
-						src="images/shared/side_shadowright.jpg" width="20" height="300"
-						alt="" /></th>
-				</tr>
-				<tr>
-					<td id="tbl-border-left"></td>
-					<td>
-						<div id="content-table-inner">
-							<div id="page-heading">
-								<h1 style="color: red;">
-									<c:if test="${!empty ERROR_CODE }">
-										<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
-										<c:if test="${ ERROR_CODE == '1'}">
-											<script>
-												alert("Successfully!!!");
-											</script>
-										</c:if>
-										<c:if test="${ ERROR_CODE == '0'}">
-											<script>
-												alert("You are getting Error!!!");
-											</script>
-										</c:if>
-									</c:if>
-								</h1>
-								<h1>Edit Transaction Information</h1>
 
-							</div>
-							<table border="0" width="100%" cellpadding="0" cellspacing="0">
-								<tr valign="top">
-									<td>
-										<form action="editTransactionProfile.html" method="post">
-											<input type="hidden" name="${_csrf.parameterName}"
-												value="${_csrf.token}" />
-											<table border="0" cellpadding="0" cellspacing="0"
-												class="table table-striped table-bordered" id="id-form">
+			<div id="content-table-inner">
+				<div id="page-heading">
+					<h1 style="color: red;">
+						<c:if test="${!empty ERROR_CODE }">
+							<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
+							<c:if test="${ ERROR_CODE == '1'}">
+								<script>
+									alert("Successfully!!!");
+								</script>
+							</c:if>
+							<c:if test="${ ERROR_CODE == '0'}">
+								<script>
+									alert("You are getting Error!!!");
+								</script>
+							</c:if>
+						</c:if>
+					</h1>
+					<h1>Edit Transaction Information</h1>
 
-												<c:forEach var="Transaction" items="${TransactionProfile}">
-													<tr>
-														<th valign="top">ID :</th>
-														<td><input type="hidden" class="inp-form"
-															name="transactionId" value="${Transaction.id}" />
-															${Transaction.id}</td>
-													</tr>
-													<tr>
-														<th valign="top">Amount</th>
-														<td><input type="text" class="form-control"
-															name="transactionAmount" value="${Transaction.amount}" /></td>
-													</tr>
-													<tr>
-														<th valign="top">Start Time:</th>
-														<td><input type="hidden" class="form-control"
-															name="transactionDateStart" value="${Transaction.dateStart}" />${Transaction.dateStart}</td>
+				</div>
+				<table>
+					<tr valign="top">
+						<td><form:form action="editTransactionProfile.html"
+								method="post" modelAttribute="transaction">
+								<table id="id-form" class="table table-striped table-bordered">
+									<input type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}" />
+									<tr>
+										<th valign="top"><form:label path="id">ID</form:label></th>
+										<td><form:input path="id" class="form-control"
+												readonly="true" value="${transaction.id }" /></td>
+									</tr>
+									<tr>
+										<th valign="top"><form:label path="amount">Amount</form:label>
+										</th>
+										<td><form:input path="amount" class="form-control"
+												value="${transaction.amount }" /></td>
+									</tr>
+									<tr>
+										<th valign="top"><form:label path="dateStart">Date Start</form:label>
+										</th>
+										<td><form:input path="dateStart" class="form-control"
+												value="${transaction.dateStart }" /></td>
+									</tr>
+									<tr>
+										<th valign="top"><form:label path="dateEnd">Date End</form:label>
+										</th>
+										<td><form:input path="dateEnd" class="form-control"
+												value="${transaction.dateEnd }" /></td>
+									</tr>
+									<tr>
+										<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
+										<td><form:select path="savingAccountId.id"
+												multiple="false">
+												<form:options items="${savingaccountlist}" itemValue="id"
+													itemLabel="savingAccountNumber" />
+											</form:select></td>
+									</tr>
 
-													</tr>
-													<tr>
-														<th valign="top">End Time:</th>
-														<td><input type="hidden" class="form-control"
-															name="transactionDateEnd" value="${Transaction.dateEnd}" />${Transaction.dateEnd}</td>
+									<tr>
+										<th valign="top"><form:label path="state">State</form:label></th>
+										<td><form:select path="state">
 
-													</tr>
-													<tr>
-														<th valign="top">Saving Account ID:</th>
-														<td><input type="text" class="form-control"
-															name="transactionSavingAccountId" value="${Transaction.savingAccountId}" /></td>
+												<form:options items="${states }" />
+											</form:select></td>
 
-													</tr>
+									</tr>
+									<tr>
+										<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
+										<td><form:select path="transactionType">
+												<form:options items="${transactiontype }" />
+											</form:select></td>
 
-													<tr>
-														<th valign="top">State:</th>
-														<td><input type="text" class="form-control"
-															name="transactionState" value="${Transaction.state}" /></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><input type="submit" class="myButton" value="Save"
+											id="addAccount" /></td>
 
-													</tr>
-													<tr>
-														<td></td>
-														<td><input type="submit" class="myButton"
-															value="Update Transaction" /></td>
+									</tr>
+								</table>
+							</form:form></td>
+					</tr>
 
-													</tr>
-												</c:forEach>
-											</table>
-										</form>
-									</td>
-								</tr>
+				</table>
+			</div>
 
-							</table>
-
-
-
-
-
-
-						</div>
-					</td>
-					<td id="tbl-border-right"></td>
-				</tr>
-				<tr>
-					<th class="sized bottomleft"></th>
-					<td id="tbl-border-bottom">&nbsp;</td>
-					<th class="sized bottomright"></th>
-				</tr>
-			</table>
 			<br />
 		</div>
 

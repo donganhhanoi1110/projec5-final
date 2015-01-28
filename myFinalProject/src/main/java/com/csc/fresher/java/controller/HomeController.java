@@ -43,12 +43,39 @@ public class HomeController {
 	@Autowired
 	private UserRoleService userRoleService;
 
-	@RequestMapping(value = "/home")
+	@RequestMapping(value = "/homeUser")
 	public ModelAndView getAccountList(HttpServletRequest request, Model model,
 			Principal principal) {
 		// Create a new AccountDAO
 		String error_code = request.getParameter("ERROR_CODE");
-		ModelAndView modelview = new ModelAndView("myHome");
+		ModelAndView modelview = new ModelAndView("homeUser");
+		try {
+			modelview.addObject("loginSession", principal.getName());
+
+		} catch (Exception e) {
+			return new ModelAndView("redirect:/login");
+		}
+		modelview.addObject("ERROR_CODE", error_code);
+		// Get the list of all accounts from DB
+		try {
+
+			modelview.addObject("listUser", userService.getAllUser());
+
+			return modelview;
+
+		} catch (Exception e) {
+			modelview.addObject("ERROR_CODE", "You get error");
+			return modelview;
+
+		}
+
+	}
+	@RequestMapping(value = "/home")
+	public ModelAndView Home(HttpServletRequest request, Model model,
+			Principal principal) {
+		// Create a new AccountDAO
+		String error_code = request.getParameter("ERROR_CODE");
+		ModelAndView modelview = new ModelAndView("home");
 		try {
 			modelview.addObject("loginSession", principal.getName());
 

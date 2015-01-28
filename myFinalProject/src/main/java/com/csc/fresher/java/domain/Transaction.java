@@ -37,6 +37,8 @@ public class Transaction {
 
 	@Column(name = "date_end")
 	private String dateEnd;
+	@Column(name = "transaction_type")
+	private String transactionType;
 
 	@Column(name = "state")
 	private String state;
@@ -46,6 +48,14 @@ public class Transaction {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "transactionuser", joinColumns = { @JoinColumn(name = "transaction_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
 	private Collection<User> transactions = new HashSet<User>();
+
+	public String getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
+	}
 
 	public Collection<User> getTransactions() {
 		return transactions;
@@ -106,28 +116,44 @@ public class Transaction {
 		this.amount = amount;
 	}
 
+
+
 	public Transaction(int id, float amount, String dateStart, String dateEnd,
-			String state) {
+			String transactionType, String state, SavingAccount savingAccountId) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.dateStart = dateStart;
 		this.dateEnd = dateEnd;
+		this.transactionType = transactionType;
 		this.state = state;
+		this.savingAccountId = savingAccountId;
 	}
 
-
 	public Transaction(int id, float amount, String dateStart, String dateEnd,
-			String state, SavingAccount savingAccountId,
-			Collection<User> transactions) {
+			String transactionType, String state,
+			SavingAccount savingAccountId, Collection<User> transactions) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.dateStart = dateStart;
 		this.dateEnd = dateEnd;
+		this.transactionType = transactionType;
 		this.state = state;
 		this.savingAccountId = savingAccountId;
 		this.transactions = transactions;
+	}
+
+	
+	public Transaction(int id, float amount, String dateStart, String dateEnd,
+			String transactionType, String state) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
+		this.transactionType = transactionType;
+		this.state = state;
 	}
 
 	public SavingAccount getSavingAccountId() {

@@ -38,7 +38,7 @@
 
 <body>
 	<tiles:insertAttribute name="header" />
-	<div id="wrapper">
+	<div id="cover_content">
 		<tiles:insertAttribute name="menu" />
 		<!-- Navigation -->
 
@@ -65,11 +65,11 @@
 			</ul>
 		</div>
 		<!-- Page Content -->
-		<div id="page-wrapper" class="col-md-9">
+		<div id="content_right">
 
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-12">
+			<div>
+				<div>
+					<div>
 						<!--                         <h1 class="page-header">Blank</h1> -->
 						<tiles:insertAttribute name="body" />
 					</div>
