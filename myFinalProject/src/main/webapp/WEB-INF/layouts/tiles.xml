@@ -9,7 +9,8 @@
 		<put-attribute name="header" value="/WEB-INF/views/template/header.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/views/template/menu.jsp" />
 		<put-attribute name="body" value="" />
-		<put-attribute name="sidebar" value="/WEB-INF/views/template/sidebar.jsp" />
+		<put-attribute name="sidebar"
+			value="/WEB-INF/views/template/sidebar.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp" />
 	</definition>
 
@@ -26,10 +27,20 @@
 	</definition>
 	<!-- /User -->
 	
+
+	<!-- SavingAccount -->
+	<definition name="homeSavingAccount" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/savingaccount/homeSavingAccount.jsp" />
+	</definition>
+
+	<!-- /SavingAccount -->
+
 	<!-- Transaction -->
 	<definition name="homeTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/transaction/homeTransaction.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/transaction/homeTransaction.jsp" />
 	</definition>
 	<definition name="adminTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
@@ -41,7 +52,8 @@
 	</definition>
 	<definition name="editMyTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/transaction/editTransaction.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/transaction/editTransaction.jsp" />
 	</definition>
 	<definition name="viewTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
@@ -52,7 +64,7 @@
 		<put-attribute name="body" value="/WEB-INF/views/transaction/viewOneTransaction.jsp" />
 	</definition>
 	<!-- /Transaction -->
-<definition name="loginFailed" extends="DefaultTemplate">
+	<definition name="loginFailed" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/loginFailed.jsp" />
 	</definition>
@@ -60,14 +72,14 @@
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/admin.jsp" />
 	</definition>
-		<definition name="403" template="/WEB-INF/views/403.jsp">
-		
+	<definition name="403" template="/WEB-INF/views/403.jsp">
+
 	</definition>
-		<definition name="hello" extends="DefaultTemplate">
+	<definition name="hello" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/hello.jsp" />
 	</definition>
-	
+
 	<definition name="home" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
@@ -79,5 +91,6 @@
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/customer/editCustomer.jsp" />
 	</definition>
+
 
 </tiles-definitions>

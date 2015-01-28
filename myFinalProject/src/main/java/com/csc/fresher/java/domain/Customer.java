@@ -1,32 +1,55 @@
 package com.csc.fresher.java.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Customer implements Serializable{
-	
-	@Column(name="account_type")
+public class Customer implements Serializable {
+
+	@Column(name = "account_type")
 	private String accountType;
-		
-	@Column (name="first_name")
+
+	@Column(name = "first_name")
 	String firstName;
-	
-	@Column(name="last_name")
+
+	@Column(name = "last_name")
 	String lastName;
-	
-	@Column(name="mid_name")
+
+	@Column(name = "mid_name")
 	String midName;
-	
-	@Column (name="id_number")
+
+	@Column(name = "id_number")
 	String idNumber;
-	
+	@Column(name = "phone1")
+	int phone1;
+
+	@Column(name = "phone2")
+	int phone2;
+
+	@Column(name = "address1")
+	String add1;
+
+	@Column(name = "address2")
+	String add2;
+
+	@Column(name = "email")
+	String email;
+
+	@Column(name = "state")
+	String state;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	int id;
+
 	public int getPhone1() {
 		return phone1;
 	}
@@ -43,32 +66,9 @@ public class Customer implements Serializable{
 		this.phone2 = phone2;
 	}
 
-	@Column (name="phone1")
-	int phone1;
-	
-	@Column (name="phone2")
-	int	phone2;
-	
-	@Column (name="address1")
-	String add1;
-	
-	@Column (name="address2")
-	String add2;
-	
-	@Column (name="email")
-	String email;
-	
-	@Column (name="state")
-	String state;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column (name="id")
-	int id;	
-
-	@Column(name= "account_number")
+	@Column(name = "account_number")
 	private int accountNumber;
-	
+
 	public int getAccountNumber() {
 		return accountNumber;
 	}
@@ -157,27 +157,28 @@ public class Customer implements Serializable{
 		this.id = id;
 	}
 
-	public Customer(){
-		
+	public Customer() {
+
 	}
-	
-	public Customer(int id, int accountNumber,String accountType,String firstName,
-			String lastName,String midName,String idNumber,int phone1,int phone2,
-			String add1,String add2,String email,String state){
+
+	public Customer(int id, int accountNumber, String accountType,
+			String firstName, String lastName, String midName, String idNumber,
+			int phone1, int phone2, String add1, String add2, String email,
+			String state) {
 		super();
-		this.id=id;
-		this.accountNumber=accountNumber;
-		this.accountType=accountType;
-		this.firstName=firstName;
-		this.lastName=lastName;
-		this.midName=midName;
-		this.idNumber=idNumber;
-		this.phone1=phone1;
-		this.phone2=phone2;
-		this.add1=add1;
-		this.add2=add2;
-		this.email=email;
-		this.state=state;
+		this.id = id;
+		this.accountNumber = accountNumber;
+		this.accountType = accountType;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.midName = midName;
+		this.idNumber = idNumber;
+		this.phone1 = phone1;
+		this.phone2 = phone2;
+		this.add1 = add1;
+		this.add2 = add2;
+		this.email = email;
+		this.state = state;
 	}
-	
+
 }
