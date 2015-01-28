@@ -71,6 +71,13 @@
 	<definition name="home" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
-	
+		<definition name="customer" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/customer/home.jsp" />
+	</definition>
+	<definition name="editCustomer" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/customer/editCustomer.jsp" />
+	</definition>
 
 </tiles-definitions>

@@ -8,7 +8,7 @@
 		<class>com.csc.fresher.java.domain.User</class>
 		<class>com.csc.fresher.java.domain.UserRole</class>
 		<class>com.csc.fresher.java.domain.Transaction</class>
-		
+		<class>com.csc.fresher.java.domain.Customer</class>
 
 	 <properties>
         <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
