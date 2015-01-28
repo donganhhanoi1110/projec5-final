@@ -22,7 +22,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "transaction")
-public class Transaction  {
+public class Transaction {
 
 	@Id
 	@Column(name = "id")
@@ -37,31 +37,22 @@ public class Transaction  {
 
 	@Column(name = "date_end")
 	private String dateEnd;
-	
-	@Column(name="saving_account_id")
-	private int savingAccountId;
-	
+
 	@Column(name = "state")
 	private String state;
+	@ManyToOne
+	@JoinColumn(name = "saving_account_id")
+	private SavingAccount savingAccountId;
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "transactionuser", joinColumns = { 
-			@JoinColumn(name = "transaction_id") }, 
-			inverseJoinColumns = { @JoinColumn(name = "user_id") })
-	private Collection<User> transactions=new HashSet<User>();
+	@JoinTable(name = "transactionuser", joinColumns = { @JoinColumn(name = "transaction_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
+	private Collection<User> transactions = new HashSet<User>();
+
 	public Collection<User> getTransactions() {
 		return transactions;
 	}
 
 	public void setTransactions(Collection<User> transactions) {
 		this.transactions = transactions;
-	}
-
-	public int getSavingAccountId() {
-		return savingAccountId;
-	}
-
-	public void setSavingAccountId(int savingAccountId) {
-		this.savingAccountId = savingAccountId;
 	}
 
 	public int getId() {
@@ -116,26 +107,35 @@ public class Transaction  {
 	}
 
 	public Transaction(int id, float amount, String dateStart, String dateEnd,
-			int savingAccountId, String state) {
+			String state) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.dateStart = dateStart;
 		this.dateEnd = dateEnd;
-		this.savingAccountId = savingAccountId;
 		this.state = state;
 	}
 
+
 	public Transaction(int id, float amount, String dateStart, String dateEnd,
-			int savingAccountId, String state, Collection<User> transactions) {
+			String state, SavingAccount savingAccountId,
+			Collection<User> transactions) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.dateStart = dateStart;
 		this.dateEnd = dateEnd;
-		this.savingAccountId = savingAccountId;
 		this.state = state;
+		this.savingAccountId = savingAccountId;
 		this.transactions = transactions;
+	}
+
+	public SavingAccount getSavingAccountId() {
+		return savingAccountId;
+	}
+
+	public void setSavingAccountId(SavingAccount savingAccountId) {
+		this.savingAccountId = savingAccountId;
 	}
 
 	@Override
@@ -144,10 +144,5 @@ public class Transaction  {
 				+ dateStart + ", dateEnd=" + dateEnd + ", savingAccountId="
 				+ savingAccountId + ", state=" + state + "]";
 	}
-
-
-
-
-
 
 }

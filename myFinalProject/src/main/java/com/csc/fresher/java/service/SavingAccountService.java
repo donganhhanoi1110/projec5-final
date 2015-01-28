@@ -3,6 +3,8 @@ package com.csc.fresher.java.service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,15 @@ public class SavingAccountService {
 		return savingAccountDAO;
 	}
 
-	
+	public SavingAccount getSavingAccount(int id) {
+		return this.savingAccountDAO.getSavingAccount(id);
+
+	}
+
+	public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
+		return this.savingAccountDAO.getSavingAccountListbyCustomerId(id);
+	}
+
 	public void setSavingAccountDAO(SavingAccountDAO savingAccountDAO) {
 		this.savingAccountDAO = savingAccountDAO;
 	}
@@ -28,13 +38,13 @@ public class SavingAccountService {
 	public List<SavingAccount> getSavingAccountList() {
 		return this.savingAccountDAO.getSavingAccountList();
 	}
-	
+
 	public boolean createSavingAccount(SavingAccount SavingAccount) {
 		return this.getSavingAccountDAO().createSavingAccount(SavingAccount);
 	}
 
-	 public boolean updateSavingAccount(SavingAccount savingAccount) {
-	    	return this.getSavingAccountDAO().updateSavingAccount(savingAccount);
-	    }
-	 
+	public boolean updateSavingAccount(SavingAccount savingAccount) {
+		return this.getSavingAccountDAO().updateSavingAccount(savingAccount);
+	}
+
 }

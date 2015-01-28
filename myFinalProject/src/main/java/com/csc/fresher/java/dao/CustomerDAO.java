@@ -20,7 +20,7 @@ import com.csc.fresher.java.domain.Customer;
 import com.csc.fresher.java.domain.User;
 
 
-@Repository("userDAO")
+@Repository("customerDAO")
 @Transactional(propagation = Propagation.REQUIRED)
 public class CustomerDAO {
 

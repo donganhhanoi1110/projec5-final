@@ -1,6 +1,7 @@
 package com.csc.fresher.java.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,6 +14,13 @@ import javax.persistence.OneToMany;
 @Entity
 public class Customer implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	int id;
+
+	@Column(name = "account_number")
+	private int accountNumber;
 	@Column(name = "account_type")
 	private String accountType;
 
@@ -45,10 +53,37 @@ public class Customer implements Serializable {
 	@Column(name = "state")
 	String state;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	int id;
+	@OneToMany(mappedBy = "customerId")
+	private List<SavingAccount> savingaccounts;
+
+	public Customer(int id, String accountType, String firstName,
+			String lastName, String midName, String idNumber, int phone1,
+			int phone2, String add1, String add2, String email, String state,
+			List<SavingAccount> savingaccounts, int accountNumber) {
+		super();
+		this.id = id;
+		this.accountType = accountType;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.midName = midName;
+		this.idNumber = idNumber;
+		this.phone1 = phone1;
+		this.phone2 = phone2;
+		this.add1 = add1;
+		this.add2 = add2;
+		this.email = email;
+		this.state = state;
+		this.savingaccounts = savingaccounts;
+		this.accountNumber = accountNumber;
+	}
+
+	public List<SavingAccount> getSavingaccounts() {
+		return savingaccounts;
+	}
+
+	public void setSavingaccounts(List<SavingAccount> savingaccounts) {
+		this.savingaccounts = savingaccounts;
+	}
 
 	public int getPhone1() {
 		return phone1;
@@ -65,9 +100,6 @@ public class Customer implements Serializable {
 	public void setPhone2(int phone2) {
 		this.phone2 = phone2;
 	}
-
-	@Column(name = "account_number")
-	private int accountNumber;
 
 	public int getAccountNumber() {
 		return accountNumber;

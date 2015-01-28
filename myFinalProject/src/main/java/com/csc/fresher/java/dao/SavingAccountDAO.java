@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.csc.fresher.java.domain.Customer;
 import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
+import com.csc.fresher.java.domain.SavingAccount;
 
 @Repository("savingAccountDAO")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -22,8 +25,42 @@ public class SavingAccountDAO {
 
 	@PersistenceContext
 	public EntityManager entityManager;
+	@Transactional
+	@SuppressWarnings("unchecked")
+	public SavingAccount getSavingAccount(int id) {
+		SavingAccount SavingAccount = new SavingAccount();
+		try {
+			SavingAccount = entityManager.find(SavingAccount.class, id);
+			if (SavingAccount == null) {
+				throw new EntityNotFoundException("Can't find SavingAccount for ID "
+						+ id);
+			}
+			System.out.println(SavingAccount.toString() + "getSavingAccount-DAO");
+		} catch (Exception e) {
+			System.out.println("\nGetting SavingAccount had Errors" + "*_"
+					+ e.getMessage() + "*_");
 
+		}
+		return SavingAccount;
 
+	}
+public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
+		
+		List<SavingAccount> list = new ArrayList<SavingAccount>();
+		
+		try {
+			TypedQuery<Customer> query = entityManager.createQuery("SELECT s FROM "
+					+ Customer.class.getName() + " s where s.id=:id", Customer.class);
+				query.setParameter("id", id);
+				Customer cus= query.getSingleResult();	
+			list =cus.getSavingaccounts();
+			System.out.println("Get Saving Account List");
+		} catch (Exception e) {
+			System.out.println("Error get Saving Account List" );
+			e.printStackTrace();
+		}
+		return list;
+	}
 	public List<SavingAccount> getSavingAccountList() {
 		
 		List<SavingAccount> list = new ArrayList<SavingAccount>();

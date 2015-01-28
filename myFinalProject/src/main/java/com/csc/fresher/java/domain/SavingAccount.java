@@ -1,37 +1,66 @@
 package com.csc.fresher.java.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="savingaccount")
-public class SavingAccount{
-	
+@Table(name = "savingaccount")
+public class SavingAccount {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	
-	@Column(name="customer_id")
-	private int customerId;
-	
-	@Column(name="balance_amount")
+
+	@Column(name = "balance_amount")
 	private float balanceAmount;
-	
-	@Column(name="repeatable")
+
+	@Column(name = "repeatable")
 	private int repeatable;
-	
-	@Column(name="interest_rate_id")
-	private int interestRateId;
-	
-	@Column(name="state")
+
+	@Column(name = "state")
 	private String state;
+
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private Customer customerId;
+
+	@ManyToOne
+	@JoinColumn(name = "interest_rate_id")
+	private InterestRate interestRateId;
+
+	@OneToMany(mappedBy="savingAccountId")
+	private List<Transaction> transactions;
 	
-	
+	public SavingAccount(int id, float balanceAmount, int repeatable,
+			String state, Customer customerId, InterestRate interestRateId,
+			List<Transaction> transactions) {
+		super();
+		this.id = id;
+		this.balanceAmount = balanceAmount;
+		this.repeatable = repeatable;
+		this.state = state;
+		this.customerId = customerId;
+		this.interestRateId = interestRateId;
+		this.transactions = transactions;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
 
 	public String getState() {
 		return state;
@@ -47,14 +76,6 @@ public class SavingAccount{
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
 	}
 
 	public float getBalanceAmount() {
@@ -73,27 +94,56 @@ public class SavingAccount{
 		this.repeatable = repeatable;
 	}
 
-	public int getInterestRateId() {
+	public SavingAccount(int id, float balanceAmount, int repeatable,
+			String state) {
+		super();
+
+		this.balanceAmount = balanceAmount;
+		this.repeatable = repeatable;
+
+		this.state = state;
+		this.id = id;
+	}
+
+	public Customer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Customer customerId) {
+		this.customerId = customerId;
+	}
+
+	public SavingAccount() {
+
+	}
+
+	public SavingAccount(int id, float balanceAmount, int repeatable,
+			String state, Customer customerId) {
+		super();
+		this.id = id;
+		this.balanceAmount = balanceAmount;
+		this.repeatable = repeatable;
+		this.state = state;
+		this.customerId = customerId;
+	}
+
+	public InterestRate getInterestRateId() {
 		return interestRateId;
 	}
 
-	public void setInterestRateId(int interestRateId) {
+	public void setInterestRateId(InterestRate interestRateId) {
 		this.interestRateId = interestRateId;
 	}
 
-	public SavingAccount(int customerId, float balanceAmount,
-			int repeatable, int interestRateId,String state) {
+	public SavingAccount(int id, float balanceAmount, int repeatable,
+			String state, Customer customerId, InterestRate interestRateId) {
 		super();
-		this.customerId = customerId;
+		this.id = id;
 		this.balanceAmount = balanceAmount;
 		this.repeatable = repeatable;
-		this.interestRateId = interestRateId;
 		this.state = state;
+		this.customerId = customerId;
+		this.interestRateId = interestRateId;
 	}
-	
-	public SavingAccount(){
-		
-	}
-	
-	
+
 }

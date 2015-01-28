@@ -105,7 +105,7 @@
 													<th valign="top">Saving Account ID:</th>
 													<td><input type="text" disabled="disabled"
 														class="form-control" name="transactionSavingAccountId"
-														value="${Transaction.savingAccountId}" /></td>
+														value="${Transaction.savingAccountId.customerId.accountNumber}" /></td>
 
 												</tr>
 

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.csc.fresher.java.domain.Transaction;
 import com.csc.fresher.java.domain.User;
 import com.csc.fresher.java.domain.UserRole;
+import com.csc.fresher.java.service.InterestRateService;
 import com.csc.fresher.java.service.TransactionService;
 import com.csc.fresher.java.service.UserRoleService;
 import com.csc.fresher.java.service.UserService;
@@ -31,8 +32,8 @@ import com.csc.fresher.java.service.UserService;
  */
 
 @Controller
-@SessionAttributes("loginSession")
-public class HomeController {
+
+public class InterestRateController {
 
 	@Autowired
 	private UserService userService;
@@ -42,15 +43,17 @@ public class HomeController {
 
 	@Autowired
 	private UserRoleService userRoleService;
-
-	@RequestMapping(value = "/home")
-	public ModelAndView getAccountList(HttpServletRequest request, Model model,
-			Principal principal) {
+	
+	@Autowired
+	private InterestRateService interestRateService;
+	
+	@RequestMapping(value = "/homeInterestRate")
+	public ModelAndView getAccountList(HttpServletRequest request, Model model) {
 		// Create a new AccountDAO
 		String error_code = request.getParameter("ERROR_CODE");
-		ModelAndView modelview = new ModelAndView("myHome");
+		ModelAndView modelview = new ModelAndView("homeInterestRate");
 		try {
-			modelview.addObject("loginSession", principal.getName());
+		
 
 		} catch (Exception e) {
 			return new ModelAndView("redirect:/login");
@@ -59,8 +62,8 @@ public class HomeController {
 		// Get the list of all accounts from DB
 		try {
 
-			modelview.addObject("listUser", userService.getAllUser());
-
+			modelview.addObject("listInterestRate", interestRateService.getInterestRateList());
+		
 			return modelview;
 
 		} catch (Exception e) {

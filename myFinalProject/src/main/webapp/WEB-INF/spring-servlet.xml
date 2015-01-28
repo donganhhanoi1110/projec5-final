@@ -61,14 +61,14 @@
 		id="entityManagerFactory">
 		<property name="persistenceUnitName" value="persistenceUnit" />
 		<property name="dataSource" ref="dataSource" />
-		
+
 	</bean>
 
 	<!-- Transaction Manager -->
 	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
 		id="transactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
-		
+
 	</bean>
 	<!--Declare DAO, and Service for Spring can understand that you are using 
 		that -->
@@ -79,16 +79,20 @@
 	<!--Transaction -->
 	<bean name="transactionService" class="com.csc.fresher.java.service.TransactionService"></bean>
 	<bean name="transactionDAO" class="com.csc.fresher.java.dao.TransactionDAO"></bean>
-	
+
 	<!--User Role -->
 	<bean name="userRoleService" class="com.csc.fresher.java.service.UserRoleService"></bean>
 	<bean name="userRoleDAO" class="com.csc.fresher.java.dao.UserRoleDAO"></bean>
-		
+
 	<!--Saving Account -->
 	<bean name="savingAccountService" class="com.csc.fresher.java.service.SavingAccountService"></bean>
 	<bean name="savingAccountDAO" class="com.csc.fresher.java.dao.SavingAccountDAO"></bean>
 
-	<!-- Customer  -->
+	<!-- Customer -->
 	<bean name="customerService" class="com.csc.fresher.java.service.CustomerService"></bean>
 	<bean name="customerDAO" class="com.csc.fresher.java.dao.CustomerDAO"></bean>
+
+	<!-- InterestRate -->
+	<bean name="interestRateService" class="com.csc.fresher.java.service.InterestRateService"></bean>
+	<bean name="interestRateDAO" class="com.csc.fresher.java.dao.InterestRateDAO"></bean>
 </beans>

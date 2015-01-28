@@ -3,14 +3,14 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="persistenceUnit"
-		transaction-type="RESOURCE_LOCAL">	
+		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>com.csc.fresher.java.domain.User</class>
 		<class>com.csc.fresher.java.domain.UserRole</class>
 		<class>com.csc.fresher.java.domain.Transaction</class>
 		<class>com.csc.fresher.java.domain.SavingAccount</class>
-				<class>com.csc.fresher.java.domain.Customer</class>
-
+		<class>com.csc.fresher.java.domain.Customer</class>
+		<class>com.csc.fresher.java.domain.InterestRate</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="validate" />

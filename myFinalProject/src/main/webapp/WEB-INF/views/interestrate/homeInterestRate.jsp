@@ -31,26 +31,26 @@
 						$(document)
 								.on(
 										"click",
-										"#linkDeleteTransaction",
+										"#linkDeleteCustomer",
 										function(e) {
 											e.preventDefault();
 
-											var confirmMessage = confirm("Do you date to delete this Transaction?");
+											var confirmMessage = confirm("Do you date to delete this user?");
 											if (confirmMessage) {
-												//to delete Transaction page
-												var TransactionId = $(this)
-														.attr("Transaction");
+												//to delete user page
+												var customerId = $(this).attr(
+														"customer");
 												/* 	$(this).closest("tr").remove(); */
 
 												//if you want to reload the page
-												//window.location.href = 'deleteTransaction?TransactionId=' + TransactionId;
-												// if you Transaction ajax
+												//window.location.href = 'deleteUser?userId=' + userId;
+												// if you user ajax
 												$
 														.ajax({
 															type : 'post',
-															url : 'deleteTransactionJson',
-															data : 'TransactionId='
-																	+ TransactionId,
+															url : 'deleteCustomerJson',
+															data : 'customerId='
+																	+ customerId,
 															datatype : 'json',
 															success : function(
 																	data) {
@@ -60,10 +60,10 @@
 																	if (data.success == true) {
 																		alert("Delete successfully!");
 																		if (data.error_code == '0') {
-																			window.location.href = 'homeTransaction?ERROR_CODE='
+																			window.location.href = 'home?ERROR_CODE='
 																					+ data.error_code;
 																		} else {
-																			window.location.href = 'homeTransaction';
+																			window.location.href = 'home';
 																		}
 
 																	} else {
@@ -129,56 +129,31 @@
 										</c:if>
 									</c:if>
 								</h1>
+								<h1>Interest Rate Information</h1>
 
 							</div>
 							<div class="panel-body">
-								<h1>Waiting Transaction</h1>
 								<div class="dataTable_wrapper">
 									<table class="mytable1 table table-striped table-bordered "
 										id="table">
 										<thead>
 											<tr>
 												<th>ID</th>
-												<th>Amount</th>
-												<th>Start Time</th>
-												<th>End Time</th>
-												<th>Account Number</th>
-												<th>State</th>
-												<sec:authorize access="hasRole('admin')">
-													<th>Approve Transaction</th>
-													<th>Deny Transaction</th>
-													<th>Delete Transaction</th>
-													<th>Edit Transaction</th>
-												</sec:authorize>
+												<th>Interest Rate Type</th>
+												<th>Rate</th>
+												<th>Currency</th>
+
 
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="Transaction" items="${listHoldTransaction}">
-												<c:if test="${Transaction.id != null}">
+											<c:forEach var="interest" items="${listInterestRate}">
+												<c:if test="${interest.id != null}">
 													<tr>
-														<td>${Transaction.id}</td>
-														<td>${Transaction.amount}</td>
-														<td>${Transaction.dateStart}</td>
-														<td>${Transaction.dateEnd}</td>
-														<td>${Transaction.savingAccountId.customerId.accountNumber}</td>
-														<td>${Transaction.state}</td>
-														<sec:authorize access="hasRole('admin')">
-															<td><a
-																href="approveTransaction.html?TransactionId=${Transaction.id}"
-																class="myButton">Approve</a></td>
-															<td><a
-																href="denyTransaction.html?TransactionId=${Transaction.id}"
-																class="myButton">Deny</a></td>
-															<td><a Transaction="${Transaction.id}" href=""
-																id="linkDeleteTransaction" class="myButton"> Delete
-															</a></td>
-															<td><a
-																href="editTransaction.html?TransactionId=${Transaction.id}"
-																class="myButton">Edit</a></td>
-															<input type="hidden" name="${_csrf.parameterName}"
-																value="${_csrf.token}" />
-														</sec:authorize>
+														<td>${interest.id}</td>
+														<td>${interest.savingAccountType}</td>
+														<td>${interest.interestRate}</td>
+														<td>${interest.currency}</td>
 
 
 													</tr>
@@ -187,7 +162,6 @@
 										</tbody>
 									</table>
 								</div>
-
 							</div>
 
 						</div>

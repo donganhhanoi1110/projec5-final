@@ -36,6 +36,13 @@
 
 	<!-- /SavingAccount -->
 
+	<!-- InterestRate -->
+	<definition name="homeInterestRate" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body" value="/WEB-INF/views/interestrate/homeInterestRate.jsp" />
+	</definition>
+
+	<!-- /SavingAccount -->
 	<!-- Transaction -->
 	<definition name="homeTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />

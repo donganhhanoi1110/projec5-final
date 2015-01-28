@@ -66,15 +66,17 @@ public class TransactionController {
 			// Get the list of all accounts from DB
 
 			try {
-				List<Transaction> listAllTransaction=transactionService.getAllTransaction();
-				model.addAttribute("listTransaction",listAllTransaction);
+				List<Transaction> listAllTransaction = transactionService
+						.getAllTransaction();
+				model.addAttribute("listTransaction", listAllTransaction);
 				String myrole = userRoleService
 						.getUserRolebyUserRoleName(username);
-				System.out.println("My role"+myrole);
+				System.out.println("My role" + myrole);
 				if ("admin".equals(myrole)) {
 					List<Transaction> listHoldTransaction = transactionService
 							.getTransactionByState("hold");
-					model.addAttribute("listHoldTransaction",listHoldTransaction);
+					model.addAttribute("listHoldTransaction",
+							listHoldTransaction);
 					modelview.setViewName("adminTransaction");
 				} else {
 					if ("support".equals(myrole)) {
@@ -82,12 +84,13 @@ public class TransactionController {
 								.getTransactionByState("active");
 						List<Transaction> listNewTransaction = transactionService
 								.getTransactionByState("new");
-						model.addAttribute("listActiveTransaction",listActiveTransaction);
-						model.addAttribute("listNewTransaction",listNewTransaction);
+						model.addAttribute("listActiveTransaction",
+								listActiveTransaction);
+						model.addAttribute("listNewTransaction",
+								listNewTransaction);
 						modelview.setViewName("supportTransaction");
 					}
 				}
-				
 
 			} catch (Exception e) {
 				model.addAttribute("ERROR_CODE", "0");
@@ -121,7 +124,7 @@ public class TransactionController {
 			String state = request.getParameter("transactionState");
 
 			Transaction Transaction = new Transaction(0, transactionAmount,
-					dateStart, dateEnd, savingAccountId, state);
+					dateStart, dateEnd, state);
 
 			try {
 
@@ -291,8 +294,7 @@ public class TransactionController {
 				String state = request.getParameter("transactionState");
 
 				Transaction Transaction = new Transaction(TransactionId,
-						transactionAmount, dateStart, dateEnd, savingAccountId,
-						state);
+						transactionAmount, dateStart, dateEnd, state);
 				// Check error when Update to Database
 				if (transactionService.updateTransaction(Transaction)) {
 					message = "Edit Transaction *_" + TransactionId
@@ -418,7 +420,7 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
-	
+
 	@RequestMapping(value = "/sendTransaction")
 	public ModelAndView sendTransaction(HttpServletRequest request,
 			Model model, HttpSession session) {
@@ -452,17 +454,18 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
+
 	@RequestMapping(value = "/viewTransaction")
-	public ModelAndView viewTransaction(HttpServletRequest request, Model model,
-			HttpSession session) {
+	public ModelAndView viewTransaction(HttpServletRequest request,
+			Model model, HttpSession session) {
 		// Create a new AccountDAO
 		if (session.getAttribute("loginSession") != null) {
-			ModelAndView modelview=new ModelAndView("viewTransaction");
+			ModelAndView modelview = new ModelAndView("viewTransaction");
 
 			try {
-				List<Transaction> listAllTransaction=transactionService.getAllTransaction();
-				model.addAttribute("listTransaction",listAllTransaction);
-			
+				List<Transaction> listAllTransaction = transactionService
+						.getAllTransaction();
+				model.addAttribute("listTransaction", listAllTransaction);
 
 			} catch (Exception e) {
 				model.addAttribute("ERROR_CODE", "0");
@@ -475,6 +478,7 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
+
 	@RequestMapping(value = "/viewOneTransaction")
 	public ModelAndView viewOneTransaction(HttpServletRequest request,
 			Model model, HttpSession session) {

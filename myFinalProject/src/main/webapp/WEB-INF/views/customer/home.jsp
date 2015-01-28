@@ -93,11 +93,11 @@
 
 			<!--  start page-heading -->
 			<div id="page-heading">
-		
+
 				<h1 style="color: red">${message}</h1>
 			</div>
 			<table border="0" width="100%" cellpadding="0" cellspacing="0"
-		id="content-table">
+				id="content-table">
 				<tr>
 					<th rowspan="3" class="sized"><img
 						src="images/shared/side_shadowleft.jpg" width="20" height="300"
@@ -141,91 +141,79 @@
 											class="table table-striped table-bordered">
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" />
-										<!-- 			<tr>
+											<!-- 			<tr>
 														<th valign="top">ID :</th>
 														<td><input type="hidden" class="inp-form"
 															name="custID"  /> </td>
 													</tr> -->
-													<tr>
-														<th valign="top">Account Type</th>
-														<td><input type="text" class="form-control"
-															name="accountType"/></td>
-													</tr>
-													<tr>
-														<th valign="top">First Name</th>
-														<td><input type="text" class="form-control"
-															name="firstName"/></td>
-													</tr>
-													<tr>
-														<th valign="top">Last Name:</th>
-														<td><input type="text" class="form-control"
-															name="lastName"/></td>
-													</tr>
-													<tr>
-														<th valign="top">Mid Name:</th>
-														<td><input type="text" class="form-control"
-															name="midName"/></td>
-													</tr>
-													<tr>
-														<th valign="top">ID Number</th>
-														<td><input type="text" class="form-control"
-															name="idNumber"/></td>
-													</tr>
-													<tr>
-														<th valign="top">Phone 1</th>
-														<td><input type="text" class="form-control"
-															name="phone1"/></td>
-													</tr>
-													<tr>
-														<th valign="top">Phone 2</th>
-														<td><input type="text" class="form-control"
-															name="phone2"/></td>
-													</tr>
-													<tr>
-														<th valign="top">Address 1</th>
-														<td><input type="text" class="form-control"
-															name="add1"/></td>
-													</tr>
-													<tr>
-														<th valign="top">Address 2</th>
-														<td><input type="text" class="form-control"
-															name="add2"/></td>
-													</tr>
-													<tr>
-														<th valign="top">Mail:</th>
-														<td><input type="text" class="form-control"
-															name="email"/></td>
-													</tr>
-													<tr>
-														<th valign="top">State:</th>
-														<td><input type="text" class="form-control"
-															name="state"/></td>
-													</tr>
-															<tr>
-														<th valign="top">Account Number:</th>
-														<td><input type="text" class="form-control"
-															name="accountNumber"/></td>
-													</tr>
+											<tr>
+												<th valign="top">Account Number:</th>
+												<td><input type="text" class="form-control  myText"
+													name="accountNumber" /></td>
+												<th valign="top">Account Type</th>
+												<td><input type="text" class="form-control  myText"
+													name="accountType" /></td>
+
+											</tr>
+											<tr>
+												<th valign="top">First Name</th>
+												<td><input type="text" class="form-control myText"
+													name="firstName" /></td>
+												<th valign="top">Last Name:</th>
+												<td><input type="text" class="form-control myText"
+													name="lastName" /></td>
+											</tr>
+
+											<tr>
+												<th valign="top">Mid Name:</th>
+												<td><input type="text" class="form-control myText"
+													name="midName" /></td>
+												<th valign="top">ID Number</th>
+												<td><input type="text" class="form-control myText"
+													name="idNumber" /></td>
+											</tr>
+
+											<tr>
+												<th valign="top">Phone 1</th>
+												<td><input type="text" class="form-control myText"
+													name="phone1" /></td>
+												<th valign="top">Phone 2</th>
+												<td><input type="text" class="form-control myText"
+													name="phone2" /></td>
+											</tr>
+
+											<tr>
+												<th valign="top">Address 1</th>
+												<td><input type="text" class="form-control myText" name="add1" /></td>
+												<th valign="top">Address 2</th>
+												<td><input type="text" class="form-control myText" name="add2" /></td>
+
+											</tr>
+
+											<tr>
+												<th valign="top">Mail:</th>
+												<td><input type="text" class="form-control myText"
+													name="email" /></td>
+												<th valign="top">State:</th>
+												<td><input type="text" class="form-control myText"
+													name="state" /></td>
+											</tr>
+
+
 
 											<tr>
 												<td></td>
 												<td><input type="submit" class="myButton" value="Save"
 													id="addAccount" /></td>
-									
+												<td></td>
+												<td></td>
+
 											</tr>
 										</table>
 									</form>
 
 								</div>
-								<div style="float: right; margin-right: 20%;">
-
-
-									<a class="myButton" href="addCard.html" style="margin: 5px;">
-										Create Card</a> <a class="myButton" href="addNewTransaction.html">
-										Create Transaction</a>
-
-
-								</div>
+							
 							</div>
 
 
@@ -244,14 +232,14 @@
 												<th>Full Name</th>
 												<th>ID Number</th>
 												<th>Phone 1</th>
-												<th>Phone 2</th>
+
 												<th>Address 1</th>
-												<th>Address 2</th>
+
 												<th>Email</th>
 												<th>State</th>
 												<th>Delete Customer</th>
 												<th>Edit Customer</th>
-												
+
 											</tr>
 										</thead>
 										<tbody>
@@ -261,15 +249,13 @@
 														<td>${cus.id}</td>
 														<td>${cus.accountNumber}</td>
 														<td>${cus.accountType}</td>
-														<td>${cus.firstName} ${cus.midName} ${cus.lastName}</td>
+														<td>${cus.firstName}${cus.midName}${cus.lastName}</td>
 														<td>${cus.idNumber}</td>
 														<td>${cus.phone1}</td>
-														<td>${cus.phone2}</td>
 														<td>${cus.add1}</td>
-														<td>${cus.add2}</td>
 														<td>${cus.email}</td>
-														<td>${cus.state}</td>			
-													<td><a customer="${cus.id}" href=""
+														<td>${cus.state}</td>
+														<td><a customer="${cus.id}" href=""
 															id="linkDeleteCustomer" class="myButton"> Delete </a></td>
 														<td><a href="editCustomer.html?custID=${cus.id}"
 															class="myButton">Edit</a></td>

@@ -214,7 +214,7 @@
 												<th>Amount</th>
 												<th>Start Time</th>
 												<th>End Time</th>
-												<th>Saving Account Id</th>
+												<th>Account Number</th>
 												<th>State</th>
 												<sec:authorize access="hasRole('support')">
 													<th>Submit Transaction</th>
@@ -229,7 +229,7 @@
 														<td>${Transaction.amount}</td>
 														<td>${Transaction.dateStart}</td>
 														<td>${Transaction.dateEnd}</td>
-														<td>${Transaction.savingAccountId}</td>
+														<td>${Transaction.savingAccountId.customerId.accountNumber}</td>
 														<td>${Transaction.state}</td>
 
 														<sec:authorize access="hasRole('support')">

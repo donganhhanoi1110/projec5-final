@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.csc.fresher.java.domain.Customer;
 import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.User;
+import com.csc.fresher.java.service.CustomerService;
 import com.csc.fresher.java.service.SavingAccountService;
 import com.csc.fresher.java.service.UserService;
 
@@ -24,6 +26,8 @@ public class SavingAccountController {
 
 	@Autowired
 	private SavingAccountService savingAccountService;
+	@Autowired
+	private CustomerService customerService;
 
 	// @RequestMapping(value = "/homeSavingAccount")
 	// public ModelAndView getAccountList(HttpServletRequest request, Model
@@ -87,48 +91,27 @@ public class SavingAccountController {
 					"forward:/homeSavingAccount");
 			String username = request.getSession().getAttribute("loginSession")
 					.toString();
-			
-			
-			
-//			float transactionAmount = Float.parseFloat(request
-//					.getParameter("transactionAmount"));
-//			String dateStart = request.getParameter("transactionDateStart");
-//			String dateEnd = request.getParameter("transactionDateEnd");
-//			int savingAccountId = Integer.parseInt(request
-//					.getParameter("transactionSavingAccountId"));
-//			String state = request.getParameter("transactionState");
-//
-//			SavingAccount SavingAccount = new SavingAccount(0, transactionAmount,
-//					dateStart, dateEnd, savingAccountId, state);
-			
-			int customerId = Integer.parseInt(request.getParameter("customerId"));
-			float balanceAmount = Float.parseFloat(request.getParameter("balanceAmount"));
-			int repeatable = Integer.parseInt(request.getParameter("repeatable"));
-	
+
+			// float transactionAmount = Float.parseFloat(request
+			// .getParameter("transactionAmount"));
+			// String dateStart = request.getParameter("transactionDateStart");
+			// String dateEnd = request.getParameter("transactionDateEnd");
+			// int savingAccountId = Integer.parseInt(request
+			// .getParameter("transactionSavingAccountId"));
+			// String state = request.getParameter("transactionState");
+			//
+			// SavingAccount SavingAccount = new SavingAccount(0,
+			// transactionAmount,
+			// dateStart, dateEnd, savingAccountId, state);
+
+			float balanceAmount = Float.parseFloat(request
+					.getParameter("balanceAmount"));
+			int repeatable = Integer.parseInt(request
+					.getParameter("repeatable"));
+
 			String state = request.getParameter("state");
-			SavingAccount savingAccount = new SavingAccount(customerId,balanceAmount,repeatable,1,state);
 
 			try {
-
-				boolean check = savingAccountService
-						.createSavingAccount(savingAccount);
-				if (check) {
-
-//					// Add to table transactionuser in database
-//					user = UserService.getUserbyUserName(username);
-//					Collection<User> userSets = SavingAccount.getSavingAccounts();
-//					userSets.add(user);
-//					SavingAccount.setSavingAccounts(userSets);
-//					SavingAccountService.updateSavingAccount(savingAccount);
-					message = "You have created SavingAccount successfully!!!";
-
-					model.addAttribute("message", message);
-
-				} else {
-					message = "You have created SavingAccount FAILED!!!";
-					model.addAttribute("ERROR_CODE", "0");
-					model.addAttribute("message", message);
-				}
 
 				return modelview;
 
