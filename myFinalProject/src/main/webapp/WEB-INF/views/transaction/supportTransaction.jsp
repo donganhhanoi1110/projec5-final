@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -136,55 +137,45 @@
 							<div id="hide">
 								<div style="float: left;">
 
-									<form action="createTransaction.html" method="post">
+									<form:form action="createTransactionAttribute.html"
+										method="post" modelAttribute="transaction">
 										<table border="0" cellpadding="0" cellspacing="0" id="id-form"
 											class="table table-striped table-bordered">
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" />
 
 											<tr>
-												<th valign="top">Amount</th>
-												<td><input type="text" class="form-control"
-													name="transactionAmount" /></td>
+												<th valign="top"><form:label path="amount">Amount</form:label>
+												</th>
+												<td><form:input path="amount" class="form-control" /></td>
 											</tr>
 											<tr>
-												<th valign="top">Start Time:</th>
-												<td><input type="text" class="form-control"
-													name="transactionDateStart" /></td>
-
+												<th valign="top"><form:label path="dateStart">Date Start</form:label>
+												</th>
+												<td><form:input path="dateStart" class="form-control" /></td>
 											</tr>
 											<tr>
-												<th valign="top">End Time:</th>
-												<td><input type="text" class="form-control"
-													name="transactionDateEnd" /></td>
-
+												<th valign="top"><form:label path="dateEnd">Date End</form:label>
+												</th>
+												<td><form:input path="dateEnd" class="form-control" /></td>
 											</tr>
 											<tr>
-												<th valign="top">Saving Account ID:</th>
-												<td><input type="text" class="form-control"
-													name="transactionSavingAccountId" /></td>
-												<%-- 		<td><select class="form-control"
-													name="transactionSavingAccountId">
-														<c:forEach var="savingaccount"
-															items="${listSavingAccount }">
-															<option value="${savingaccount.id}">${savingaccount.id }
-															</option>
-
-														</c:forEach>
-
-												</select></td> --%>
-
+												<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
+												<td><form:select path="savingAccountId.id"
+														multiple="false">
+														<form:options items="${savingaccountlist}" itemValue="id"
+															itemLabel="state" />
+													</form:select></td>
 											</tr>
 
 											<tr>
-												<th valign="top">State:</th>
-												<td><select class="form-control"
-													name="transactionState">
-														<option value="new">new</option>
-														<option value="hold">hold</option>
-														<option value="active">active</option>
-														<option value="done">done</option>
-												</select></td>
+												<th valign="top"><form:label path="state">State</form:label></th>
+												<td><form:select path="state">
+														<form:option value="new">new</form:option>
+														<form:option value="hold">hold</form:option>
+														<form:option value="active">active</form:option>
+														<form:option value="done">done</form:option>
+													</form:select></td>
 
 											</tr>
 											<tr>
@@ -194,7 +185,7 @@
 
 											</tr>
 										</table>
-									</form>
+									</form:form>
 
 								</div>
 
