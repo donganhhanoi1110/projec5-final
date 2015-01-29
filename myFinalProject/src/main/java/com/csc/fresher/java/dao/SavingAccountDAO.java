@@ -25,6 +25,7 @@ public class SavingAccountDAO {
 
 	@PersistenceContext
 	public EntityManager entityManager;
+
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public SavingAccount getSavingAccount(int id) {
@@ -32,10 +33,11 @@ public class SavingAccountDAO {
 		try {
 			SavingAccount = entityManager.find(SavingAccount.class, id);
 			if (SavingAccount == null) {
-				throw new EntityNotFoundException("Can't find SavingAccount for ID "
-						+ id);
+				throw new EntityNotFoundException(
+						"Can't find SavingAccount for ID " + id);
 			}
-			System.out.println(SavingAccount.toString() + "getSavingAccount-DAO");
+			System.out.println(SavingAccount.toString()
+					+ "getSavingAccount-DAO");
 		} catch (Exception e) {
 			System.out.println("\nGetting SavingAccount had Errors" + "*_"
 					+ e.getMessage() + "*_");
@@ -44,40 +46,85 @@ public class SavingAccountDAO {
 		return SavingAccount;
 
 	}
-public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
-		
+
+	public List<SavingAccount> getSavingAccountByNumber(int savingaccount_number) {
+
 		List<SavingAccount> list = new ArrayList<SavingAccount>();
-		
+
 		try {
-			TypedQuery<Customer> query = entityManager.createQuery("SELECT s FROM "
-					+ Customer.class.getName() + " s where s.id=:id", Customer.class);
-				query.setParameter("id", id);
-				Customer cus= query.getSingleResult();	
-			list =cus.getSavingaccounts();
-			System.out.println("Get Saving Account List");
+			TypedQuery<SavingAccount> query = entityManager.createQuery(
+					"SELECT s FROM " + SavingAccount.class.getName()
+							+ " s where s.savingAccountNumber=:number",
+					SavingAccount.class);
+			query.setParameter("number", savingaccount_number);
+			list = query.getResultList();
+			System.out.println("Get Saving Account List ByNumber");
 		} catch (Exception e) {
-			System.out.println("Error get Saving Account List" );
+			System.out.println("Error get Saving Account List ByNumber");
 			e.printStackTrace();
 		}
 		return list;
 	}
-	public List<SavingAccount> getSavingAccountList() {
-		
+
+	public List<SavingAccount> getSavingAccountByCustomerIDNumber(
+			String IDNumber) {
+
 		List<SavingAccount> list = new ArrayList<SavingAccount>();
-		
+
 		try {
-			TypedQuery<SavingAccount> query = entityManager.createQuery("SELECT s FROM "
-					+ SavingAccount.class.getName() + " s", SavingAccount.class);
+			TypedQuery<SavingAccount> query = entityManager.createQuery(
+					"SELECT s FROM " + SavingAccount.class.getName()
+							+ " s where s.customerId.idNumber=:number",
+					SavingAccount.class);
+			query.setParameter("number", IDNumber);
+			list = query.getResultList();
+			System.out.println("Get Saving Account List ByCustomerIDNumber");
+		} catch (Exception e) {
+			System.out
+					.println("Error get Saving Account List ByCustomerIDNumber");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
+
+		List<SavingAccount> list = new ArrayList<SavingAccount>();
+
+		try {
+			TypedQuery<SavingAccount> query = entityManager.createQuery(
+					"SELECT s FROM " + SavingAccount.class.getName()
+							+ " s where s.customerId.id=:id",
+					SavingAccount.class);
+			query.setParameter("id", id);
+
+			list = query.getResultList();
+			System.out.println("Get Saving Account List CustomerId");
+		} catch (Exception e) {
+			System.out.println("Error get Saving Account List CustomerId");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<SavingAccount> getSavingAccountList() {
+
+		List<SavingAccount> list = new ArrayList<SavingAccount>();
+
+		try {
+			TypedQuery<SavingAccount> query = entityManager.createQuery(
+					"SELECT s FROM " + SavingAccount.class.getName() + " s",
+					SavingAccount.class);
 
 			list = query.getResultList();
 			System.out.println("Get Saving Account List");
 		} catch (Exception e) {
-			System.out.println("Error get Saving Account List" );
+			System.out.println("Error get Saving Account List");
 			e.printStackTrace();
 		}
 		return list;
 	}
-	
+
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public boolean createSavingAccount(SavingAccount savingAccount) {
@@ -90,12 +137,13 @@ public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
 			check = true;
 
 		} catch (Exception e) {
-			System.out.println("\nGet Error with Create SavingAccount "+ "*_"+e.getMessage()+"*_");
+			System.out.println("\nGet Error with Create SavingAccount " + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;
 	}
-	
+
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public boolean updateSavingAccount(SavingAccount savingAccount) {
@@ -104,9 +152,11 @@ public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
 		try {
 			entityManager.merge(savingAccount);
 			check = true;
-			System.out.println("SavingAccount " + savingAccount.getId() + "updated");
+			System.out.println("SavingAccount " + savingAccount.getId()
+					+ "updated");
 		} catch (Exception e) {
-			System.out.println("\nUpdate SavingAccount get Error "+ "*_"+e.getMessage()+"*_");
+			System.out.println("\nUpdate SavingAccount get Error " + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;

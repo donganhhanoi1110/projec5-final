@@ -1,9 +1,11 @@
 // Saving Account Service 
 package com.csc.fresher.java.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,19 @@ public class SavingAccountService {
 
 	public boolean updateSavingAccount(SavingAccount savingAccount) {
 		return this.getSavingAccountDAO().updateSavingAccount(savingAccount);
+	}
+
+	public List<SavingAccount> getSavingAccountByNumber(int savingaccount_number) {
+		return this.savingAccountDAO
+				.getSavingAccountByNumber(savingaccount_number);
+
+	}
+
+	public List<SavingAccount> getSavingAccountByCustomerIDNumber(
+			String IDNumber) {
+
+		return this.savingAccountDAO
+				.getSavingAccountByCustomerIDNumber(IDNumber);
 	}
 
 }
