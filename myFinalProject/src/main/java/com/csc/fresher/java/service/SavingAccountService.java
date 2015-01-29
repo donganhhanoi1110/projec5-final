@@ -24,7 +24,6 @@ public class SavingAccountService {
 		return savingAccountDAO;
 	}
 
-
 	public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
 		return this.savingAccountDAO.getSavingAccountListbyCustomerId(id);
 	}
@@ -76,4 +75,22 @@ public class SavingAccountService {
 		return this.savingAccountDAO.getSavingAccount(id);
 	}
 
+	public boolean checkTransactionWithdraw(SavingAccount savingAccount,
+			Transaction tran) {
+		boolean check = false;
+		if (savingAccount.getState().equals("deactive")) {
+			check = false;
+		} else {
+			if (savingAccount.getBalanceAmount() < tran.getAmount()) {
+				check = false;
+			}
+
+		}
+
+		return check;
+	}
+
+	{
+
+	}
 }

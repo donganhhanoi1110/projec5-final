@@ -414,6 +414,8 @@ public class SavingAccountController {
 				if (searchType.equals("idNumber")) {
 					listSaving = savingAccountService
 							.getSavingAccountByCustomerIDNumber(searchValue);
+
+					modelview.addObject("listSavingAccount", listSaving);
 				}
 			}
 
