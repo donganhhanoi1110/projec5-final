@@ -34,10 +34,10 @@
 
 
 	<!-- SavingAccount -->
-	<definition name="homeSavingAccount" extends="DefaultTemplate">
+	<definition name="searchSavingAccount" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body"
-			value="/WEB-INF/views/savingaccount/homeSavingAccount.jsp" />
+			value="/WEB-INF/views/savingaccount/searchSavingAccount.jsp" />
 	</definition>
 	<!-- SavingAccount -->
 

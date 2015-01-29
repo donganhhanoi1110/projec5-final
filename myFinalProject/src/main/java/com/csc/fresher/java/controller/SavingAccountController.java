@@ -254,7 +254,8 @@ public class SavingAccountController {
 	public ModelAndView editSavingAccountProfile(HttpServletRequest request,
 			Model model, HttpSession session,
 			@ModelAttribute SavingAccount savingaccount) {
-		ModelAndView modelview = new ModelAndView("forward:/viewAllSavingAccount");
+		ModelAndView modelview = new ModelAndView(
+				"forward:/viewAllSavingAccount");
 
 		String message = "";
 
@@ -395,4 +396,31 @@ public class SavingAccountController {
 		}
 	}
 
+	@RequestMapping(value = "/searchSavingAccount", method = RequestMethod.POST)
+	public ModelAndView searchSavingAccount(HttpServletRequest request,
+			Model model, HttpSession session) {
+		ModelAndView modelview = new ModelAndView("searchSavingAccount");
+		if (session.getAttribute("loginSession") != null) {
+			List<SavingAccount> listSaving = new ArrayList<SavingAccount>();
+			String searchValue = request.getParameter("searchSavingAcount");
+			String searchType = request.getParameter("searchType");
+			if (searchType.equals("accountNumber")) {
+				listSaving = savingAccountService
+						.getSavingAccountByNumber(Integer.parseInt(searchValue));
+
+				modelview.addObject("listSavingAccount", listSaving);
+
+			} else {
+				if (searchType.equals("idNumber")) {
+					listSaving = savingAccountService
+							.getSavingAccountByCustomerIDNumber(searchValue);
+				}
+			}
+
+			return modelview;
+		} else {
+			return new ModelAndView("redirect:/login");
+		}
+
+	}
 }

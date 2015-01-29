@@ -31,26 +31,26 @@
 						$(document)
 								.on(
 										"click",
-										"#linkDeleteSavingAccount",
+										"#linkDeleteTransaction",
 										function(e) {
 											e.preventDefault();
 
-											var confirmMessage = confirm("Do you  to delete this SavingAccount?");
+											var confirmMessage = confirm("Do you want to delete this Transaction?");
 											if (confirmMessage) {
-												//to delete SavingAccount page
-												var savingAccountId = $(this)
-														.attr("SavingAccount");
+												//to delete Transaction page
+												var TransactionId = $(this)
+														.attr("Transaction");
 												/* 	$(this).closest("tr").remove(); */
 
 												//if you want to reload the page
-												//window.location.href = 'deleteSavingAccount?SavingAccountId=' + SavingAccountId;
-												// if you SavingAccount ajax
+												//window.location.href = 'deleteTransaction?TransactionId=' + TransactionId;
+												// if you Transaction ajax
 												$
 														.ajax({
 															type : 'post',
-															url : 'deleteSavingAccountJson',
-															data : 'savingAccountId='
-																	+ savingAccountId,
+															url : 'deleteTransactionJson',
+															data : 'TransactionId='
+																	+ TransactionId,
 															datatype : 'json',
 															success : function(
 																	data) {
@@ -60,10 +60,10 @@
 																	if (data.success == true) {
 																		alert("Delete successfully!");
 																		if (data.error_code == '0') {
-																			window.location.href = 'homeSavingAccount?ERROR_CODE='
+																			window.location.href = 'homeTransaction?ERROR_CODE='
 																					+ data.error_code;
 																		} else {
-																			window.location.href = 'homeSavingAccount';
+																			window.location.href = 'homeTransaction';
 																		}
 
 																	} else {
@@ -114,25 +114,14 @@
 							</c:if>
 						</c:if>
 					</h1>
+					<h1>Search Saving Account Information</h1>
 
 				</div>
+
+	
+
+				
 				<div class="panel-body">
-					<h1>
-						Waiting SavingAccount
-
-						<form action="searchSavingAccount.html" method="post">
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" /> <input name="searchSavingAcount"
-								type="text" class="form-control" /> <select
-								class="form-control" name="searchType">
-								<option value="accountNumber">Account Number</option>
-								<option value="idNumber">ID Number's Customer</option>
-							</select> <input type="submit" class="myButton" value="Save"
-								id="addAccount" />
-						</form>
-
-
-					</h1>
 					<div class="dataTable_wrapper">
 						<table class="mytable1 table table-striped table-bordered "
 							id="table">
@@ -146,15 +135,19 @@
 									<th>State</th>
 									<th>Date Start</th>
 									<th>Date End</th>
-									<sec:authorize access="hasRole('support')">
-										<th>Submit Saving Account</th>
+									<sec:authorize access="hasRole('admin')">
+										<th>Approve Saving Account</th>
 
+										<th>Deny Saving Account</th>
+
+										<th>Delete Saving Account</th>
+										<th>Edit Saving Account</th>
 									</sec:authorize>
 
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="savingAccount" items="${listNewSavingAccount}">
+								<c:forEach var="savingAccount" items="${listSavingAccount}">
 
 									<tr>
 										<td>${savingAccount.savingAccountNumber}</td>
@@ -165,14 +158,20 @@
 											${savingAccount.interestRateId.interestRate}%&nbsp;
 											(${savingAccount.interestRateId.currency})</td>
 										<td>${savingAccount.state}</td>
-
 										<td>${savingAccount.dateStart}</td>
 										<td>${savingAccount.dateEnd}</td>
-										<sec:authorize access="hasRole('support')">
+										<sec:authorize access="hasRole('admin')">
 											<td><a
-												href="submitSavingAccount.html?SavingAccountId=${savingAccount.id}"
-												class="myButton">Submit</a></td>
-
+												href="approveSavingAccount.html?SavingAccountId=${savingAccount.id}"
+												class="myButton">Approve</a></td>
+											<td><a
+												href="denySavingAccount.html?SavingAccountId=${savingAccount.id}"
+												class="myButton">Deny</a></td>
+											<td><a SavingAccount="${savingAccount.id}" href=""
+												id="linkDeleteSavingAccount" class="myButton"> Delete </a></td>
+											<td><a
+												href="editSavingAccount.html?SavingAccountId=${savingAccount.id}"
+												class="myButton">Edit</a></td>
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" />
 										</sec:authorize>
@@ -184,7 +183,6 @@
 							</tbody>
 						</table>
 					</div>
-
 				</div>
 
 			</div>
