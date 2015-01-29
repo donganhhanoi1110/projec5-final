@@ -147,7 +147,7 @@
 								<tr>
 									<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
 									<td><form:select path="savingAccountId.id"
-											multiple="false">
+											multiple="false" class="form-control">
 											<form:options items="${savingaccountlist}" itemValue="id"
 												itemLabel="savingAccountNumber" />
 										</form:select></td>
@@ -155,7 +155,7 @@
 
 								<tr>
 									<th valign="top"><form:label path="state">State</form:label></th>
-									<td><form:select path="state">
+									<td><form:select path="state" class="form-control">
 											<form:option value="new">new</form:option>
 											<form:option value="hold">hold</form:option>
 											<form:option value="active">active</form:option>
@@ -165,7 +165,8 @@
 								</tr>
 								<tr>
 									<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
-									<td><form:select path="transactionType">
+									<td><form:select path="transactionType"
+											class="form-control">
 											<form:option value="deposit">new</form:option>
 											<form:option value="withdraw">withdraw</form:option>
 
