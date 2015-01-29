@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,77 +45,77 @@
 				<table border="0" width="100%" cellpadding="0" cellspacing="0">
 					<tr valign="top">
 						<td>
-							<form action="editCustProfile.html" method="post">
+							<form:form action="editCustProfile.html" method="post" modelAttribute="customer">
 								<input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}" />
 								<table border="0" cellpadding="0" cellspacing="0"
 									class="table table-striped table-bordered" id="id-form">
 
-									<c:forEach var="cust" items="${customerProfile}">
+									<c:forEach var="cust" items="${customer}">
 										<tr>
 											<th valign="top">ID :</th>
-											<td><input type="hidden" class="inp-form" name="custID"
-												value="${cust.id}" /> ${cust.id}</td>
+											<td><form:hidden class="inp-form" path="custID"
+												value="${customer.id}" /> ${cust.id}</td>
 										</tr>
 										<tr>
 											<th valign="top">Account Type</th>
-											<td><input type="text" class="form-control"
-												name="accountType" value="${cust.accountType}" /></td>
+											<td><form:label class="form-control"
+											  path="accountType" value="${customer.accountType}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">First Name</th>
-											<td><input type="text" class="form-control"
-												name="firstName" value="${cust.firstName}" /></td>
+											<td><form:label class="form-control"
+												path="firstName" value="${customer.firstName}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">Last Name:</th>
-											<td><input type="text" class="form-control"
-												name="lastName" value="${cust.lastName}" /></td>
+											<td><form:label  class="form-control"
+												path="lastName" value="${customer.lastName}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">Mid Name:</th>
-											<td><input type="text" class="form-control"
-												name="midName" value="${cust.midName}" /></td>
+											<td><form:label class="form-control"
+												path="midName" value="${customer.midName}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">ID Number</th>
-											<td><input type="text" class="form-control"
-												name="idNumber" value="${cust.idNumber}" /></td>
+											<td><form:label  class="form-control"
+												path="idNumber" value="${customer.idNumber}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">Phone 1</th>
-											<td><input type="text" class="form-control"
-												name="phone1" value="${cust.phone1}" /></td>
+											<td><form:label class="form-control"
+												path="phone1" value="${customer.phone1}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">Phone 2</th>
-											<td><input type="text" class="form-control"
-												name="phone2" value="${cust.phone2}" /></td>
+											<td><form:label class="form-control"
+												path="phone2" value="${customer.phone2}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">Address 1</th>
-											<td><input type="text" class="form-control" name="add1"
-												value="${cust.add1}" /></td>
+											<td><form:label class="form-control" path="add1"
+												value="${customer.add1}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">Address 2</th>
-											<td><input type="text" class="form-control" name="add2"
-												value="${cust.add2}" /></td>
+											<td><form:label class="form-control" path="add2"
+												value="${customer.add2}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">Mail:</th>
-											<td><input type="text" class="form-control" name="email"
-												value="${cust.email}" /></td>
+											<td><form:label class="form-control" path="email"
+												value="${custtomer.email}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">State:</th>
-											<td><input type="text" class="form-control" name="state"
-												value="${cust.state}" /></td>
+											<td><form:label class="form-control" path="state"
+												value="${customer.state}" /></td>
 										</tr>
 										<tr>
 											<th valign="top">Account Number:</th>
-											<td><input type="text" class="form-control"
-												name="accountNumber" value="${cust.accountNumber}" /></td>
+											<td><form:label class="form-control"
+												path="accountNumber" value="${customer.accountNumber}" /></td>
 										</tr>
 										<tr>
 											<td></td>
@@ -124,7 +125,7 @@
 										</tr>
 									</c:forEach>
 								</table>
-							</form>
+							</form:form>
 						</td>
 					</tr>
 

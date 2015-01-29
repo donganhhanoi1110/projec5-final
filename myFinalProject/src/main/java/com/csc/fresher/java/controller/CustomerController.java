@@ -6,11 +6,15 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,19 +30,20 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
-
-	@RequestMapping(value = "/homeCustomer")
+	
+	@RequestMapping(value = "/homeCustomer", method=RequestMethod.GET)
 	public ModelAndView getCustomerList(HttpServletRequest request,
 			Model model, Principal principal) {
 
 		String error_code = request.getParameter("ERROR_CODE");
 		ModelAndView modelview = new ModelAndView("customer");
+		modelview.setViewName("customer");
 		modelview.addObject("loginSession", principal.getName());
 		modelview.addObject("ERROR_CODE", error_code);
 		// Get the list of all accounts from DB
 		try {
-			modelview.addObject("listCustomer",
-					customerService.getAllCustomer());
+			modelview.addObject("customer",new Customer());
+			modelview.addObject("listCustomer",customerService.getAllCustomer());
 
 			return modelview;
 
@@ -51,17 +56,17 @@ public class CustomerController {
 
 	@RequestMapping(value = "/editCustomer")
 	public ModelAndView editCustomer(HttpServletRequest request, Model model,
-			HttpSession session) {
+			HttpSession session, @ModelAttribute Customer customer) {
 		if (session.getAttribute("loginSession") != null) {
 			String message = "";
 			ModelAndView modelView = new ModelAndView("editCustomer");
 			try {
 				int custId = Integer.parseInt(request.getParameter("custID"));
-				Customer customer = customerService.getCustomer(custId);
+				Customer Customer = customerService.getCustomer(custId);
 				System.out.println(customer.toString() + "edit customer");
 				List<Customer> list = new ArrayList<Customer>();
 				list.add(customer);
-				model.addAttribute("customerProfile", list);
+				model.addAttribute("customerProfile", Customer);
 			} catch (Exception e) {
 				System.out.println("edit customer controller has error");
 				message = "Edit customer controller has error";
@@ -125,33 +130,16 @@ public class CustomerController {
 
 	}
 
+	
 	@RequestMapping(value = "/createCustomer", method = RequestMethod.POST)
-	public ModelAndView createeCustomer(HttpServletRequest request,
+	public ModelAndView createeCustomer(HttpServletRequest request,@ModelAttribute("customer") Customer customer,
 			Model model, HttpSession session) {
 
 		if (session.getAttribute("loginSession") != null) {
 			String message = "";
-			ModelAndView modelview = new ModelAndView("forward:/home");
-			String accountType = request.getParameter("accountType");
-			String firstName = request.getParameter("firstName");
-			String lastName = request.getParameter("lastName");
-			String midName = request.getParameter("midName");
-			String idNumber = request.getParameter("idNumber");
-			int phone1 = Integer.parseInt(request.getParameter("phone1"));
-			int phone2 = Integer.parseInt(request.getParameter("phone2"));
-			String add1 = request.getParameter("add1");
-			String add2 = request.getParameter("add2");
-			String email = request.getParameter("email");
-			String state = request.getParameter("state");
-
-			int accountNumber = Integer.parseInt(request
-					.getParameter("accountNumber"));
-
-			Customer cust = new Customer(0, accountNumber, accountType,
-					firstName, lastName, midName, idNumber, phone1, phone2,
-					add1, add2, email, state);
+			ModelAndView modelview = new ModelAndView("forward:/homeCustomer");
 			try {
-				boolean check = customerService.createCustomer(cust);
+				boolean check = customerService.createCustomer(customer);
 				if (check) {
 					message = "You have created Customer successfully!!!";
 					modelview.addObject("message", message);

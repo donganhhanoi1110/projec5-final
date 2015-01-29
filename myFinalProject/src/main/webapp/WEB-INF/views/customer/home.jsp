@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -121,67 +122,62 @@
 							<div id="hide">
 								<div style="float: left;">
 
-									<form action="createCustomer.html" method="post">
+									<form:form action="createCustomer.html" method="post" modelAttribute="customer">
 										<table border="0" cellpadding="0" cellspacing="0" id="id-form"
 											class="table table-striped table-bordered">
-											<input type="hidden" name="${_csrf.parameterName}"
-												value="${_csrf.token}" />
-											<!-- 			<tr>
-														<th valign="top">ID :</th>
-														<td><input type="hidden" class="inp-form"
-															name="custID"  /> </td>
-													</tr> -->
+												<input type="hidden" name="${_csrf.parameterName}"
+													value="${_csrf.token}" />
+												
 											<tr>
 												<th valign="top">Account Number:</th>
-												<td><input type="text" class="form-control  myText"
-													name="accountNumber" /></td>
+												<td><form:input class="form-control  myText" path="accountNumber" /></td>
 												<th valign="top">Account Type</th>
-												<td><input type="text" class="form-control  myText"
-													name="accountType" /></td>
+												<td><form:input class="form-control  myText"
+													path="accountType" /></td>
 
 											</tr>
 											<tr>
 												<th valign="top">First Name</th>
-												<td><input type="text" class="form-control myText"
-													name="firstName" /></td>
+												<td><form:input class="form-control myText"
+													path="firstName" /></td>
 												<th valign="top">Last Name:</th>
-												<td><input type="text" class="form-control myText"
-													name="lastName" /></td>
+												<td><form:input class="form-control myText"
+													path="lastName" /></td>
 											</tr>
 
 											<tr>
 												<th valign="top">Mid Name:</th>
-												<td><input type="text" class="form-control myText"
-													name="midName" /></td>
+												<td><form:input class="form-control myText"
+													path="midName" /></td>
 												<th valign="top">ID Number</th>
-												<td><input type="text" class="form-control myText"
-													name="idNumber" /></td>
+												<td><form:input class="form-control myText"
+													path="idNumber" /></td>
 											</tr>
 
 											<tr>
 												<th valign="top">Phone 1</th>
-												<td><input type="text" class="form-control myText"
-													name="phone1" /></td>
+												<td><form:input class="form-control myText"
+													path="phone1" /></td>
 												<th valign="top">Phone 2</th>
-												<td><input type="text" class="form-control myText"
-													name="phone2" /></td>
+												<td><form:input class="form-control myText"
+													path="phone2" /></td>
 											</tr>
 
 											<tr>
 												<th valign="top">Address 1</th>
-												<td><input type="text" class="form-control myText" name="add1" /></td>
+												<td><form:input class="form-control myText" path="add1" /></td>
 												<th valign="top">Address 2</th>
-												<td><input type="text" class="form-control myText" name="add2" /></td>
+												<td><form:input class="form-control myText" path="add2" /></td>
 
 											</tr>
 
 											<tr>
 												<th valign="top">Mail:</th>
-												<td><input type="text" class="form-control myText"
-													name="email" /></td>
+												<td><form:input class="form-control myText"
+													path="email" /></td>
 												<th valign="top">State:</th>
-												<td><input type="text" class="form-control myText"
-													name="state" /></td>
+												<td><form:input class="form-control myText"
+													path="state" /></td>
 											</tr>
 
 
@@ -195,7 +191,7 @@
 
 											</tr>
 										</table>
-									</form>
+									</form:form>
 
 								</div>
 							
