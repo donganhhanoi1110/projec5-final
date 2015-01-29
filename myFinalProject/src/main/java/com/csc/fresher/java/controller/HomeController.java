@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
 import com.csc.fresher.java.domain.User;
 import com.csc.fresher.java.domain.UserRole;
+import com.csc.fresher.java.service.SavingAccountService;
 import com.csc.fresher.java.service.TransactionService;
 import com.csc.fresher.java.service.UserRoleService;
 import com.csc.fresher.java.service.UserService;
@@ -42,19 +44,15 @@ public class HomeController {
 
 	@Autowired
 	private UserRoleService userRoleService;
+	@Autowired
+	private SavingAccountService savingaccountService;
 
 	@RequestMapping(value = "/homeUser")
-	public ModelAndView getAccountList(HttpServletRequest request, Model model,
-			Principal principal) {
+	public ModelAndView getAccountList(HttpServletRequest request, Model model) {
 		// Create a new AccountDAO
 		String error_code = request.getParameter("ERROR_CODE");
 		ModelAndView modelview = new ModelAndView("homeUser");
-		try {
-			modelview.addObject("loginSession", principal.getName());
 
-		} catch (Exception e) {
-			return new ModelAndView("redirect:/login");
-		}
 		modelview.addObject("ERROR_CODE", error_code);
 		// Get the list of all accounts from DB
 		try {
@@ -70,6 +68,7 @@ public class HomeController {
 		}
 
 	}
+
 	@RequestMapping(value = "/home")
 	public ModelAndView Home(HttpServletRequest request, Model model,
 			Principal principal) {
@@ -85,6 +84,17 @@ public class HomeController {
 		modelview.addObject("ERROR_CODE", error_code);
 		// Get the list of all accounts from DB
 		try {
+			List<SavingAccount> save1 = savingaccountService
+					.getSavingAccountByCustomerIDNumber("024939082");
+			List<SavingAccount> save2 = savingaccountService
+					.getSavingAccountByNumber(123456);
+
+			for (SavingAccount s : save1) {
+				System.out.println("Save1: " + s.getSavingAccountNumber());
+			}
+			for (SavingAccount s : save2) {
+				System.out.println("Save2: " + s.getSavingAccountNumber());
+			}
 
 			modelview.addObject("listUser", userService.getAllUser());
 

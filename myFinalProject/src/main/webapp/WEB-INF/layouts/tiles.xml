@@ -16,7 +16,7 @@
 
 	<definition name="login" template="/WEB-INF/views/login.jsp">
 	</definition>
-		<!-- Home -->
+	<!-- Home -->
 	<definition name="home" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
@@ -31,20 +31,46 @@
 		<put-attribute name="body" value="/WEB-INF/views/user/editUser.jsp" />
 	</definition>
 	<!-- /User -->
-	
+
 
 	<!-- SavingAccount -->
 	<definition name="homeSavingAccount" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/savingaccount/homeSavingAccount.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/savingaccount/homeSavingAccount.jsp" />
+	</definition>
+	<!-- SavingAccount -->
+
+	<definition name="adminSavingAccount" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/savingaccount/adminSavingAccount.jsp" />
+	</definition>
+	<definition name="supportSavingAccount" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/savingaccount/supportSavingAccount.jsp" />
 	</definition>
 
+	<definition name="editSavingAccount" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/savingaccount/editSavingAccount.jsp" />
+	</definition>
+	<definition name="viewAllSavingAccount" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/savingaccount/viewAllSavingAccount.jsp" />
+	</definition>
+
+	<!-- /SavingAccount -->
 	<!-- /SavingAccount -->
 
 	<!-- InterestRate -->
 	<definition name="homeInterestRate" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/interestrate/homeInterestRate.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/interestrate/homeInterestRate.jsp" />
 	</definition>
 
 	<!-- /SavingAccount -->
@@ -56,11 +82,13 @@
 	</definition>
 	<definition name="adminTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/transaction/adminTransaction.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/transaction/adminTransaction.jsp" />
 	</definition>
 	<definition name="supportTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/transaction/supportTransaction.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/transaction/supportTransaction.jsp" />
 	</definition>
 	<definition name="editMyTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
@@ -69,11 +97,13 @@
 	</definition>
 	<definition name="viewTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/transaction/viewTransaction.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/transaction/viewTransaction.jsp" />
 	</definition>
 	<definition name="viewOneTransaction" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/transaction/viewOneTransaction.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/transaction/viewOneTransaction.jsp" />
 	</definition>
 	<!-- /Transaction -->
 	<definition name="loginFailed" extends="DefaultTemplate">
@@ -95,13 +125,14 @@
 	<definition name="home" extends="DefaultTemplate">
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
-		<definition name="customer" extends="DefaultTemplate">
+	<definition name="customer" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/customer/home.jsp" />
 	</definition>
 	<definition name="editCustomer" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
-		<put-attribute name="body" value="/WEB-INF/views/customer/editCustomer.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/customer/editCustomer.jsp" />
 	</definition>
 
 

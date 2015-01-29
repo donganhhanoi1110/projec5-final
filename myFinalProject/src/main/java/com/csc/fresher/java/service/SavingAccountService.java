@@ -24,10 +24,6 @@ public class SavingAccountService {
 		return savingAccountDAO;
 	}
 
-	public SavingAccount getSavingAccount(int id) {
-		return this.savingAccountDAO.getSavingAccount(id);
-
-	}
 
 	public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
 		return this.savingAccountDAO.getSavingAccountListbyCustomerId(id);
@@ -45,10 +41,6 @@ public class SavingAccountService {
 		return this.getSavingAccountDAO().createSavingAccount(SavingAccount);
 	}
 
-	public boolean updateSavingAccount(SavingAccount savingAccount) {
-		return this.getSavingAccountDAO().updateSavingAccount(savingAccount);
-	}
-
 	public List<SavingAccount> getSavingAccountByNumber(int savingaccount_number) {
 		return this.savingAccountDAO
 				.getSavingAccountByNumber(savingaccount_number);
@@ -60,6 +52,28 @@ public class SavingAccountService {
 
 		return this.savingAccountDAO
 				.getSavingAccountByCustomerIDNumber(IDNumber);
+	}
+
+	public List<SavingAccount> getSavingAccountByState(String state) {
+		return this.getSavingAccountDAO().getSavingAccountByState(state);
+	}
+
+	public boolean updateSavingAccount(SavingAccount savingAccount) {
+		return this.getSavingAccountDAO().updateSavingAccount(savingAccount);
+	}
+
+	/**
+	 * Delete Transaction by their Id.
+	 *
+	 * @param TransactionId
+	 *            the Transaction Id.
+	 */
+	public boolean deleteSavingAccountById(int savingAccountId) {
+		return this.savingAccountDAO.deleteSavingAccountById(savingAccountId);
+	}
+
+	public SavingAccount getSavingAccount(int id) {
+		return this.savingAccountDAO.getSavingAccount(id);
 	}
 
 }

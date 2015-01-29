@@ -47,6 +47,23 @@ public class SavingAccountDAO {
 
 	}
 
+	public List<SavingAccount> getSavingAccountByState(String state) {
+		List<SavingAccount> list = new ArrayList<SavingAccount>();
+		try {
+			TypedQuery<SavingAccount> query = entityManager.createQuery(
+					"SELECT s FROM " + SavingAccount.class.getName()
+							+ " s where s.state=:state", SavingAccount.class);
+			query.setParameter("state", state);
+			list = query.getResultList();
+			System.out.println("Get All SavingAccounts");
+		} catch (Exception e) {
+			System.out.println("\nGet Error " + "*_" + e.getMessage() + "*_");
+
+		}
+		return list;
+
+	}
+
 	public List<SavingAccount> getSavingAccountByNumber(int savingaccount_number) {
 
 		List<SavingAccount> list = new ArrayList<SavingAccount>();
@@ -155,7 +172,36 @@ public class SavingAccountDAO {
 			System.out.println("SavingAccount " + savingAccount.getId()
 					+ "updated");
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("\nUpdate SavingAccount get Error " + "*_"
+					+ e.getMessage() + "*_");
+
+		}
+		return check;
+	}
+
+	@Transactional
+	@SuppressWarnings("unchecked")
+	public boolean deleteSavingAccountById(int savingAccountId) {
+		boolean check = false;
+		try {
+			SavingAccount savingAccount = entityManager.find(
+					SavingAccount.class, savingAccountId);
+			if (savingAccount == null) {
+				check = false;
+				throw new EntityNotFoundException(
+						"Can't find SavingAccount for ID " + savingAccountId);
+			}
+			System.out.println(savingAccount.toString());
+			if (savingAccount != null) {
+
+				entityManager.remove(savingAccount);
+				check = true;
+				System.out.println("delete SavingAccount by ID");
+			}
+		} catch (Exception e) {
+
+			System.out.println("\nDelete SavingAccount by ID get Error " + "*_"
 					+ e.getMessage() + "*_");
 
 		}

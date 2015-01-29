@@ -64,6 +64,16 @@
 						</c:if> </a></li>
 			</ul>
 		</div>
+		<div id="manu_main">
+			<ul>
+
+				<li><a href="homeSavingAccount.html">Home Saving Acccount</a></li>
+				<li><a href="viewAllSavingAccount.html">View All Saving
+						Account</a></li>
+				<li><a href="SearchSavingAccount.html">Search Saving
+						Account</a></li>
+			</ul>
+		</div>
 		<!-- Page Content -->
 		<div id="content_right">
 

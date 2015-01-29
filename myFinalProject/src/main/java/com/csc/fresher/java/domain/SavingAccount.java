@@ -27,12 +27,18 @@ public class SavingAccount {
 	@Column(name = "balance_amount")
 	private float balanceAmount;
 
+	
 	@Column(name = "repeatable")
 	private int repeatable;
 
 	@Column(name = "state")
 	private String state;
 
+	@Column(name = "date_start")
+	private String dateStart;
+	
+	@Column(name = "date_end")
+	private String dateEnd;
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customerId;
@@ -44,6 +50,40 @@ public class SavingAccount {
 	@OneToMany(mappedBy="savingAccountId")
 	private List<Transaction> transactions;
 	
+	
+	public SavingAccount(int id, int savingAccountNumber, float balanceAmount,
+			int repeatable, String state, String dateStart, String dateEnd,
+			Customer customerId, InterestRate interestRateId,
+			List<Transaction> transactions) {
+		super();
+		this.id = id;
+		this.savingAccountNumber = savingAccountNumber;
+		this.balanceAmount = balanceAmount;
+		this.repeatable = repeatable;
+		this.state = state;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
+		this.customerId = customerId;
+		this.interestRateId = interestRateId;
+		this.transactions = transactions;
+	}
+
+	public String getDateStart() {
+		return dateStart;
+	}
+
+	public void setDateStart(String dateStart) {
+		this.dateStart = dateStart;
+	}
+
+	public String getDateEnd() {
+		return dateEnd;
+	}
+
+	public void setDateEnd(String dateEnd) {
+		this.dateEnd = dateEnd;
+	}
+
 	public SavingAccount(int id, float balanceAmount, int repeatable,
 			String state, Customer customerId, InterestRate interestRateId,
 			List<Transaction> transactions, int savingaccountnumber) {
