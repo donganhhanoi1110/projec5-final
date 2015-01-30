@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -122,6 +123,54 @@ public class SavingAccountController {
 		} else {
 			return new ModelAndView("redirect:/login");
 		}
+	}
+
+	@RequestMapping(value = "/createSavingAccountJson", method = RequestMethod.POST)
+	public @ResponseBody AjaxResponse createSavingAccountJson(
+			HttpServletRequest request, Model model, HttpSession session,
+			@ModelAttribute("savingacount") SavingAccount savingaccount) {
+		// Create a new AccountDAO
+		AjaxResponse response = new AjaxResponse();
+		String message = "";
+		String error_code = "";
+		boolean check = false;
+		if (session.getAttribute("loginSession") != null) {
+			try {
+				System.out.println("Json Saving Account: "
+						+ savingaccount.toString());
+				// Check error when Delete to Database
+				if (savingAccountService.createSavingAccount(savingaccount)) {
+					message = "Create SavingAccount"
+							+ savingaccount.getSavingAccountNumber()
+							+ " Successfully";
+					error_code = "1";
+					response.setSavingAccount(savingaccount);
+					check = true;
+
+				} else {
+					message = "Create SavingAccount"
+							+ savingaccount.getSavingAccountNumber() + " FAIL";
+					error_code = "0";
+					check = false;
+
+				}
+			} catch (Exception e) {
+				System.out.println("Create SavingAccount Controller has Error");
+				message = "Create SavingAccount Controller has Error";
+				error_code = "0";
+				check = false;
+
+			}
+
+			response.setSuccess(check);
+			response.setMessage(message);
+			response.setError_code(error_code);
+			response.setLogin(true);
+
+		} else {
+			response.setLogin(false);
+		}
+		return response;
 	}
 
 	@RequestMapping(value = "/createSavingAccount", method = RequestMethod.POST)

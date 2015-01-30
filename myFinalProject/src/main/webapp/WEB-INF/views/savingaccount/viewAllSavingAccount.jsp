@@ -32,53 +32,59 @@
 						$(document)
 								.on(
 										"click",
-										"#linkDeleteSavingAccount",
+										"#addSavingAccountSubmit",
 										function(e) {
 											e.preventDefault();
-
-											var confirmMessage = confirm("Do you want to delete this Transaction?");
-											if (confirmMessage) {
-												//to delete Transaction page
-												var savingAccountId = $(this)
-														.attr("SavingAccount");
-												/* 	$(this).closest("tr").remove(); */
-
-												//if you want to reload the page
-												//window.location.href = 'deleteTransaction?TransactionId=' + TransactionId;
-												// if you Transaction ajax
-												$
-														.ajax({
-															type : 'post',
-															url : 'deleteSavingAccountJson',
-															data : 'savingAccountId='
-																	+ savingAccountId,
-															datatype : 'json',
-															success : function(
-																	data) {
-																console
-																		.log(data);
-																if (data.login == true) {
-																	if (data.success == true) {
-																		alert("Delete successfully!");
-																		if (data.error_code == '0') {
-																			window.location.href = 'homeSavingAccount?ERROR_CODE='
-																					+ data.error_code;
-																		} else {
-																			window.location.href = 'homeSavingAccount';
-																		}
-
+											var mydata = $("#savingaccount").serialize();
+											// if you Transaction ajax
+											$
+													.ajax({
+														type : 'post',
+														url : 'createSavingAccountJson',
+														data: mydata,
+														datatype : 'json',
+														success : function(data) {
+															console.log(data);
+															if (data.login == true) {
+																if (data.success == true) {
+																	alert("Create successfully!");
+																	if (data.error_code == '0') {
+																		window.location.href = 'homeSavingAccount?ERROR_CODE='
+																				+ data.error_code;
 																	} else {
-																		alert("Delete Failed");
-																	}
-																} else {
-																	window.location.href = 'login';
-																}
-															}
-														});
+																		/* 	window.location.href = 'homeSavingAccount'; */
+																		var t = $(
+																				'#table')
+																				.DataTable();
+																		t.row
+																				.add(
+																						[
+																								data.savingAccount.savingAccountNumber,
+																								data.savingAccount.customerId.firstName,
+																								data.savingAccount.balanceAmount,
+																								data.savingAccount.repeatable,
+																								data.savingAccount.interestRateId.savingAccountType
+																										+ ' '
+																										+ data.savingAccount.interestRateId.interestRate
+																										+ ' '
+																										+ data.savingAccount.interestRateId.currency,
+																								data.savingAccount.state,
+																								data.savingAccount.dateStart,
+																								data.savingAccount.dateEnd ]
 
-											} else {
-												//do nothing
-											}
+																				)
+																				.draw();
+																	}
+
+																} else {
+																	alert("Create Failed");
+																}
+															} else {
+																window.location.href = 'login';
+															}
+														}
+													});
+
 										});
 						$(".addSavingAccount").bind("click", function(e) {
 							$(".popupContainer").show();
@@ -152,80 +158,6 @@
 
 				</div>
 
-				<%-- 				<div id="hide">
-					<div style="float: left;">
-
-						<form:form action="createSavingAccount.html" method="post"
-							modelAttribute="savingaccount">
-							<table border="0" cellpadding="0" cellspacing="0" id="id-form"
-								class="table table-striped table-bordered">
-								<input type="hidden" name="${_csrf.parameterName}"
-									value="${_csrf.token}" />
-
-								<tr>
-									<th valign="top"><form:label path="savingAccountNumber">Saving Account Number</form:label>
-									</th>
-									<td><form:input path="savingAccountNumber"
-											class="form-control" /></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="balanceAmount">Balance Amount</form:label>
-									</th>
-									<td><form:input path="balanceAmount" class="form-control" /></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="repeatable">Repeatable</form:label>
-									</th>
-									<td><form:input path="repeatable" class="form-control" /></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="dateStart">Date Start</form:label>
-									</th>
-									<td><form:input path="dateStart" class="form-control" /></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="dateEnd">Date End</form:label>
-									</th>
-									<td><form:input path="dateEnd" class="form-control" /></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="customerId.id">Saving Account</form:label></th>
-									<td><form:select path="customerId.id" multiple="false"
-											class="form-control">
-											<form:options items="${customerList}" itemValue="id"
-												itemLabel="firstName" />
-										</form:select></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="interestRateId.id">Saving Account</form:label></th>
-									<td><form:select path="interestRateId.id" multiple="false"
-											class="form-control">
-											<form:options items="${interestrateList}" itemValue="id"
-												itemLabel="savingAccountType" />
-										</form:select></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="state">State</form:label></th>
-									<td><form:select path="state" class="form-control">
-											<form:options items="${states }" />
-										</form:select></td>
-
-								</tr>
-								<tr>
-									<td></td>
-									<td><input type="submit" class="myButton" value="Save"
-										id="addAccount" /></td>
-
-								</tr>
-							</table>
-						</form:form>
-					</div>
-
-				</div>
-
-				<div id="show">
-					<b> >>>Manage Transaction<<< </b>
-				</div> --%>
 
 				<button class="addSavingAccount" value="addSavingAccount">
 					AddSavingAccount</button>
@@ -292,7 +224,7 @@
 								<tr>
 									<td></td>
 									<td><input type="submit" class="myButton" value="Save"
-										id="addAccount" /></td>
+										id="addSavingAccountSubmit" /></td>
 
 								</tr>
 							</table>

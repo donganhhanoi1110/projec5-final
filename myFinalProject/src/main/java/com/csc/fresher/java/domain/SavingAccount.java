@@ -68,6 +68,16 @@ public class SavingAccount {
 		this.transactions = transactions;
 	}
 
+	@Override
+	public String toString() {
+		return "SavingAccount [id=" + id + ", savingAccountNumber="
+				+ savingAccountNumber + ", balanceAmount=" + balanceAmount
+				+ ", repeatable=" + repeatable + ", state=" + state
+				+ ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
+				+ ", customerId=" + customerId + ", interestRateId="
+				+ interestRateId + "]";
+	}
+
 	public String getDateStart() {
 		return dateStart;
 	}

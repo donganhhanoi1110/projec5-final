@@ -5,6 +5,14 @@ public class AjaxResponse {
 	private String message;
 	private String error_code;
 	private boolean login;
+	private SavingAccount savingAccount;
+	
+	public SavingAccount getSavingAccount() {
+		return savingAccount;
+	}
+	public void setSavingAccount(SavingAccount savingAccount) {
+		this.savingAccount = savingAccount;
+	}
 	public boolean isLogin() {
 		return login;
 	}
