@@ -2,7 +2,9 @@
 	margin: 0px;
 	padding: 0px;
 }
-
+.mySearchText tr >td{
+	margin-right: 3px;
+}
 #cover_box {
 	background-color: #CCFFFF;
 	margin: 10px;

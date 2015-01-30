@@ -84,17 +84,6 @@ public class HomeController {
 		modelview.addObject("ERROR_CODE", error_code);
 		// Get the list of all accounts from DB
 		try {
-			List<SavingAccount> save1 = savingaccountService
-					.getSavingAccountByCustomerIDNumber("024939082");
-			List<SavingAccount> save2 = savingaccountService
-					.getSavingAccountByNumber(123456);
-
-			for (SavingAccount s : save1) {
-				System.out.println("Save1: " + s.getSavingAccountNumber());
-			}
-			for (SavingAccount s : save2) {
-				System.out.println("Save2: " + s.getSavingAccountNumber());
-			}
 
 			modelview.addObject("listUser", userService.getAllUser());
 

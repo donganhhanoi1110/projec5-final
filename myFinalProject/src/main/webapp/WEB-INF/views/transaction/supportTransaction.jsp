@@ -87,7 +87,15 @@
 	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
 			page="/login.jsp" /></c:if> --%>
 
+	<div id="manu_main">
+		<ul>
 
+			<li><a href="homeTransaction.html">Home Transaction</a></li>
+			<li><a href="viewTransaction.html">View All Transaction</a></li>
+
+
+		</ul>
+	</div>
 	<div id="content-outer">
 		<!-- start content -->
 		<div id="content">
@@ -152,17 +160,6 @@
 												itemLabel="savingAccountNumber" />
 										</form:select></td>
 								</tr>
-
-								<tr>
-									<th valign="top"><form:label path="state">State</form:label></th>
-									<td><form:select path="state" class="form-control">
-											<form:option value="new">new</form:option>
-											<form:option value="hold">hold</form:option>
-											<form:option value="active">active</form:option>
-											<form:option value="done">done</form:option>
-										</form:select></td>
-
-								</tr>
 								<tr>
 									<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
 									<td><form:select path="transactionType"
@@ -203,13 +200,12 @@
 									<th>Account Number</th>
 									<th>State</th>
 									<th>Transaction Type</th>
-									<sec:authorize access="hasRole('support')">
-										<th>Submit Transaction</th>
-									</sec:authorize>
+									<th>Current Balance</th>
+									<th>After Balance</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="Transaction" items="${listNewTransaction}">
+								<c:forEach var="Transaction" items="${listDoneTransaction}">
 									<c:if test="${Transaction.id != null}">
 										<tr>
 											<td>${Transaction.id}</td>
@@ -219,52 +215,8 @@
 											<td>${Transaction.savingAccountId.savingAccountNumber}</td>
 											<td>${Transaction.state}</td>
 											<td>${Transaction.transactionType}</td>
-											<sec:authorize access="hasRole('support')">
-												<td><a
-													href="submitTransaction.html?TransactionId=${Transaction.id}"
-													class="myButton">Submit</a></td>
-											</sec:authorize>
-
-										</tr>
-									</c:if>
-								</c:forEach>
-							</tbody>
-						</table>
-					</div>
-					<h1>Active Transaction</h1>
-					<div class="dataTable_wrapper">
-						<table class="mytable1 table table-striped table-bordered "
-							id="table">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Amount</th>
-									<th>Start Time</th>
-									<th>End Time</th>
-									<th>Account Number</th>
-									<th>State</th>
-									<th>Transaction Type</th>
-									<sec:authorize access="hasRole('support')">
-										<th>Send Transaction</th>
-									</sec:authorize>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="Transaction" items="${listActiveTransaction}">
-									<c:if test="${Transaction.id != null}">
-										<tr>
-											<td>${Transaction.id}</td>
-											<td>${Transaction.amount}</td>
-											<td>${Transaction.dateStart}</td>
-											<td>${Transaction.dateEnd}</td>
-											<td>${Transaction.savingAccountId.savingAccountNumber}</td>
-											<td>${Transaction.state}</td>
-											<td>${Transaction.transactionType}</td>
-											<sec:authorize access="hasRole('support')">
-												<td><a
-													href="sendTransaction.html?TransactionId=${Transaction.id}"
-													class="myButton">Send</a></td>
-											</sec:authorize>
+											<td>${Transaction.currentBalance}</td>
+											<td>${Transaction.afterBalance}</td>
 
 										</tr>
 									</c:if>

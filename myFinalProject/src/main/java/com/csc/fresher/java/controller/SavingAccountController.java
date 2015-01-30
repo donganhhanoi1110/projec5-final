@@ -399,23 +399,69 @@ public class SavingAccountController {
 	@RequestMapping(value = "/searchSavingAccount", method = RequestMethod.POST)
 	public ModelAndView searchSavingAccount(HttpServletRequest request,
 			Model model, HttpSession session) {
-		ModelAndView modelview = new ModelAndView("searchSavingAccount");
+		String message = "";
 		if (session.getAttribute("loginSession") != null) {
-			List<SavingAccount> listSaving = new ArrayList<SavingAccount>();
+
+			ModelAndView modelview = new ModelAndView("searchSavingAccount");
+			SavingAccount saving = new SavingAccount();
+
 			String searchValue = request.getParameter("searchSavingAcount");
 			String searchType = request.getParameter("searchType");
-			if (searchType.equals("accountNumber")) {
-				listSaving = savingAccountService
-						.getSavingAccountByNumber(Integer.parseInt(searchValue));
 
-				modelview.addObject("listSavingAccount", listSaving);
+			if (searchType.equals("accountNumber")) {
+				try {
+					List<SavingAccount> listSaving = new ArrayList<SavingAccount>();
+					saving = savingAccountService
+							.getSavingAccountByNumber(Integer
+									.parseInt(searchValue));
+					if (saving == null) {
+						message = "Can Not Find Saving Account Number "
+								+ searchValue + "!!! ";
+
+					} else {
+						if (saving.getState() != null
+								&& saving.getState().equals("active")) {
+							listSaving.add(saving);
+						}
+					}
+					// Check for Searching Result
+
+					modelview.addObject("message", message);
+					modelview.addObject("listSavingAccount", listSaving);
+				} catch (Exception e) {
+					e.printStackTrace();
+					message = "Find Saving Account Number Error" + searchValue
+							+ "!!! ";
+					modelview.addObject("message", message);
+				}
 
 			} else {
 				if (searchType.equals("idNumber")) {
-					listSaving = savingAccountService
-							.getSavingAccountByCustomerIDNumber(searchValue);
+					try {
+						List<SavingAccount> listSaving = new ArrayList<SavingAccount>();
+						List<SavingAccount> myListSaving = savingAccountService
+								.getSavingAccountByCustomerIDNumber(searchValue);
+						// Check for Searching Result
+						for (SavingAccount s : myListSaving) {
+							if (saving.getState() != null
+									&& s.getState().equals("active")) {
+								listSaving.add(s);
+							}
+						}
 
-					modelview.addObject("listSavingAccount", listSaving);
+						int checkNumber = listSaving.size();
+						if (checkNumber == 0) {
+							message = "Can Not Find List of Saving Account of Customer "
+									+ searchValue + "!!!";
+						}
+						modelview.addObject("message", message);
+						modelview.addObject("listSavingAccount", listSaving);
+					} catch (Exception e) {
+						e.printStackTrace();
+						message = "Find Saving Account Number Error"
+								+ searchValue + "!!! ";
+						modelview.addObject("message", message);
+					}
 				}
 			}
 

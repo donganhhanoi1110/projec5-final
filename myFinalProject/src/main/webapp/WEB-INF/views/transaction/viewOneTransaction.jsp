@@ -20,7 +20,15 @@
 <body>
 	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
 			page="/login.jsp" /></c:if> --%>
+	<div id="manu_main">
+			<ul>
 
+				<li><a href="homeTransaction.html">Home Transaction</a></li>
+				<li><a href="viewTransaction.html">View All Transaction</a></li>
+
+	
+			</ul>
+		</div>
 
 	<div id="content-outer">
 		<!-- start content -->

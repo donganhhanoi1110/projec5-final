@@ -85,7 +85,34 @@
 <body>
 	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
 			page="/login.jsp" /></c:if> --%>
+<div id="manu_main">
+			<ul>
 
+				<li><a href="homeSavingAccount.html">Home Saving Acccount</a></li>
+				<li><a href="viewAllSavingAccount.html">View All Saving
+						Account</a></li>
+						<li>
+				<form action="searchSavingAccount.html" method="post">
+					<table>
+
+						<tr>
+							<td><input type="hidden" name="${_csrf.parameterName}"
+								style="width: 15px; height: 30px;" value="${_csrf.token}" /> <input
+								name="searchSavingAcount" type="text" /></td>
+							<td><select name="searchType"
+								style="width: 50px; height: 20px; margin-left: 3px; margin-right: 3px;">
+									<option value="accountNumber">Account Number</option>
+									<option value="idNumber">ID Number's Customer</option>
+							</select></td>
+							<td><input type="submit" value="Search" id="addAccount" /></td>
+						</tr>
+
+					</table>
+				</form>
+
+			</li>
+			</ul>
+		</div>
 
 	<div id="content-outer">
 		<!-- start content -->

@@ -64,9 +64,9 @@ public class SavingAccountDAO {
 
 	}
 
-	public List<SavingAccount> getSavingAccountByNumber(int savingaccount_number) {
+	public SavingAccount getSavingAccountByNumber(int savingaccount_number) {
 
-		List<SavingAccount> list = new ArrayList<SavingAccount>();
+		SavingAccount list = new SavingAccount();
 
 		try {
 			TypedQuery<SavingAccount> query = entityManager.createQuery(
@@ -74,7 +74,7 @@ public class SavingAccountDAO {
 							+ " s where s.savingAccountNumber=:number",
 					SavingAccount.class);
 			query.setParameter("number", savingaccount_number);
-			list = query.getResultList();
+			list = query.getSingleResult();
 			System.out.println("Get Saving Account List ByNumber");
 		} catch (Exception e) {
 			System.out.println("Error get Saving Account List ByNumber");
@@ -207,7 +207,5 @@ public class SavingAccountDAO {
 		}
 		return check;
 	}
-
-
 
 }

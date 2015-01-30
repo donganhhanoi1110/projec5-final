@@ -44,7 +44,7 @@ public class SavingAccountService {
 		return this.getSavingAccountDAO().createSavingAccount(SavingAccount);
 	}
 
-	public List<SavingAccount> getSavingAccountByNumber(int savingaccount_number) {
+	public SavingAccount getSavingAccountByNumber(int savingaccount_number) {
 		return this.savingAccountDAO
 				.getSavingAccountByNumber(savingaccount_number);
 
