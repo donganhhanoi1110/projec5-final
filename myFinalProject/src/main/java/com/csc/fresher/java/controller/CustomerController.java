@@ -33,7 +33,7 @@ public class CustomerController {
 	
 	@RequestMapping(value = "/homeCustomer", method=RequestMethod.GET)
 	public ModelAndView getCustomerList(HttpServletRequest request,
-			Model model, Principal principal) {
+			Model model, Principal principal,@ModelAttribute Customer customer) {
 
 		String error_code = request.getParameter("ERROR_CODE");
 		ModelAndView modelview = new ModelAndView("customer");
@@ -66,7 +66,7 @@ public class CustomerController {
 				System.out.println(customer.toString() + "edit customer");
 				List<Customer> list = new ArrayList<Customer>();
 				list.add(customer);
-				model.addAttribute("customerProfile", Customer);
+				model.addAttribute("customer", Customer);
 			} catch (Exception e) {
 				System.out.println("edit customer controller has error");
 				message = "Edit customer controller has error";
@@ -81,38 +81,21 @@ public class CustomerController {
 
 	@RequestMapping(value = "/editCustProfile")
 	public ModelAndView editCusProfile(HttpServletRequest request, Model model,
-			HttpSession session) {
+			HttpSession session, @ModelAttribute Customer customer) {
 		ModelAndView modelview = new ModelAndView("forward:/home");
 
 		String message = "";
 
 		if (session.getAttribute("loginSession") != null) {
 			try {
-				String accountType = request.getParameter("accountType");
-				String firstName = request.getParameter("firstName");
-				String lastName = request.getParameter("lastName");
-				String midName = request.getParameter("midName");
-				String idNumber = request.getParameter("idNumber");
-				int phone1 = Integer.parseInt(request.getParameter("phone1"));
-				int phone2 = Integer.parseInt(request.getParameter("phone2"));
-				String add1 = request.getParameter("add1");
-				String add2 = request.getParameter("add2");
-				String email = request.getParameter("email");
-				String state = request.getParameter("state");
-				int id = Integer.parseInt(request.getParameter("custID"));
-				int accountNumber = Integer.parseInt(request
-						.getParameter("accountNumber"));
+		
 
-				Customer cust = new Customer(id, accountNumber, accountType,
-						firstName, lastName, midName, idNumber, phone1, phone2,
-						add1, add2, email, state);
-
-				if (customerService.updateCustomer(cust)) {
-					message = "Edit Customer *_" + firstName
+				if (customerService.updateCustomer(customer)) {
+					message = "Edit Customer *_" + customer.getFirstName()
 							+ "_* Successfully";
 					model.addAttribute("message", message);
 				} else {
-					message = "Edit Customer " + firstName + " FAIL";
+					message = "Edit Customer " + customer.getFirstName() + " FAIL";
 					modelview.addObject("ERROR_CODE", "0");
 					modelview.addObject("message", message);
 				}
@@ -132,7 +115,7 @@ public class CustomerController {
 
 	
 	@RequestMapping(value = "/createCustomer", method = RequestMethod.POST)
-	public ModelAndView createeCustomer(HttpServletRequest request,@ModelAttribute("customer") Customer customer,
+	public ModelAndView createeCustomer(HttpServletRequest request,@ModelAttribute("customer") @Valid Customer customer,
 			Model model, HttpSession session) {
 
 		if (session.getAttribute("loginSession") != null) {

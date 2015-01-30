@@ -10,7 +10,16 @@
 <!-- default header name is X-CSRF-TOKEN -->
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>CSC Banking System</title>
-
+<style type="text/css">
+	.error {
+		color: red;
+	}
+	.container {
+	margin: 80px auto;
+	width: 60%;
+	background-color: lightcyan;
+}
+</style>
 
 <script type="text/javascript">
 	$(function() {
@@ -122,62 +131,64 @@
 							<div id="hide">
 								<div style="float: left;">
 
-									<form:form action="createCustomer.html" method="post" modelAttribute="customer">
+									<form:form action="createCustomer.html" method="POST" modelAttribute="customer">
 										<table border="0" cellpadding="0" cellspacing="0" id="id-form"
 											class="table table-striped table-bordered">
-												<input type="hidden" name="${_csrf.parameterName}"
-													value="${_csrf.token}" />
+												<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 												
 											<tr>
 												<th valign="top">Account Number:</th>
 												<td><form:input class="form-control  myText" path="accountNumber" /></td>
+												<td><form:errors path="accountNumber" cssClass="error" /></td>
 												<th valign="top">Account Type</th>
-												<td><form:input class="form-control  myText"
-													path="accountType" /></td>
+												<td><form:input class="form-control  myText" path="accountType" /></td>
+												<td><form:errors path="accountType" cssClass="error" /></td>
 
 											</tr>
 											<tr>
 												<th valign="top">First Name</th>
-												<td><form:input class="form-control myText"
-													path="firstName" /></td>
+												<td><form:input class="form-control myText" path="firstName" /></td>
+												<td><form:errors path="firstName" cssClass="error" /></td>
 												<th valign="top">Last Name:</th>
-												<td><form:input class="form-control myText"
-													path="lastName" /></td>
+												<td><form:input class="form-control myText" path="lastName" /></td>
+												<td><form:errors path="lastName" cssClass="error" /></td>
 											</tr>
 
 											<tr>
 												<th valign="top">Mid Name:</th>
-												<td><form:input class="form-control myText"
-													path="midName" /></td>
+												<td><form:input class="form-control myText" path="midName" /></td>
+												<td><form:errors path="midName" cssClass="error" /></td>
 												<th valign="top">ID Number</th>
-												<td><form:input class="form-control myText"
-													path="idNumber" /></td>
+												<td><form:input class="form-control myText" path="idNumber" /></td>
+												<td><form:errors path="idNumber" cssClass="error" /></td>
 											</tr>
 
 											<tr>
 												<th valign="top">Phone 1</th>
-												<td><form:input class="form-control myText"
-													path="phone1" /></td>
+												<td><form:input class="form-control myText" path="phone1" /></td>
+												<td><form:errors path="phone1" cssClass="error" /></td>
 												<th valign="top">Phone 2</th>
-												<td><form:input class="form-control myText"
-													path="phone2" /></td>
+												<td><form:input class="form-control myText" path="phone2" /></td>
+												<td><form:errors path="phone2" cssClass="error" /></td>
 											</tr>
 
 											<tr>
 												<th valign="top">Address 1</th>
 												<td><form:input class="form-control myText" path="add1" /></td>
+												<td><form:errors path="add1" cssClass="error" /></td>
 												<th valign="top">Address 2</th>
 												<td><form:input class="form-control myText" path="add2" /></td>
+												<td><form:errors path="add2" cssClass="error" /></td>
 
 											</tr>
 
 											<tr>
 												<th valign="top">Mail:</th>
-												<td><form:input class="form-control myText"
-													path="email" /></td>
+												<td><form:input class="form-control myText" path="email" /></td>
+												<td><form:errors path="email" cssClass="error" /></td>
 												<th valign="top">State:</th>
-												<td><form:input class="form-control myText"
-													path="state" /></td>
+												<td><form:input class="form-control myText" path="state" /></td>
+												<td><form:errors path="state" cssClass="error" /></td>
 											</tr>
 
 
