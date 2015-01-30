@@ -9,8 +9,8 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
 	<link rel="stylesheet" href="css/site.css" type="text/css" />
+	<link rel="stylesheet" href="css/screen.css">
 
 	<!-- jQuery -->
     <script src="js/jquery/jquery.js"></script>
