@@ -3,6 +3,7 @@ package com.csc.fresher.java.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -90,13 +91,10 @@ public class TransactionController {
 						List<SavingAccount> savingAccountlist = savingAccountService
 								.getSavingAccountList();
 
-						List<Transaction> listActiveTransaction = transactionService
-								.getTransactionByState("active");
 						List<Transaction> listNewTransaction = transactionService
-								.getTransactionByState("new");
-						modelview.addObject("listActiveTransaction",
-								listActiveTransaction);
-						modelview.addObject("listNewTransaction",
+								.getTransactionByState("done");
+
+						modelview.addObject("listDoneTransaction",
 								listNewTransaction);
 						modelview.addObject("savingaccountlist",
 								savingAccountlist);
@@ -126,7 +124,15 @@ public class TransactionController {
 			String message = "";
 			ModelAndView modelview = new ModelAndView(
 					"forward:/homeTransaction");
+
 			try {
+				Date dateStart = new Date();
+				SavingAccount savingAccount = transactionService
+						.getAccountbyTranID(transaction);
+				float currentBalance = savingAccount.getBalanceAmount();
+				transaction.setCurrentBalance(currentBalance);
+				transaction.setDateStart(dateStart.toString());
+				transaction.setState("hold");
 				boolean check = transactionService
 						.createTransaction(transaction);
 				if (check) {
@@ -338,11 +344,11 @@ public class TransactionController {
 				int TransactionId = Integer.parseInt(request
 						.getParameter("TransactionId"));
 
-				Transaction tran = transactionService
-						.getTransaction(TransactionId);
-				tran.setState("active");
+				// Transaction tran = transactionService
+				// .getTransaction(TransactionId);
+				// tran.setState("active");
 				// Check error when Update to Database
-				if (!transactionService.updateTransaction(tran)) {
+				if (!transactionService.approveTransacsionAdmin(TransactionId)) {
 					message = "Approve Transaction" + TransactionId + " FAIL";
 					modelview.addObject("ERROR_CODE", "0");
 					modelview.addObject("message", message);
