@@ -42,12 +42,52 @@ public class Transaction {
 
 	@Column(name = "state")
 	private String state;
+
+	@Column(name = "current_balance")
+	private float currentBalance;
+
+	@Column(name = "after_balance")
+	private float afterBalance;
+
 	@ManyToOne
 	@JoinColumn(name = "saving_account_id")
 	private SavingAccount savingAccountId;
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "transactionuser", joinColumns = { @JoinColumn(name = "transaction_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
 	private Collection<User> transactions = new HashSet<User>();
+
+	public Transaction(int id, float amount, String dateStart, String dateEnd,
+			String transactionType, String state, float currentBalance,
+			float afterBalance, SavingAccount savingAccountId,
+			Collection<User> transactions) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
+		this.transactionType = transactionType;
+		this.state = state;
+		this.currentBalance = currentBalance;
+		this.afterBalance = afterBalance;
+		this.savingAccountId = savingAccountId;
+		this.transactions = transactions;
+	}
+
+	public float getCurrentBalance() {
+		return currentBalance;
+	}
+
+	public void setCurrentBalance(float currentBalance) {
+		this.currentBalance = currentBalance;
+	}
+
+	public float getAfterBalance() {
+		return afterBalance;
+	}
+
+	public void setAfterBalance(float afterBalance) {
+		this.afterBalance = afterBalance;
+	}
 
 	public String getTransactionType() {
 		return transactionType;
@@ -71,14 +111,6 @@ public class Transaction {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public float getTransactionAmount() {
-		return amount;
-	}
-
-	public void setTransactionAmount(float transactionAmount) {
-		this.amount = transactionAmount;
 	}
 
 	public String getDateStart() {
@@ -116,8 +148,6 @@ public class Transaction {
 		this.amount = amount;
 	}
 
-
-
 	public Transaction(int id, float amount, String dateStart, String dateEnd,
 			String transactionType, String state, SavingAccount savingAccountId) {
 		super();
@@ -144,7 +174,6 @@ public class Transaction {
 		this.transactions = transactions;
 	}
 
-	
 	public Transaction(int id, float amount, String dateStart, String dateEnd,
 			String transactionType, String state) {
 		super();

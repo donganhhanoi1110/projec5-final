@@ -1,13 +1,17 @@
 // Saving Account Service 
 package com.csc.fresher.java.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 
 import com.csc.fresher.java.dao.SavingAccountDAO;
@@ -75,14 +79,21 @@ public class SavingAccountService {
 		return this.savingAccountDAO.getSavingAccount(id);
 	}
 
-	public boolean checkTransactionWithdraw(SavingAccount savingAccount,
+	public boolean checkTransaction(SavingAccount savingAccount,
 			Transaction tran) {
-		boolean check = false;
+		boolean check = true;
 		if (savingAccount.getState().equals("deactive")) {
 			check = false;
 		} else {
-			if (savingAccount.getBalanceAmount() < tran.getAmount()) {
-				check = false;
+			if (tran.getTransactionType().equals("withdraw")) {
+				if (savingAccount.getBalanceAmount() < tran.getAmount()) {
+					check = false;
+				}
+			} else {
+				if (tran.getState().equals("deny")) {
+					check = false;
+				}
+
 			}
 
 		}
@@ -90,7 +101,36 @@ public class SavingAccountService {
 		return check;
 	}
 
-	{
+	public boolean checkDate(String dateStart, String dateEnd) {
+
+		Date myDateStart = convertDateTime(dateStart);
+		Date myDateEnd = convertDateTime(dateEnd);
+		if (myDateEnd.getTime() <= (myDateStart.getTime())) {
+			return false;
+		} else
+			return true;
+	}
+
+	public Date convertDateTime(String mydate) {
+		Date date = null;
+		try {
+			SimpleDateFormat formatter;
+
+			formatter = new SimpleDateFormat("dd/MM/yyyy");
+			date = (Date) formatter.parse(mydate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return date;
 
 	}
+
+	public static void main(String[] args) {
+		String d1 = "20/11/2015";
+		String d2 = "14/11/2015";
+		SavingAccountService a = new SavingAccountService();
+
+		System.out.println(a.checkDate(d1, d2));
+	}
+
 }

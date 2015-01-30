@@ -1,6 +1,7 @@
 package com.csc.fresher.java.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
+import com.csc.fresher.java.service.SavingAccountService;
 
 /**
  * DAO class for Account entity. This class contains all methods that
@@ -30,49 +33,57 @@ public class TransactionDAO {
 	@PersistenceContext
 	public EntityManager entityManager;
 
-	
+	SavingAccountService savingService = new SavingAccountService();
+
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public Transaction getTransaction(int id) {
 		Transaction Transaction = new Transaction();
 		try {
+			System.out.println("getTransaction-DAO");
 			Transaction = entityManager.find(Transaction.class, id);
 			if (Transaction == null) {
-				throw new EntityNotFoundException("Can't find Transaction for ID " + id);
+				throw new EntityNotFoundException(
+						"Can't find Transaction for ID " + id);
 			}
-			System.out.println(Transaction.toString() + "getTransaction-DAO");
+			System.out.println(Transaction.getId() + "getTransaction-DAO");
 		} catch (Exception e) {
-			System.out.println("\nGetting Transaction had Errors"+ "*_"+e.getMessage()+"*_");
+			System.out.println("\nGetting Transaction had Errors" + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return Transaction;
 
 	}
+
 	public List<Transaction> getTransactionByState(String state) {
 		List<Transaction> list = new ArrayList<Transaction>();
 		try {
-			TypedQuery<Transaction> query = entityManager.createQuery("SELECT c FROM "
-					+ Transaction.class.getName() + " c where c.state=:state", Transaction.class);
+			TypedQuery<Transaction> query = entityManager.createQuery(
+					"SELECT c FROM " + Transaction.class.getName()
+							+ " c where c.state=:state", Transaction.class);
 			query.setParameter("state", state);
 			list = query.getResultList();
-			System.out.println("Get All Transactions");
+			System.out.println("Get getTransactionByState");
 		} catch (Exception e) {
-			System.out.println("\nGet Error "+ "*_"+e.getMessage()+"*_" );
+			System.out.println("\nGet Error " + "*_" + e.getMessage() + "*_");
 
 		}
 		return list;
 
 	}
+
 	public List<Transaction> getAllTransaction() {
 		List<Transaction> list = new ArrayList<Transaction>();
 		try {
-			TypedQuery<Transaction> query = entityManager.createQuery("SELECT c FROM "
-					+ Transaction.class.getName() + " c", Transaction.class);
+			TypedQuery<Transaction> query = entityManager.createQuery(
+					"SELECT c FROM " + Transaction.class.getName() + " c",
+					Transaction.class);
 
 			list = query.getResultList();
 			System.out.println("Get All Transactions");
 		} catch (Exception e) {
-			System.out.println("\nGet Error "+ "*_"+e.getMessage()+"*_" );
+			System.out.println("\nGet Error " + "*_" + e.getMessage() + "*_");
 
 		}
 		return list;
@@ -91,7 +102,8 @@ public class TransactionDAO {
 			check = true;
 
 		} catch (Exception e) {
-			System.out.println("\nGet Error with Create Transaction "+ "*_"+e.getMessage()+"*_");
+			System.out.println("\nGet Error with Create Transaction " + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;
@@ -111,9 +123,11 @@ public class TransactionDAO {
 		try {
 			entityManager.merge(transaction);
 			check = true;
-			System.out.println("Transaction " + transaction.getId() + "updated");
+			System.out
+					.println("Transaction " + transaction.getId() + "updated");
 		} catch (Exception e) {
-			System.out.println("\nUpdate Transaction get Error "+ "*_"+e.getMessage()+"*_");
+			System.out.println("\nUpdate Transaction get Error " + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;
@@ -130,21 +144,24 @@ public class TransactionDAO {
 	public boolean deleteTransactionById(int TransactionId) {
 		boolean check = false;
 		try {
-			Transaction Transaction = entityManager.find(Transaction.class, TransactionId);
+			Transaction Transaction = entityManager.find(Transaction.class,
+					TransactionId);
 			if (Transaction == null) {
-				check=false;
-				throw new EntityNotFoundException("Can't find Transaction for ID " + TransactionId);
+				check = false;
+				throw new EntityNotFoundException(
+						"Can't find Transaction for ID " + TransactionId);
 			}
 			System.out.println(Transaction.toString());
 			if (Transaction != null) {
 
 				entityManager.remove(Transaction);
-				check=true;
+				check = true;
 				System.out.println("delete Transaction by ID");
 			}
 		} catch (Exception e) {
-			
-			System.out.println("\nDelete Transaction by ID get Error "+ "*_"+e.getMessage()+"*_");
+
+			System.out.println("\nDelete Transaction by ID get Error " + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;
@@ -160,12 +177,77 @@ public class TransactionDAO {
 		boolean check = false;
 		try {
 			entityManager.remove(Transaction);
-				check=true;
+			check = true;
 			System.out.println("delete Transaction by Transaction");
 		} catch (Exception e) {
-			System.out.println("\nDelete Transaction get Error" + "*_"+e.getMessage()+"*_");
+			System.out.println("\nDelete Transaction get Error" + "*_"
+					+ e.getMessage() + "*_");
 
 		}
 		return check;
 	}
+
+	public List<Transaction> getTransactionBySavingAccountNumber(
+			int savingAccountNumber) {
+		List<Transaction> list = new ArrayList<Transaction>();
+		try {
+			TypedQuery<Transaction> query = entityManager
+					.createQuery(
+							"SELECT c FROM "
+									+ Transaction.class.getName()
+									+ " c where c.savingAccountId.savingAccountNumber=:number",
+							Transaction.class);
+			query.setParameter("state", savingAccountNumber);
+			list = query.getResultList();
+			System.out.println("Get getTransactionBySavingAccountNumber");
+		} catch (Exception e) {
+			System.out.println("\nGet Error " + "*_" + e.getMessage() + "*_");
+
+		}
+		return list;
+
+	}
+
+	public SavingAccount getAccountbyTranID(Transaction tran) {
+		SavingAccount acc = null;
+		try {
+			acc = entityManager.find(SavingAccount.class, tran
+					.getSavingAccountId().getId());
+
+			System.out.println("delete Transaction by Transaction");
+		} catch (Exception e) {
+			System.out.println("\nDelete Transaction get Error" + "*_"
+					+ e.getMessage() + "*_");
+
+		}
+		return acc;
+	}
+
+	public boolean approveTransacsionAdmin(int tranId) {
+		System.out.println("/nApprove Transaction Admin");
+		Date date = new Date();
+		try {
+			Transaction tran = getTransaction(tranId);
+			SavingAccount acc = entityManager.find(SavingAccount.class, tran
+					.getSavingAccountId().getId());
+			if (savingService.checkTransaction(acc, tran)) {
+				float afterBalance = tran.getAmount()
+						+ tran.getCurrentBalance();
+
+				tran.setState("done");
+				tran.setDateEnd(date.toString());
+				tran.setAfterBalance(afterBalance);
+				acc.setBalanceAmount(afterBalance);
+
+				tran.setSavingAccountId(acc);
+				updateTransaction(tran);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+
 }
