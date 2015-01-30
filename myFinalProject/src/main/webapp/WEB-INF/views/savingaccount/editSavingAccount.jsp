@@ -37,7 +37,7 @@
 								style="width: 15px; height: 30px;" value="${_csrf.token}" /> <input
 								name="searchSavingAcount" type="text" /></td>
 							<td><select name="searchType"
-								style="width: 50px; height: 20px; margin-left: 3px; margin-right: 3px;">
+								class="searchBox">
 									<option value="accountNumber">Account Number</option>
 									<option value="idNumber">ID Number's Customer</option>
 							</select></td>

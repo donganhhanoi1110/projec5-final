@@ -80,15 +80,13 @@
 												//do nothing
 											}
 										});
-						$(".addSavingAccount").bind("click",function(e){
+						$(".addSavingAccount").bind("click", function(e) {
 							$(".popupContainer").show();
 						})
-						$(".popupCloseButton").bind("click",function(e){
+						$(".popupCloseButton").bind("click", function(e) {
 							$(".popupContainer").hide();
 						})
- 						$(".popupContainer").bind("click",function(e){
-							$(".popupContainer").hide();
-						}) 
+
 					});
 </script>
 </head>
@@ -96,13 +94,13 @@
 	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
 			page="/login.jsp" /></c:if> --%>
 
-<div id="manu_main">
-			<ul>
+	<div id="manu_main">
+		<ul>
 
-				<li><a href="homeSavingAccount.html">Home Saving Acccount</a></li>
-				<li><a href="viewAllSavingAccount.html">View All Saving
-						Account</a></li>
-						<li>
+			<li><a href="homeSavingAccount.html">Home Saving Acccount</a></li>
+			<li><a href="viewAllSavingAccount.html">View All Saving
+					Account</a></li>
+			<li>
 				<form action="searchSavingAccount.html" method="post">
 					<table>
 
@@ -110,8 +108,7 @@
 							<td><input type="hidden" name="${_csrf.parameterName}"
 								style="width: 15px; height: 30px;" value="${_csrf.token}" /> <input
 								name="searchSavingAcount" type="text" /></td>
-							<td><select name="searchType"
-								style="width: 50px; height: 20px; margin-left: 3px; margin-right: 3px;">
+							<td><select name="searchType" class="searchBox">
 									<option value="accountNumber">Account Number</option>
 									<option value="idNumber">ID Number's Customer</option>
 							</select></td>
@@ -122,8 +119,8 @@
 				</form>
 
 			</li>
-			</ul>
-		</div>
+		</ul>
+	</div>
 	<div id="content-outer">
 		<!-- start content -->
 		<div id="content">
@@ -230,12 +227,13 @@
 					<b> >>>Manage Transaction<<< </b>
 				</div> --%>
 
-				<button class="addSavingAccount" value="addSavingAccount"> AddSavingAccount </button>	
+				<button class="addSavingAccount" value="addSavingAccount">
+					AddSavingAccount</button>
 				<div class="popupContainer">
 					<div class="popup">
-					<button class="popupCloseButton">X</button>
-					
-					<form:form action="createSavingAccount.html" method="post"
+						<button class="popupCloseButton">X</button>
+
+						<form:form action="createSavingAccount.html" method="post"
 							modelAttribute="savingaccount">
 							<table border="0" cellpadding="0" cellspacing="0" id="id-form"
 								class="table table-striped table-bordered">
@@ -269,7 +267,7 @@
 									<td><form:input path="dateEnd" class="form-control" /></td>
 								</tr>
 								<tr>
-									<th valign="top"><form:label path="customerId.id">Saving Account</form:label></th>
+									<th valign="top"><form:label path="customerId.id">Customer</form:label></th>
 									<td><form:select path="customerId.id" multiple="false"
 											class="form-control">
 											<form:options items="${customerList}" itemValue="id"
@@ -277,7 +275,7 @@
 										</form:select></td>
 								</tr>
 								<tr>
-									<th valign="top"><form:label path="interestRateId.id">Saving Account</form:label></th>
+									<th valign="top"><form:label path="interestRateId.id">Period</form:label></th>
 									<td><form:select path="interestRateId.id" multiple="false"
 											class="form-control">
 											<form:options items="${interestrateList}" itemValue="id"
@@ -299,13 +297,14 @@
 								</tr>
 							</table>
 						</form:form>
-					
-					
-					
+
+
+
 					</div>
-				</div><!-- End popupContainer -->
-				
-				
+				</div>
+				<!-- End popupContainer -->
+
+
 				<div class="panel-body">
 					<div class="dataTable_wrapper">
 						<table class="mytable1 table table-striped table-bordered "
@@ -376,7 +375,7 @@
 		</div>
 
 	</div>
-<!-- 	<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			$("#linkPopup").bind("click", function(e) {
 				e.preventDefault();

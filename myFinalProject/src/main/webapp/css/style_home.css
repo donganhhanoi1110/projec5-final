@@ -2,9 +2,18 @@
 	margin: 0px;
 	padding: 0px;
 }
-.mySearchText tr >td{
+
+.searchBox {
+	width: 100px;
+	height: 20px;
+	margin-left: 3px;
 	margin-right: 3px;
 }
+
+.mySearchText tr>td {
+	margin-right: 3px;
+}
+
 #cover_box {
 	background-color: #CCFFFF;
 	margin: 10px;
@@ -60,7 +69,6 @@
 #content_right {
 	float: right;
 	width: 85%;
-
 	margin-bottom: 10px;
 	padding: 10px;
 }

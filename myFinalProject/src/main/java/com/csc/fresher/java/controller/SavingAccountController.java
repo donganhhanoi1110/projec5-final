@@ -398,22 +398,29 @@ public class SavingAccountController {
 
 	@RequestMapping(value = "/searchSavingAccount", method = RequestMethod.POST)
 	public ModelAndView searchSavingAccount(HttpServletRequest request,
-			Model model, HttpSession session) {
+			Model model, HttpSession session,
+			@ModelAttribute Customer customer,
+			@ModelAttribute Transaction transaction) {
 		String message = "";
 		if (session.getAttribute("loginSession") != null) {
 
 			ModelAndView modelview = new ModelAndView("searchSavingAccount");
 			SavingAccount saving = new SavingAccount();
+			// FOr Add Transaction
+			modelview.addObject("transaction", new Transaction());
 
+			// For Search
 			String searchValue = request.getParameter("searchSavingAcount");
 			String searchType = request.getParameter("searchType");
-
+			Customer customerfromSaving = null;
+			// Search by Saving Account Number
 			if (searchType.equals("accountNumber")) {
 				try {
 					List<SavingAccount> listSaving = new ArrayList<SavingAccount>();
 					saving = savingAccountService
 							.getSavingAccountByNumber(Integer
 									.parseInt(searchValue));
+
 					if (saving == null) {
 						message = "Can Not Find Saving Account Number "
 								+ searchValue + "!!! ";
@@ -422,10 +429,14 @@ public class SavingAccountController {
 						if (saving.getState() != null
 								&& saving.getState().equals("active")) {
 							listSaving.add(saving);
+							// Show Customer Data to Search Page
+							customerfromSaving = customerService
+									.getCustomerBySavingAccountId(saving);
 						}
 					}
-					// Check for Searching Result
 
+					// Check for Searching Result
+					modelview.addObject("myCustomer", customerfromSaving);
 					modelview.addObject("message", message);
 					modelview.addObject("listSavingAccount", listSaving);
 				} catch (Exception e) {
@@ -436,6 +447,7 @@ public class SavingAccountController {
 				}
 
 			} else {
+				// Search by ID Number of Customer
 				if (searchType.equals("idNumber")) {
 					try {
 						List<SavingAccount> listSaving = new ArrayList<SavingAccount>();
@@ -443,7 +455,7 @@ public class SavingAccountController {
 								.getSavingAccountByCustomerIDNumber(searchValue);
 						// Check for Searching Result
 						for (SavingAccount s : myListSaving) {
-							if (saving.getState() != null
+							if (s.getState() != null
 									&& s.getState().equals("active")) {
 								listSaving.add(s);
 							}
@@ -454,6 +466,11 @@ public class SavingAccountController {
 							message = "Can Not Find List of Saving Account of Customer "
 									+ searchValue + "!!!";
 						}
+						// Get Customer
+						customerfromSaving = customerService
+								.getCustomerByIDNumber(searchValue);
+
+						modelview.addObject("myCustomer", customerfromSaving);
 						modelview.addObject("message", message);
 						modelview.addObject("listSavingAccount", listSaving);
 					} catch (Exception e) {
