@@ -80,6 +80,15 @@
 												//do nothing
 											}
 										});
+						$(".addSavingAccount").bind("click",function(e){
+							$(".popupContainer").show();
+						})
+						$(".popupCloseButton").bind("click",function(e){
+							$(".popupContainer").hide();
+						})
+ 						$(".popupContainer").bind("click",function(e){
+							$(".popupContainer").hide();
+						}) 
 					});
 </script>
 </head>
@@ -119,7 +128,7 @@
 
 				</div>
 
-				<div id="hide">
+				<%-- 				<div id="hide">
 					<div style="float: left;">
 
 						<form:form action="createSavingAccount.html" method="post"
@@ -190,10 +199,86 @@
 
 				</div>
 
-
 				<div id="show">
 					<b> >>>Manage Transaction<<< </b>
-				</div>
+				</div> --%>
+
+				<button class="addSavingAccount" value="addSavingAccount"> AddSavingAccount </button>	
+				<div class="popupContainer">
+					<div class="popup">
+					<button class="popupCloseButton">X</button>
+					
+					<form:form action="createSavingAccount.html" method="post"
+							modelAttribute="savingaccount">
+							<table border="0" cellpadding="0" cellspacing="0" id="id-form"
+								class="table table-striped table-bordered">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
+
+								<tr>
+									<th valign="top"><form:label path="savingAccountNumber">Saving Account Number</form:label>
+									</th>
+									<td><form:input path="savingAccountNumber"
+											class="form-control" /></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="balanceAmount">Balance Amount</form:label>
+									</th>
+									<td><form:input path="balanceAmount" class="form-control" /></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="repeatable">Repeatable</form:label>
+									</th>
+									<td><form:input path="repeatable" class="form-control" /></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="dateStart">Date Start</form:label>
+									</th>
+									<td><form:input path="dateStart" class="form-control" /></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="dateEnd">Date End</form:label>
+									</th>
+									<td><form:input path="dateEnd" class="form-control" /></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="customerId.id">Saving Account</form:label></th>
+									<td><form:select path="customerId.id" multiple="false"
+											class="form-control">
+											<form:options items="${customerList}" itemValue="id"
+												itemLabel="firstName" />
+										</form:select></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="interestRateId.id">Saving Account</form:label></th>
+									<td><form:select path="interestRateId.id" multiple="false"
+											class="form-control">
+											<form:options items="${interestrateList}" itemValue="id"
+												itemLabel="savingAccountType" />
+										</form:select></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="state">State</form:label></th>
+									<td><form:select path="state" class="form-control">
+											<form:options items="${states }" />
+										</form:select></td>
+
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type="submit" class="myButton" value="Save"
+										id="addAccount" /></td>
+
+								</tr>
+							</table>
+						</form:form>
+					
+					
+					
+					</div>
+				</div><!-- End popupContainer -->
+				
+				
 				<div class="panel-body">
 					<div class="dataTable_wrapper">
 						<table class="mytable1 table table-striped table-bordered "
@@ -264,6 +349,23 @@
 		</div>
 
 	</div>
+<!-- 	<script>
+		$(document).ready(function() {
+			$("#linkPopup").bind("click", function(e) {
+				e.preventDefault();
+				$(".popupContainer").show();
+			});
+			$(".popupCloseButton").bind("click", function(e) {
+				$(".popupContainer").hide();
+			});
+		});
+	</script>
+	<a href="dskaj" id="linkPopup">click to show popup</a>
+	<div class="popupContainer">
+		<div class="popup">
+			<button class="popupCloseButton">X</button>
+		</div>
+	</div> -->
 
 
 </body>
