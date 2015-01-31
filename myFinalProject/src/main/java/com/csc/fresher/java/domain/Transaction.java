@@ -49,7 +49,7 @@ public class Transaction {
 	@Column(name = "after_balance")
 	private float afterBalance;
 
-	@ManyToOne
+	@ManyToOne( cascade = CascadeType.ALL)
 	@JoinColumn(name = "saving_account_id")
 	private SavingAccount savingAccountId;
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -71,6 +71,21 @@ public class Transaction {
 		this.afterBalance = afterBalance;
 		this.savingAccountId = savingAccountId;
 		this.transactions = transactions;
+	}
+
+	public Transaction(int id, float amount, String dateStart, String dateEnd,
+			String transactionType, String state, float currentBalance,
+			float afterBalance, SavingAccount savingAccountId) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
+		this.transactionType = transactionType;
+		this.state = state;
+		this.currentBalance = currentBalance;
+		this.afterBalance = afterBalance;
+		this.savingAccountId = savingAccountId;
 	}
 
 	public float getCurrentBalance() {

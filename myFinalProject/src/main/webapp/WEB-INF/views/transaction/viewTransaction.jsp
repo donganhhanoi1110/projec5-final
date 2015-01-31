@@ -87,14 +87,14 @@
 			page="/login.jsp" /></c:if> --%>
 
 	<div id="manu_main">
-			<ul>
+		<ul>
 
-				<li><a href="homeTransaction.html">Home Transaction</a></li>
-				<li><a href="viewTransaction.html">View All Transaction</a></li>
+			<li><a href="homeTransaction.html">Home Transaction</a></li>
+			<li><a href="viewTransaction.html">View All Transaction</a></li>
 
-	
-			</ul>
-		</div>
+
+		</ul>
+	</div>
 	<div id="content-outer">
 		<!-- start content -->
 		<div id="content">
@@ -141,6 +141,8 @@
 									<th>Account Number</th>
 									<th>State</th>
 									<th>Transaction Type</th>
+									<th>Current Balance</th>
+									<th>After Balance</th>
 									<th>View</th>
 
 
@@ -157,6 +159,8 @@
 											<td>${Transaction.savingAccountId.savingAccountNumber}</td>
 											<td>${Transaction.state}</td>
 											<td>${Transaction.transactionType}</td>
+											<td>${Transaction.currentBalance}</td>
+											<td>${Transaction.afterBalance}</td>
 											<td><a
 												href="viewOneTransaction.html?TransactionId=${Transaction.id}"
 												class="myButton">View</a></td>

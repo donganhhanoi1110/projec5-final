@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.csc.fresher.java.domain.Customer;
 import com.csc.fresher.java.domain.InterestRate;
+import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
 import com.csc.fresher.java.domain.InterestRate;
 
@@ -25,6 +26,26 @@ public class InterestRateDAO {
 
 	@PersistenceContext
 	public EntityManager entityManager;
+
+	@Transactional
+	public InterestRate getInterestRateBySavingAccountId(SavingAccount saving) {
+		InterestRate interestRate = new InterestRate();
+		try {
+			interestRate = entityManager.find(InterestRate.class, saving
+					.getCustomerId().getId());
+			if (interestRate == null) {
+				throw new EntityNotFoundException(" Can't find user for ID "
+						+ saving.getCustomerId().getId());
+			}
+			System.out.println(interestRate.toString()
+					+ "getCustomerBySavingAccountId-Customer-Dao");
+		} catch (Exception e) {
+			System.out.println("\nGetting customer has error" + "*_"
+					+ e.getMessage());
+		}
+
+		return interestRate;
+	}
 
 	@Transactional
 	@SuppressWarnings("unchecked")

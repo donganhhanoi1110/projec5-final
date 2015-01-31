@@ -262,3 +262,60 @@
 .css-input:focus {
 	outline: none;
 }
+
+.textox {
+	width: 174px;
+	height: 30px;
+	border: solid 2px #3091DB;
+	padding: 3px;
+	border-radius: 5px;
+	font-size: 14px;
+	box-shadow: 0px 1px 2px 0px #9C9C9C;
+	background-color: #F5FAF9;
+	outline: none;
+	color: #474747;
+	text-transform: lowercase;
+}
+
+.textox:hover {
+	border: 2px solid #FF00D5;
+}
+
+.textox:focus {
+	border: solid 2px #00D43C;
+	box-shadow: inset 0px 1px 2px 0px #9C9C9C;
+}
+
+.textox:active {
+	border: solid 2px #0043EB;
+}
+
+.mytable2 th {
+	color: #3399CC;;
+	font-size: 15px;
+	font-weight: 100;
+	padding: 5px;
+	text-align: left;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	vertical-align: middle;
+}
+
+.mytable2 tr {
+	color: #666B85;
+	font-size: 16px;
+	font-weight: normal;
+	text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+
+.mytable2 tr:hover td {
+	color: #FFFFFF;
+}
+
+.mytable2 td {
+	padding: 5px;
+	text-align: left;
+	vertical-align: middle;
+	font-weight: 250;
+	font-size: 15px;
+	text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+}

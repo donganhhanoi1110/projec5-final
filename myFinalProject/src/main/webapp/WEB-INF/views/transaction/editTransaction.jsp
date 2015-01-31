@@ -28,10 +28,7 @@
 		<div id="content">
 
 			<!--  start page-heading -->
-			<div id="page-heading">
-
-				<h1 style="color: red">${message}</h1>
-			</div>
+		
 
 			<div id="content-table-inner">
 				<div id="page-heading">

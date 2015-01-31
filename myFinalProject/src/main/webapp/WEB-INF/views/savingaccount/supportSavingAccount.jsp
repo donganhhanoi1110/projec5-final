@@ -19,67 +19,15 @@
 			xhr.setRequestHeader(header, token);
 		});
 	});
-	$(document)
-			.ready(
-					function() {
-						$("#table").DataTable({
-							responsive : true
-						});
-						$("#show").click(function() {
-							$("#hide").slideToggle();
-						});
-						$(document)
-								.on(
-										"click",
-										"#linkDeleteSavingAccount",
-										function(e) {
-											e.preventDefault();
+	$(document).ready(function() {
+		$("#table").DataTable({
+			responsive : true
+		});
+		$("#show").click(function() {
+			$("#hide").slideToggle();
+		});
 
-											var confirmMessage = confirm("Do you  to delete this SavingAccount?");
-											if (confirmMessage) {
-												//to delete SavingAccount page
-												var savingAccountId = $(this)
-														.attr("SavingAccount");
-												/* 	$(this).closest("tr").remove(); */
-
-												//if you want to reload the page
-												//window.location.href = 'deleteSavingAccount?SavingAccountId=' + SavingAccountId;
-												// if you SavingAccount ajax
-												$
-														.ajax({
-															type : 'post',
-															url : 'deleteSavingAccountJson',
-															data : 'savingAccountId='
-																	+ savingAccountId,
-															datatype : 'json',
-															success : function(
-																	data) {
-																console
-																		.log(data);
-																if (data.login == true) {
-																	if (data.success == true) {
-																		alert("Delete successfully!");
-																		if (data.error_code == '0') {
-																			window.location.href = 'homeSavingAccount?ERROR_CODE='
-																					+ data.error_code;
-																		} else {
-																			window.location.href = 'homeSavingAccount';
-																		}
-
-																	} else {
-																		alert("Delete Failed");
-																	}
-																} else {
-																	window.location.href = 'login';
-																}
-															}
-														});
-
-											} else {
-												//do nothing
-											}
-										});
-					});
+	});
 </script>
 </head>
 <body>
@@ -101,8 +49,7 @@
 							<td><input type="hidden" name="${_csrf.parameterName}"
 								style="width: 15px; height: 30px;" value="${_csrf.token}" /> <input
 								name="searchSavingAcount" type="text" /></td>
-							<td><select name="searchType"
-								class="searchBox">
+							<td><select name="searchType" class="searchBox">
 									<option value="accountNumber">Account Number</option>
 									<option value="idNumber">ID Number's Customer</option>
 							</select></td>
@@ -120,10 +67,7 @@
 		<div id="content">
 
 			<!--  start page-heading -->
-			<div id="page-heading">
-
-				<h1 style="color: red">${message}</h1>
-			</div>
+		
 
 			<div id="content-table-inner">
 				<div id="page-heading">
@@ -161,7 +105,7 @@
 									<th>Date End</th>
 									<sec:authorize access="hasRole('support')">
 										<th>Submit Saving Account</th>
-
+										<th>Edit</th>
 									</sec:authorize>
 
 								</tr>
@@ -185,7 +129,9 @@
 											<td><a
 												href="submitSavingAccount.html?SavingAccountId=${savingAccount.id}"
 												class="myButton">Submit</a></td>
-
+											<td><a
+												href="editSavingAccount.html?SavingAccountId=${savingAccount.id}"
+												class="myButton">Edit</a></td>
 											<input type="hidden" name="${_csrf.parameterName}"
 												value="${_csrf.token}" />
 										</sec:authorize>

@@ -2,6 +2,7 @@ package com.csc.fresher.java.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "savingaccount")
+@Table(name = "savingaccount", uniqueConstraints = { @UniqueConstraint(columnNames = "savingaccount_number") })
 public class SavingAccount {
 
 	@Id
@@ -21,13 +23,12 @@ public class SavingAccount {
 	@Column(name = "id")
 	private int id;
 
-	@Column(name="savingaccount_number")
+	@Column(name = "savingaccount_number")
 	private int savingAccountNumber;
-	
+
 	@Column(name = "balance_amount")
 	private float balanceAmount;
 
-	
 	@Column(name = "repeatable")
 	private int repeatable;
 
@@ -36,7 +37,7 @@ public class SavingAccount {
 
 	@Column(name = "date_start")
 	private String dateStart;
-	
+
 	@Column(name = "date_end")
 	private String dateEnd;
 	@ManyToOne
@@ -47,10 +48,9 @@ public class SavingAccount {
 	@JoinColumn(name = "interest_rate_id")
 	private InterestRate interestRateId;
 
-	@OneToMany(mappedBy="savingAccountId")
+	@OneToMany(mappedBy = "savingAccountId")
 	private List<Transaction> transactions;
-	
-	
+
 	public SavingAccount(int id, int savingAccountNumber, float balanceAmount,
 			int repeatable, String state, String dateStart, String dateEnd,
 			Customer customerId, InterestRate interestRateId,
@@ -105,7 +105,7 @@ public class SavingAccount {
 		this.customerId = customerId;
 		this.interestRateId = interestRateId;
 		this.transactions = transactions;
-		this.savingAccountNumber=savingaccountnumber;
+		this.savingAccountNumber = savingaccountnumber;
 	}
 
 	public int getSavingAccountNumber() {
@@ -187,7 +187,7 @@ public class SavingAccount {
 		this.repeatable = repeatable;
 		this.state = state;
 		this.customerId = customerId;
-		this.savingAccountNumber=savingaccountnumber;
+		this.savingAccountNumber = savingaccountnumber;
 	}
 
 	public InterestRate getInterestRateId() {

@@ -33,7 +33,11 @@
 
 <script src="js/dataTables.bootstrap.min.js"></script>
 
-
+<!-- Date Picker -->
+<link href="css/ui-lightness/jquery-ui-1.9.2.custom.min.css"
+	rel="stylesheet">
+<script type="text/javascript"
+	src="js/jquery/jquery-ui-1.9.2.custom.min.js"></script>
 </head>
 
 <body>
@@ -42,7 +46,7 @@
 		<tiles:insertAttribute name="menu" />
 		<!-- Navigation -->
 
-		
+
 		<!-- Page Content -->
 		<div id="content_right">
 

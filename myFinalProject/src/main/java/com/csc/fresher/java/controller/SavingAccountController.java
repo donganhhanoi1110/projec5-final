@@ -2,7 +2,9 @@ package com.csc.fresher.java.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +30,7 @@ import com.csc.fresher.java.domain.User;
 import com.csc.fresher.java.service.CustomerService;
 import com.csc.fresher.java.service.InterestRateService;
 import com.csc.fresher.java.service.SavingAccountService;
+import com.csc.fresher.java.service.TransactionService;
 import com.csc.fresher.java.service.UserRoleService;
 import com.csc.fresher.java.service.UserService;
 
@@ -36,6 +39,8 @@ public class SavingAccountController {
 
 	@Autowired
 	private SavingAccountService savingAccountService;
+	@Autowired
+	private TransactionService transactionService;
 
 	@Autowired
 	private UserRoleService userRoleService;
@@ -101,6 +106,18 @@ public class SavingAccountController {
 		}
 	}
 
+	public int myRandom(int start, int end) {
+		try {
+			Random random = new Random();
+			int range = end - start + 1;
+			int randomNum = end + random.nextInt(range);
+			return randomNum;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
 	@RequestMapping(value = { "/viewAllSavingAccount" })
 	public ModelAndView getHome(HttpServletRequest request,
 			HttpSession session, @ModelAttribute SavingAccount savingaccount) {
@@ -114,11 +131,16 @@ public class SavingAccountController {
 			List<Customer> cus = customerService.getAllCustomer();
 			List<InterestRate> interestRate = interestRateService
 					.getInterestRateList();
-			String[] states = { "new", "hold", "active", "done" };
+
+			// setDefault Saving Account Number
+			int savingAccountNumber = myRandom(50, 200);
+			String[] states = { "new", "hold", "active" };
 			modelAndView.addObject("interestrateList", interestRate);
 			modelAndView.addObject("customerList", cus);
 			modelAndView.addObject("states", states);
 			modelAndView.addObject("listSavingAccount", savingAccountList);
+			modelAndView.addObject("savingAccountNumber", "123"
+					+ savingAccountNumber);
 			return modelAndView;
 		} else {
 			return new ModelAndView("redirect:/login");
@@ -138,8 +160,21 @@ public class SavingAccountController {
 			try {
 				System.out.println("Json Saving Account: "
 						+ savingaccount.toString());
+
+				// Business With Saving Account
+
+				if (savingaccount.getBalanceAmount() > 10000000) {
+					savingaccount.setState("hold");
+				}
+
 				// Check error when Delete to Database
 				if (savingAccountService.createSavingAccount(savingaccount)) {
+					Date currentDate = new Date();
+					SavingAccount saving = savingAccountService
+							.getSavingAccountByNumber(savingaccount
+									.getSavingAccountNumber());
+					// Create transaction of this saving account to admin
+
 					message = "Create SavingAccount"
 							+ savingaccount.getSavingAccountNumber()
 							+ " Successfully";
@@ -281,7 +316,7 @@ public class SavingAccountController {
 				List<Customer> cus = customerService.getAllCustomer();
 				List<InterestRate> interestRate = interestRateService
 						.getInterestRateList();
-				String[] states = { "new", "hold", "active", "done" };
+				String[] states = { "new", "hold", "done" };
 				modelview.addObject("interestrateList", interestRate);
 				modelview.addObject("customerList", cus);
 				modelview.addObject("states", states);
@@ -302,7 +337,7 @@ public class SavingAccountController {
 	@RequestMapping(value = "/editSavingAccountProfile", method = RequestMethod.POST)
 	public ModelAndView editSavingAccountProfile(HttpServletRequest request,
 			Model model, HttpSession session,
-			@ModelAttribute SavingAccount savingaccount) {
+			@ModelAttribute("savingaccount") SavingAccount savingaccount) {
 		ModelAndView modelview = new ModelAndView(
 				"forward:/viewAllSavingAccount");
 
@@ -452,7 +487,7 @@ public class SavingAccountController {
 			@ModelAttribute Transaction transaction) {
 		String message = "";
 		if (session.getAttribute("loginSession") != null) {
-
+			boolean check = false;
 			ModelAndView modelview = new ModelAndView("searchSavingAccount");
 			SavingAccount saving = new SavingAccount();
 			// FOr Add Transaction
@@ -473,7 +508,7 @@ public class SavingAccountController {
 					if (saving == null) {
 						message = "Can Not Find Saving Account Number "
 								+ searchValue + "!!! ";
-
+						check = false;
 					} else {
 						if (saving.getState() != null
 								&& saving.getState().equals("active")) {
@@ -481,6 +516,7 @@ public class SavingAccountController {
 							// Show Customer Data to Search Page
 							customerfromSaving = customerService
 									.getCustomerBySavingAccountId(saving);
+							check = true;
 						}
 					}
 
@@ -489,6 +525,7 @@ public class SavingAccountController {
 					modelview.addObject("message", message);
 					modelview.addObject("listSavingAccount", listSaving);
 				} catch (Exception e) {
+					check = false;
 					e.printStackTrace();
 					message = "Find Saving Account Number Error" + searchValue
 							+ "!!! ";
@@ -514,6 +551,9 @@ public class SavingAccountController {
 						if (checkNumber == 0) {
 							message = "Can Not Find List of Saving Account of Customer "
 									+ searchValue + "!!!";
+							check = false;
+						} else {
+							check = true;
 						}
 						// Get Customer
 						customerfromSaving = customerService
@@ -522,7 +562,9 @@ public class SavingAccountController {
 						modelview.addObject("myCustomer", customerfromSaving);
 						modelview.addObject("message", message);
 						modelview.addObject("listSavingAccount", listSaving);
+
 					} catch (Exception e) {
+						check = false;
 						e.printStackTrace();
 						message = "Find Saving Account Number Error"
 								+ searchValue + "!!! ";
@@ -530,7 +572,7 @@ public class SavingAccountController {
 					}
 				}
 			}
-
+			modelview.addObject("check", check);
 			return modelview;
 		} else {
 			return new ModelAndView("redirect:/login");

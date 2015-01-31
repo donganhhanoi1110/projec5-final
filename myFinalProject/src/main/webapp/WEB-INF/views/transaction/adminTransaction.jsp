@@ -19,82 +19,35 @@
 			xhr.setRequestHeader(header, token);
 		});
 	});
-	$(document)
-			.ready(
-					function() {
-						$("#table").DataTable({
-							responsive : true
-						});
-						$("#show").click(function() {
-							$("#hide").slideToggle();
-						});
-						$(document)
-								.on(
-										"click",
-										"#linkDeleteTransaction",
-										function(e) {
-											e.preventDefault();
+	$(document).ready(function() {
+		$("#table").DataTable({
+			responsive : true
+		});
+		$("#show").click(function() {
+			$("#hide").slideToggle();
+		});
 
-											var confirmMessage = confirm("Do you date to delete this Transaction?");
-											if (confirmMessage) {
-												//to delete Transaction page
-												var TransactionId = $(this)
-														.attr("Transaction");
-												/* 	$(this).closest("tr").remove(); */
-
-												//if you want to reload the page
-												//window.location.href = 'deleteTransaction?TransactionId=' + TransactionId;
-												// if you Transaction ajax
-												$
-														.ajax({
-															type : 'post',
-															url : 'deleteTransactionJson',
-															data : 'TransactionId='
-																	+ TransactionId,
-															datatype : 'json',
-															success : function(
-																	data) {
-																console
-																		.log(data);
-																if (data.login == true) {
-																	if (data.success == true) {
-																		alert("Delete successfully!");
-																		if (data.error_code == '0') {
-																			window.location.href = 'homeTransaction?ERROR_CODE='
-																					+ data.error_code;
-																		} else {
-																			window.location.href = 'homeTransaction';
-																		}
-
-																	} else {
-																		alert("Delete Failed");
-																	}
-																} else {
-																	window.location.href = 'login';
-																}
-															}
-														});
-
-											} else {
-												//do nothing
-											}
-										});
-					});
+	});
 </script>
 </head>
 <body>
 	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
 			page="/login.jsp" /></c:if> --%>
+	<div id="manu_main">
+		<ul>
 
+			<li><a href="homeTransaction.html">Home Transaction</a></li>
+			<li><a href="viewTransaction.html">View All Transaction</a></li>
+
+
+		</ul>
+	</div>
 	<div id="content-outer">
 		<!-- start content -->
 		<div id="content">
 
 			<!--  start page-heading -->
-			<div id="page-heading">
 
-				<h1 style="color: red">${message}</h1>
-			</div>
 
 			<div id="content-table-inner">
 				<div id="page-heading">
@@ -128,6 +81,8 @@
 									<th>Account Number</th>
 									<th>State</th>
 									<th>Transaction Type</th>
+									<th>Current Balance</th>
+									<th>After Balance</th>
 									<sec:authorize access="hasRole('admin')">
 										<th>Approve Transaction</th>
 										<th>Deny Transaction</th>
@@ -147,6 +102,8 @@
 											<td>${Transaction.savingAccountId.savingAccountNumber}</td>
 											<td>${Transaction.state}</td>
 											<td>${Transaction.transactionType}</td>
+											<td>${Transaction.currentBalance}</td>
+											<td>${Transaction.afterBalance}</td>
 											<sec:authorize access="hasRole('admin')">
 												<td><a
 													href="approveTransaction.html?TransactionId=${Transaction.id}"

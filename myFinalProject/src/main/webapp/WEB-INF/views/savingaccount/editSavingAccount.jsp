@@ -11,9 +11,9 @@
 	src="js/jquery/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		$("#datepicker").datepicker({
+		$(".datepicker").datepicker({
 			inline : true,
-			format : 'dd-mm-yyyy hh:mm:ss '
+			dateFormat : 'dd/mm/yy'
 		});
 	});
 </script>
@@ -22,13 +22,13 @@
 	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
 			page="/login.jsp" /></c:if> --%>
 
-<div id="manu_main">
-			<ul>
+	<div id="manu_main">
+		<ul>
 
-				<li><a href="homeSavingAccount.html">Home Saving Acccount</a></li>
-				<li><a href="viewAllSavingAccount.html">View All Saving
-						Account</a></li>
-						<li>
+			<li><a href="homeSavingAccount.html">Home Saving Acccount</a></li>
+			<li><a href="viewAllSavingAccount.html">View All Saving
+					Account</a></li>
+			<li>
 				<form action="searchSavingAccount.html" method="post">
 					<table>
 
@@ -36,8 +36,7 @@
 							<td><input type="hidden" name="${_csrf.parameterName}"
 								style="width: 15px; height: 30px;" value="${_csrf.token}" /> <input
 								name="searchSavingAcount" type="text" /></td>
-							<td><select name="searchType"
-								class="searchBox">
+							<td><select name="searchType" class="searchBox">
 									<option value="accountNumber">Account Number</option>
 									<option value="idNumber">ID Number's Customer</option>
 							</select></td>
@@ -48,17 +47,14 @@
 				</form>
 
 			</li>
-			</ul>
-		</div>
+		</ul>
+	</div>
 	<div id="content-outer">
 		<!-- start content -->
 		<div id="content">
 
 			<!--  start page-heading -->
-			<div id="page-heading">
-
-				<h1 style="color: red">${message}</h1>
-			</div>
+		
 
 			<div id="content-table-inner">
 				<div id="page-heading">
@@ -90,6 +86,11 @@
 										value="${_csrf.token}" />
 
 									<tr>
+										<th valign="top"><form:label path="id">ID</form:label></th>
+										<td><form:input path="id" class="form-control"
+												value="${savingaccount.id }" readonly="true" /></td>
+									</tr>
+									<tr>
 										<th valign="top"><form:label path="savingAccountNumber">Saving Account Number</form:label>
 										</th>
 										<td><form:input path="savingAccountNumber"
@@ -110,13 +111,15 @@
 									<tr>
 										<th valign="top"><form:label path="dateStart">Date Start</form:label>
 										</th>
-										<td><form:input path="dateStart" class="form-control"
+										<td><form:input path="dateStart"
+												class="form-control datepicker"
 												value="${savingaccount.dateStart }" /></td>
 									</tr>
 									<tr>
 										<th valign="top"><form:label path="dateEnd">Date End</form:label>
 										</th>
-										<td><form:input path="dateEnd" class="form-control"
+										<td><form:input path="dateEnd"
+												class="form-control datepicker"
 												value="${savingaccount.dateEnd }" /></td>
 									</tr>
 									<tr>

@@ -170,218 +170,223 @@
 
 
 				<h1>Search Saving Account Information</h1>
-				<div class="panel-body">
-					<div class="dataTable_wrapper">
-						<table class="mytable1 table table-striped table-bordered "
-							id="table">
-							<thead>
-								<tr>
-									<th>Saving Account Number</th>
-									<th>Customer</th>
-									<th>Saving Balance Amount</th>
-									<th>Repeatable</th>
-									<th>Interest Rate</th>
-									<th>State</th>
-									<th>Date Start</th>
-									<th>Date End</th>
-									<sec:authorize access="hasRole('admin')">
 
-										<th>Edit Saving Account</th>
-
-									</sec:authorize>
-
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="savingAccount" items="${listSavingAccount}">
-
+				<c:if test="${check == true }">
+					<div class="panel-body">
+						<div class="dataTable_wrapper">
+							<table class="mytable1 table table-striped table-bordered "
+								id="table">
+								<thead>
 									<tr>
-										<td><a>${savingAccount.savingAccountNumber}</a></td>
-										<td>${savingAccount.customerId.firstName}</td>
-										<td>${savingAccount.balanceAmount}</td>
-										<td>${savingAccount.repeatable}</td>
-										<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
-											${savingAccount.interestRateId.interestRate}%&nbsp;
-											(${savingAccount.interestRateId.currency})</td>
-										<td>${savingAccount.state}</td>
-										<td>${savingAccount.dateStart}</td>
-										<td>${savingAccount.dateEnd}</td>
+										<th>Saving Account Number</th>
+										<th>Customer</th>
+										<th>Saving Balance Amount</th>
+										<th>Repeatable</th>
+										<th>Interest Rate</th>
+										<th>State</th>
+										<th>Date Start</th>
+										<th>Date End</th>
 										<sec:authorize access="hasRole('admin')">
 
-											<td><a
-												href="editSavingAccount.html?SavingAccountId=${savingAccount.id}"
-												class="myButton">Edit</a></td>
-											<input type="hidden" name="${_csrf.parameterName}"
-												value="${_csrf.token}" />
+											<th>Edit Saving Account</th>
+
 										</sec:authorize>
 
-
-
 									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="savingAccount" items="${listSavingAccount}">
 
-								</c:forEach>
-							</tbody>
-						</table>
+										<tr>
+											<td><a>${savingAccount.savingAccountNumber}</a></td>
+											<td>${savingAccount.customerId.firstName}</td>
+											<td>${savingAccount.balanceAmount}</td>
+											<td>${savingAccount.repeatable}</td>
+											<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
+												${savingAccount.interestRateId.interestRate}%&nbsp;
+												(${savingAccount.interestRateId.currency})</td>
+											<td>${savingAccount.state}</td>
+											<td>${savingAccount.dateStart}</td>
+											<td>${savingAccount.dateEnd}</td>
+											<sec:authorize access="hasRole('admin')">
+
+												<td><a
+													href="editSavingAccount.html?SavingAccountId=${savingAccount.id}"
+													class="myButton">Edit</a></td>
+												<input type="hidden" name="${_csrf.parameterName}"
+													value="${_csrf.token}" />
+											</sec:authorize>
+
+
+
+										</tr>
+
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
 					</div>
+
+					<!--End If check for Account Information, null => dont show  -->
+					<table id="id-form" class="table table-striped table-bordered">
+
+
+						<tr>
+							<th valign="top">Account Number:</th>
+							<td><span id="accountNumber">${myCustomer.accountNumber }</span></td>
+
+							<th valign="top">Account Type</th>
+							<td><span id="accountType" class="myText">${myCustomer.accountType }</span></td>
+
+
+						</tr>
+						<tr>
+							<th valign="top">Full Name</th>
+							<td><span id="fullName">${myCustomer.lastName }
+									&nbsp;${myCustomer.midName }&nbsp;${myCustomer.firstName }</span></td>
+
+							<th valign="top">ID Number</th>
+							<td><span id="idNumber" class="myText">${myCustomer.idNumber }</span></td>
+						</tr>
+
+						<tr>
+							<th valign="top">Phone 1</th>
+							<td><span id="phone1">${myCustomer.phone1 }</span></td>
+							<th valign="top">Phone 2</th>
+							<td><span id="phone2" class="myText">${myCustomer.phone2 }</span></td>
+						</tr>
+
+						<tr>
+							<th valign="top">Address 1</th>
+							<td><span id="add1">${myCustomer.add1 }</span></td>
+							<th valign="top">Address 2</th>
+							<td><span id="add2">${myCustomer.add2 }</span></td>
+
+						</tr>
+
+						<tr>
+							<th valign="top">Mail:</th>
+							<td><span id="mail">${myCustomer.email }</span></td>
+							<th valign="top"></th>
+							<td><span id=""></span></td>
+
+						</tr>
+
+
+
+						<tr>
+							<td><input type="button" class="myButton withDraw"
+								value="Withdraw" id="withDraw" /></td>
+							<td><input type="button" class="myButton createTransaction"
+								value="CreateTransaction" id="createTransaction" /></td>
+							<td><input type="button"
+								class="myButton createSavingAccount"
+								value="Create SavingAccount" id="createSavingAccount" /></td>
+							<td></td>
+
+						</tr>
+					</table>
+			</div>
+
+
+			<div class="popupContainer">
+				<div class="popup">
+					<button class="popupCloseButton">X</button>
+					<form:form action="createTransactionAttribute.html" method="post"
+						modelAttribute="transaction">
+						<table id="id-form" class="table table-striped table-bordered">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+
+							<tr>
+								<th valign="top"><form:label path="amount">Amount</form:label>
+								</th>
+								<td><form:input path="amount" class="form-control" /></td>
+							</tr>
+							<tr>
+								<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
+								<td><form:select path="savingAccountId.id" multiple="false"
+										class="form-control">
+										<form:options items="${listSavingAccount}" itemValue="id"
+											itemLabel="savingAccountNumber" />
+									</form:select></td>
+							</tr>
+							<tr>
+								<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
+								<td><form:select path="transactionType"
+										class="form-control">
+										<form:option value="deposit">new</form:option>
+										<form:option value="withdraw">withdraw</form:option>
+
+									</form:select></td>
+
+							</tr>
+							<tr>
+								<td></td>
+								<td><input type="submit" class="myButton" value="Save"
+									id="addAccount" /></td>
+
+							</tr>
+						</table>
+					</form:form>
+
 				</div>
 
-				<!--End If check for Account Information, null => dont show  -->
-				<table border="0" cellpadding="0" cellspacing="0" id="id-form"
-					class="table table-striped table-bordered">
+			</div>
+			<!--  End popup-->
+			<div class="popupContainerCreateTransaction">
+				<div class="popupCreateTransaction">
+					<button class="popupCloseButton">X</button>
+					<form:form action="createTransactionAttribute.html" method="post"
+						modelAttribute="transaction">
+						<table id="id-form" class="table table-striped table-bordered">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
 
+							<tr>
+								<th valign="top"><form:label path="amount">Amount</form:label>
+								</th>
+								<td><form:input path="amount" class="form-control" /></td>
+							</tr>
+							<tr>
+								<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
+								<td><form:select path="savingAccountId.id" multiple="false"
+										class="form-control">
+										<form:options items="${listSavingAccount}" itemValue="id"
+											itemLabel="savingAccountNumber" />
+									</form:select></td>
+							</tr>
+							<tr>
+								<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
+								<td><form:select path="transactionType"
+										class="form-control">
+										<form:option value="deposit">new</form:option>
+										<form:option value="withdraw">withdraw</form:option>
 
-					<tr>
-						<th valign="top">Account Number:</th>
-						<td><span id="accountNumber">${myCustomer.accountNumber }</span></td>
+									</form:select></td>
 
-						<th valign="top">Account Type</th>
-						<td><span id="accountType" class="myText">${myCustomer.accountType }</span></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input type="submit" class="myButton" value="Save"
+									id="addAccount" /></td>
 
+							</tr>
+						</table>
+					</form:form>
 
-					</tr>
-					<tr>
-						<th valign="top">Full Name</th>
-						<td><span id="fullName">${myCustomer.lastName }
-								&nbsp;${myCustomer.midName }&nbsp;${myCustomer.firstName }</span></td>
-
-						<th valign="top">ID Number</th>
-						<td><span id="idNumber" class="myText">${myCustomer.idNumber }</span></td>
-					</tr>
-
-					<tr>
-						<th valign="top">Phone 1</th>
-						<td><span id="phone1">${myCustomer.phone1 }</span></td>
-						<th valign="top">Phone 2</th>
-						<td><span id="phone2" class="myText">${myCustomer.phone2 }</span></td>
-					</tr>
-
-					<tr>
-						<th valign="top">Address 1</th>
-						<td><span id="add1">${myCustomer.add1 }</span></td>
-						<th valign="top">Address 2</th>
-						<td><span id="add2">${myCustomer.add2 }</span></td>
-
-					</tr>
-
-					<tr>
-						<th valign="top">Mail:</th>
-						<td><span id="mail">${myCustomer.email }</span></td>
-						<th valign="top"></th>
-						<td><span id=""></span></td>
-
-					</tr>
-
-
-
-					<tr>
-						<td><input type="button" class="myButton withDraw"
-							value="Withdraw" id="withDraw" /></td>
-						<td><input type="button" class="myButton createTransaction"
-							value="CreateTransaction" id="createTransaction" /></td>
-						<td><input type="button" class="myButton createSavingAccount"
-							value="Create SavingAccount" id="createSavingAccount" /></td>
-						<td></td>
-
-					</tr>
-				</table>
+				</div>
 
 			</div>
+			<!--  End popup-->
+			</c:if>
 
 			<br />
 		</div>
 
 	</div>
 
-	<div class="popupContainer">
-		<div class="popup">
-			<button class="popupCloseButton">X</button>
-			<form:form action="createTransactionAttribute.html" method="post"
-				modelAttribute="transaction">
-				<table border="0" cellpadding="0" cellspacing="0" id="id-form"
-					class="table table-striped table-bordered">
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
 
-					<tr>
-						<th valign="top"><form:label path="amount">Amount</form:label>
-						</th>
-						<td><form:input path="amount" class="form-control" /></td>
-					</tr>
-					<tr>
-						<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
-						<td><form:select path="savingAccountId.id" multiple="false"
-								class="form-control">
-								<form:options items="${listSavingAccount}" itemValue="id"
-									itemLabel="savingAccountNumber" />
-							</form:select></td>
-					</tr>
-					<tr>
-						<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
-						<td><form:select path="transactionType" class="form-control">
-								<form:option value="deposit">new</form:option>
-								<form:option value="withdraw">withdraw</form:option>
-
-							</form:select></td>
-
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="submit" class="myButton" value="Save"
-							id="addAccount" /></td>
-
-					</tr>
-				</table>
-			</form:form>
-
-		</div>
-
-	</div>
-	<!--  End popup-->
-	<div class="popupContainerCreateTransaction">
-		<div class="popupCreateTransaction">
-			<button class="popupCloseButton">X</button>
-			<form:form action="createTransactionAttribute.html" method="post"
-				modelAttribute="transaction">
-				<table border="0" cellpadding="0" cellspacing="0" id="id-form"
-					class="table table-striped table-bordered">
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-
-					<tr>
-						<th valign="top"><form:label path="amount">Amount</form:label>
-						</th>
-						<td><form:input path="amount" class="form-control" /></td>
-					</tr>
-					<tr>
-						<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
-						<td><form:select path="savingAccountId.id" multiple="false"
-								class="form-control">
-								<form:options items="${listSavingAccount}" itemValue="id"
-									itemLabel="savingAccountNumber" />
-							</form:select></td>
-					</tr>
-					<tr>
-						<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
-						<td><form:select path="transactionType" class="form-control">
-								<form:option value="deposit">new</form:option>
-								<form:option value="withdraw">withdraw</form:option>
-
-							</form:select></td>
-
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="submit" class="myButton" value="Save"
-							id="addAccount" /></td>
-
-					</tr>
-				</table>
-			</form:form>
-
-		</div>
-
-	</div>
-	<!--  End popup-->
 
 
 </body>

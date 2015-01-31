@@ -35,13 +35,14 @@
 										"#addSavingAccountSubmit",
 										function(e) {
 											e.preventDefault();
-											var mydata = $("#savingaccount").serialize();
+											var mydata = $("#savingaccount")
+													.serialize();
 											// if you Transaction ajax
 											$
 													.ajax({
 														type : 'post',
 														url : 'createSavingAccountJson',
-														data: mydata,
+														data : mydata,
 														datatype : 'json',
 														success : function(data) {
 															console.log(data);
@@ -49,10 +50,10 @@
 																if (data.success == true) {
 																	alert("Create successfully!");
 																	if (data.error_code == '0') {
-																		window.location.href = 'homeSavingAccount?ERROR_CODE='
+																		window.location.href = 'viewAllSavingAccount?ERROR_CODE='
 																				+ data.error_code;
 																	} else {
-																		/* 	window.location.href = 'homeSavingAccount'; */
+																		window.location.href = 'viewAllSavingAccount';
 																		var t = $(
 																				'#table')
 																				.DataTable();
@@ -60,7 +61,11 @@
 																				.add(
 																						[
 																								data.savingAccount.savingAccountNumber,
-																								data.savingAccount.customerId.firstName,
+																								data.savingAccount.customerId.lastName
+																										+ ''
+																										+ data.savingAccount.customerId.midName
+																										+ ''
+																										+ data.savingAccount.customerId.lastName,
 																								data.savingAccount.balanceAmount,
 																								data.savingAccount.repeatable,
 																								data.savingAccount.interestRateId.savingAccountType
@@ -92,6 +97,12 @@
 						$(".popupCloseButton").bind("click", function(e) {
 							$(".popupContainer").hide();
 						})
+						$(function() {
+							$(".datepicker").datepicker({
+								inline : true,
+								dateFormat : 'dd/mm/yy'
+							});
+						});
 
 					});
 </script>
@@ -132,10 +143,7 @@
 		<div id="content">
 
 			<!--  start page-heading -->
-			<div id="page-heading">
 
-				<h1 style="color: red">${message}</h1>
-			</div>
 
 			<div id="content-table-inner">
 				<div id="page-heading">
@@ -155,70 +163,61 @@
 						</c:if>
 					</h1>
 					<h1>Add Saving Account Information</h1>
-
+					<button class="addSavingAccount myButton" value="addSavingAccount">
+						Add New Saving Account</button>
 				</div>
 
 
-				<button class="addSavingAccount" value="addSavingAccount">
-					AddSavingAccount</button>
+
 				<div class="popupContainer">
 					<div class="popup">
 						<button class="popupCloseButton">X</button>
-
 						<form:form action="createSavingAccount.html" method="post"
 							modelAttribute="savingaccount">
-							<table border="0" cellpadding="0" cellspacing="0" id="id-form"
-								class="table table-striped table-bordered">
+							<table class="mytable2">
 								<input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}" />
 
 								<tr>
-									<th valign="top"><form:label path="savingAccountNumber">Saving Account Number</form:label>
+									<th valign="top"><form:label path="savingAccountNumber">Saving Account Number:</form:label>
 									</th>
-									<td><form:input path="savingAccountNumber"
-											class="form-control" /></td>
+									<td><form:input readonly="true" path="savingAccountNumber"
+											class="textox" value="${savingAccountNumber }" /></td>
+									<th valign="top"><form:label path="balanceAmount">Balance Amount:</form:label>
+									</th>
+									<td><form:input path="balanceAmount" class="textox" /></td>
 								</tr>
 								<tr>
-									<th valign="top"><form:label path="balanceAmount">Balance Amount</form:label>
-									</th>
-									<td><form:input path="balanceAmount" class="form-control" /></td>
+									<th valign="top"><form:label path="dateStart">Date Start:</form:label></th>
+									<td><form:input path="dateStart" class="textox datepicker" /></td>
+									<th valign="top"><form:label path="dateEnd">Date End:</form:label></th>
+									<td><form:input path="dateEnd" class="textox datepicker" /></td>
 								</tr>
+
 								<tr>
-									<th valign="top"><form:label path="repeatable">Repeatable</form:label>
-									</th>
-									<td><form:input path="repeatable" class="form-control" /></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="dateStart">Date Start</form:label>
-									</th>
-									<td><form:input path="dateStart" class="form-control" /></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="dateEnd">Date End</form:label>
-									</th>
-									<td><form:input path="dateEnd" class="form-control" /></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="customerId.id">Customer</form:label></th>
+									<th valign="top"><form:label path="customerId.id">Customer:</form:label></th>
 									<td><form:select path="customerId.id" multiple="false"
-											class="form-control">
+											class="textox">
 											<form:options items="${customerList}" itemValue="id"
 												itemLabel="firstName" />
 										</form:select></td>
-								</tr>
-								<tr>
-									<th valign="top"><form:label path="interestRateId.id">Period</form:label></th>
+									<th valign="top"><form:label path="interestRateId.id">Period:</form:label></th>
 									<td><form:select path="interestRateId.id" multiple="false"
-											class="form-control">
+											class="textox">
 											<form:options items="${interestrateList}" itemValue="id"
 												itemLabel="savingAccountType" />
 										</form:select></td>
+
+
 								</tr>
 								<tr>
-									<th valign="top"><form:label path="state">State</form:label></th>
-									<td><form:select path="state" class="form-control">
+									<th valign="top"><form:label path="state">State:</form:label></th>
+									<td><form:select path="state" class="textox">
 											<form:options items="${states }" />
 										</form:select></td>
+									<th valign="top"><form:label path="repeatable">Repeatable:</form:label>
+									</th>
+									<td><form:input path="repeatable" class="textox" /></td>
 
 								</tr>
 								<tr>
@@ -230,7 +229,36 @@
 							</table>
 						</form:form>
 
-
+						<div class="panel-body">
+							<div class="dataTable_wrapper">
+								<div>
+									<span> Interest Rate Information</span>
+								</div>
+								<table class=" table table-striped table-bordered table-hover "
+									id="table">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Interest Rate Type</th>
+											<th>Rate</th>
+											<th>Currency</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="interest" items="${interestrateList}">
+											<c:if test="${interest.id != null}">
+												<tr>
+													<td>${interest.id}</td>
+													<td>${interest.savingAccountType}</td>
+													<td>${interest.interestRate}</td>
+													<td>${interest.currency}</td>
+												</tr>
+											</c:if>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
 
 					</div>
 				</div>
@@ -252,11 +280,9 @@
 									<th>Date Start</th>
 									<th>Date End</th>
 									<sec:authorize access="hasRole('admin')">
-										<th>Approve Saving Account</th>
 
-										<th>Deny Saving Account</th>
 
-										<th>Delete Saving Account</th>
+
 										<th>Edit Saving Account</th>
 									</sec:authorize>
 
@@ -277,14 +303,7 @@
 										<td>${savingAccount.dateStart}</td>
 										<td>${savingAccount.dateEnd}</td>
 										<sec:authorize access="hasRole('admin')">
-											<td><a
-												href="approveSavingAccount.html?SavingAccountId=${savingAccount.id}"
-												class="myButton">Approve</a></td>
-											<td><a
-												href="denySavingAccount.html?SavingAccountId=${savingAccount.id}"
-												class="myButton">Deny</a></td>
-											<td><a SavingAccount="${savingAccount.id}" href=""
-												id="linkDeleteSavingAccount" class="myButton"> Delete </a></td>
+
 											<td><a
 												href="editSavingAccount.html?SavingAccountId=${savingAccount.id}"
 												class="myButton">Edit</a></td>
