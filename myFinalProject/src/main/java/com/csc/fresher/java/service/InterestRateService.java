@@ -47,4 +47,8 @@ public class InterestRateService {
 		return this.getInterestRateDAO().updateInterestRate(InterestRate);
 	}
 
+	public InterestRate getInterestRatebyType(String type) {
+		return this.getInterestRateDAO().getInterestRatebyType(type);
+	}
+
 }

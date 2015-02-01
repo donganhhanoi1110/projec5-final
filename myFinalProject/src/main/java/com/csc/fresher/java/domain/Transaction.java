@@ -49,10 +49,10 @@ public class Transaction {
 	@Column(name = "after_balance")
 	private float afterBalance;
 
-	@ManyToOne( cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "saving_account_id")
 	private SavingAccount savingAccountId;
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "transactionuser", joinColumns = { @JoinColumn(name = "transaction_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
 	private Collection<User> transactions = new HashSet<User>();
 

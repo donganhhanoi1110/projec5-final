@@ -79,7 +79,7 @@ public class TransactionController {
 
 				String myrole = userRoleService
 						.getUserRolebyUserRoleName(username);
-				System.out.println("My role" + myrole);
+				System.out.println("My role " + myrole);
 				if ("admin".equals(myrole)) {
 					List<Transaction> listHoldTransaction = transactionService
 							.getTransactionByState("hold");
@@ -124,15 +124,17 @@ public class TransactionController {
 			String message = "";
 			ModelAndView modelview = new ModelAndView(
 					"forward:/homeTransaction");
+			Date dateStart = new Date();
+			SavingAccount savingAccount = transactionService
+					.getAccountbyTranID(transaction);
+			float currentBalance = savingAccount.getBalanceAmount();
+			transaction.setCurrentBalance(currentBalance);
+			transaction.setDateStart(dateStart.toString());
+			transaction.setState("hold");
 
 			try {
-				Date dateStart = new Date();
-				SavingAccount savingAccount = transactionService
-						.getAccountbyTranID(transaction);
-				float currentBalance = savingAccount.getBalanceAmount();
-				transaction.setCurrentBalance(currentBalance);
-				transaction.setDateStart(dateStart.toString());
-				transaction.setState("hold");
+				
+
 				boolean check = transactionService
 						.createTransaction(transaction);
 				if (check) {

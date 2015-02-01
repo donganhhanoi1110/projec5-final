@@ -149,7 +149,7 @@ public class SavingAccountDAO {
 		boolean check = false;
 
 		try {
-
+			
 			// Insert a row to SavingAccount table
 			entityManager.persist(savingAccount);
 			check = true;

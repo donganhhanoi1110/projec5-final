@@ -67,6 +67,23 @@ public class InterestRateDAO {
 
 	}
 
+	@Transactional
+	public InterestRate getInterestRatebyType(String type) {
+		InterestRate inter = null;
+		try {
+			TypedQuery<InterestRate> query = entityManager.createQuery(
+					"SELECT C FROM " + InterestRate.class.getName()
+							+ " C where C.savingAccountType=:type",
+					InterestRate.class);
+			query.setParameter("type", type);
+			inter = query.getSingleResult();
+			System.out.println("Get getInterestRatebyType");
+		} catch (Exception e) {
+			System.out.println("\n Get Error" + "*_" + e.getMessage() + "*_");
+		}
+		return inter;
+	}
+
 	public List<InterestRate> getInterestRateList() {
 
 		List<InterestRate> list = new ArrayList<InterestRate>();

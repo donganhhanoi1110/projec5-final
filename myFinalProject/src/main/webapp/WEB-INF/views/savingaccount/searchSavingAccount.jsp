@@ -90,6 +90,17 @@
 						$(".popupCloseButton").bind("click", function(e) {
 							$(".popupContainer").hide();
 						})
+						$(".popupContainer").bind("click", function(e) {
+							if (e.target == this) {
+								$(this).hide();
+							}
+						})
+						$(".popupContainerCreateTransaction").bind("click",
+								function(e) {
+									if (e.target == this) {
+										$(this).hide();
+									}
+								})
 						$(".createTransaction").bind("click", function(e) {
 							e.preventDefault();
 							$(".popupContainerCreateTransaction").show();
@@ -337,8 +348,8 @@
 			<div class="popupContainerCreateTransaction">
 				<div class="popupCreateTransaction">
 					<button class="popupCloseButton">X</button>
-					<form:form action="createTransactionDeposit.html" method="post"
-						modelAttribute="transactiondeposit">
+					<form:form action="createTransactionAttribute.html" method="post"
+						modelAttribute="transaction">
 						<table id="id-form" class="table table-striped table-bordered">
 							<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />

@@ -1,5 +1,7 @@
 package com.csc.fresher.java.dao;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,11 +13,15 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.csc.fresher.java.domain.InterestRate;
 import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
 import com.csc.fresher.java.service.SavingAccountService;
@@ -34,6 +40,7 @@ public class TransactionDAO {
 	public EntityManager entityManager;
 
 	SavingAccountService savingService = new SavingAccountService();
+	InterestRateDAO interestDAO = new InterestRateDAO();
 
 	@Transactional
 	@SuppressWarnings("unchecked")
@@ -230,14 +237,30 @@ public class TransactionDAO {
 			Transaction tran = getTransaction(tranId);
 			SavingAccount acc = entityManager.find(SavingAccount.class, tran
 					.getSavingAccountId().getId());
+			InterestRate interestRateofSavingAcc = acc.getInterestRateId();
+
+			InterestRate interestNoPeriod = interestDAO.getInterestRate(3);
+			int days = Days.daysBetween(
+					new DateTime(savingService.convertStringToDate(acc
+							.getDateStart())), new DateTime(date)).getDays();
+			float newBalance = (float) ((acc.getBalanceAmount() * days * (0.02)) + acc.getBalanceAmount()+tran.getAmount());
+			
+			// Update Saving Account with new Balance
+	
+			Date nextDate = DateUtils.addMonths(date, Integer
+					.parseInt(interestRateofSavingAcc.getSavingAccountType()
+							.substring(0, 1)));
+
+			acc.setBalanceAmount(newBalance);
+			acc.setDateStart(savingService.convertDateToString(date));
+			acc.setDateEnd(savingService.convertDateToString(nextDate));
+
 			if (savingService.checkTransaction(acc, tran)) {
-				float afterBalance = tran.getAmount()
-						+ tran.getCurrentBalance();
+				float afterBalance = newBalance;
 
 				tran.setState("done");
 				tran.setDateEnd(date.toString());
 				tran.setAfterBalance(afterBalance);
-				acc.setBalanceAmount(afterBalance);
 
 				tran.setSavingAccountId(acc);
 				updateTransaction(tran);
@@ -249,5 +272,4 @@ public class TransactionDAO {
 		}
 		return false;
 	}
-
 }
