@@ -4,7 +4,7 @@
 }
 
 .searchBox {
-	width: 100px;
+	width: 150px;
 	height: 20px;
 	margin-left: 3px;
 	margin-right: 3px;
@@ -148,18 +148,19 @@
 }
 
 .mytable1 th {
-	color: #3399CC;;
-	background: #1b1e24;
+	color: white;
+	background: #3399CC;
 	border-bottom: 4px solid #9ea7af;
 	border-right: 1px solid #343a45;
 	font-size: 15px;
-	font-weight: 100;
+	font-weight: 120;
 	padding: 24px;
 	text-align: left;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 	vertical-align: middle;
 }
 
+}
 .mytable1 th:first-child {
 	border-top-left-radius: 3px;
 }
@@ -179,7 +180,7 @@
 }
 
 .mytable1 tr:hover td {
-	background: #4E5066;
+	background: #6699CC;
 	color: #FFFFFF;
 	border-top: 1px solid #22262e;
 	border-bottom: 1px solid #22262e;
@@ -198,7 +199,7 @@
 }
 
 .mytable1 tr:nth-child(odd):hover td {
-	background: #4E5066;
+	background: #6699CC;
 }
 
 .mytable1 tr:last-child td:first-child {
@@ -274,7 +275,7 @@
 	background-color: #F5FAF9;
 	outline: none;
 	color: #474747;
-	text-transform: lowercase;
+	text-transform: uppercase;
 }
 
 .textox:hover {

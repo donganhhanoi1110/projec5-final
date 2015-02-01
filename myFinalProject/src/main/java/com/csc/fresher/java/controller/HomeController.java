@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.csc.fresher.java.domain.InterestRate;
 import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
 import com.csc.fresher.java.domain.User;
 import com.csc.fresher.java.domain.UserRole;
+import com.csc.fresher.java.service.InterestRateService;
 import com.csc.fresher.java.service.SavingAccountService;
 import com.csc.fresher.java.service.TransactionService;
 import com.csc.fresher.java.service.UserRoleService;
@@ -46,6 +48,8 @@ public class HomeController {
 	private UserRoleService userRoleService;
 	@Autowired
 	private SavingAccountService savingaccountService;
+	@Autowired
+	private InterestRateService interestRateService;
 
 	@RequestMapping(value = "/homeUser")
 	public ModelAndView getAccountList(HttpServletRequest request, Model model) {
@@ -56,6 +60,7 @@ public class HomeController {
 		modelview.addObject("ERROR_CODE", error_code);
 		// Get the list of all accounts from DB
 		try {
+			
 
 			modelview.addObject("listUser", userService.getAllUser());
 
@@ -76,6 +81,7 @@ public class HomeController {
 		String error_code = request.getParameter("ERROR_CODE");
 		ModelAndView modelview = new ModelAndView("home");
 		try {
+		
 			modelview.addObject("loginSession", principal.getName());
 
 		} catch (Exception e) {

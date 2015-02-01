@@ -41,7 +41,8 @@
 											var mydata = $("#savingaccount")
 													.serialize();
 											// if you Transaction ajax
-											$.ajax({
+											$
+													.ajax({
 														type : 'post',
 														url : 'createSavingAccountJson',
 														data : mydata,
@@ -56,28 +57,34 @@
 																				+ data.error_code;
 																	} else {
 																		/* window.location.href = 'viewAllSavingAccount'; */
-																		var t = $('#table').DataTable();
-																		t.row.add(
+																		var t = $(
+																				'#table')
+																				.DataTable();
+																		t.row
+																				.add(
 																						[
-																			data.savingAccount.savingAccountNumber,
-																			data.savingAccount.customerId.lastName
-																					+ ''
-																					+ data.savingAccount.customerId.midName
-																					+ ''
-																					+ data.savingAccount.customerId.lastName,
-																			data.savingAccount.balanceAmount,
-																			data.savingAccount.repeatable,
-																			data.savingAccount.interestRateId.savingAccountType
-																					+ ' '
-																					+ data.savingAccount.interestRateId.interestRate
-																					+ ' '
-																					+ data.savingAccount.interestRateId.currency,
-																			data.savingAccount.state,
-																			data.savingAccount.dateStart,
-																			data.savingAccount.dateEnd ]
+																								data.savingAccount.savingAccountNumber,
+																								data.savingAccount.customerId.lastName
+																										+ ''
+																										+ data.savingAccount.customerId.midName
+																										+ ''
+																										+ data.savingAccount.customerId.lastName,
+																								data.savingAccount.balanceAmount,
+																								data.savingAccount.repeatable,
+																								data.savingAccount.interestRateId.savingAccountType
+																										+ ' '
+																										+ data.savingAccount.interestRateId.interestRate
+																										+ ' '
+																										+ data.savingAccount.interestRateId.currency,
+																								data.savingAccount.state,
+																								data.savingAccount.dateStart,
+																								data.savingAccount.dateEnd ]
 
-																		).draw();
-																		$(".popupContainer").hide();
+																				)
+																				.draw();
+																		$(
+																				".popupContainer")
+																				.hide();
 																	}
 																} else {
 																	alert("Create Failed");
@@ -86,41 +93,64 @@
 																window.location.href = 'login';
 															}
 														},
-														error: function(a, b, c){
-															$("#errorPane").html(a.responseText);
+														error : function(a, b,
+																c) {
+															$("#errorPane")
+																	.html(
+																			a.responseText);
 															console.log(a);
 														}
 													});
 
 										});
-						$(".addSavingAccount").bind("click", function(e) {
-							$(".popupContainer").fadeIn("fast", function(){
+						$(".addSavingAccount")
+								.bind(
+										"click",
+										function(e) {
+											$(".popupContainer")
+													.fadeIn(
+															"fast",
+															function() {
 
-								
-								
-								$.ajax({
-									type : 'post',
-									url : 'getSavingAccountNumber',
-									data : "",
-									datatype : 'json',
-									success : function(response) {
-										console.log(response);
-										 $(".createSavingForm").trigger("reset"); 
-										$("#savingAccountNumber").val(response);
-									},
-									error: function(a, b, c){
-										$("#errorPane").html(a.responseText);
-										console.log(a);
-									}
-								});
+																$
+																		.ajax({
+																			type : 'post',
+																			url : 'getSavingAccountNumber',
+																			data : "",
+																			datatype : 'json',
+																			success : function(
+																					response) {
+																				console
+																						.log(response);
+																				$(
+																						".createSavingForm")
+																						.trigger(
+																								"reset");
+																				$(
+																						"#savingAccountNumber")
+																						.val(
+																								response);
+																			},
+																			error : function(
+																					a,
+																					b,
+																					c) {
+																				$(
+																						"#errorPane")
+																						.html(
+																								a.responseText);
+																				console
+																						.log(a);
+																			}
+																		});
 
-							});
-						})
+															});
+										})
 						$(".popupCloseButton").bind("click", function(e) {
 							$(".popupContainer").hide();
 						});
 						$(".popupContainer").bind("click", function(e) {
-							if( e.target == this ) {
+							if (e.target == this) {
 								$(this).hide();
 							}
 						})
@@ -209,7 +239,8 @@
 									<th valign="top"><form:label path="savingAccountNumber">Saving Account Number:</form:label>
 									</th>
 									<td><form:input readonly="true" path="savingAccountNumber"
-											class="textox" id="savingAccountNumber" value="${savingAccountNumber }" /></td>
+											class="textox" id="savingAccountNumber"
+											value="${savingAccountNumber }" /></td>
 									<th valign="top"><form:label path="balanceAmount">Balance Amount:</form:label>
 									</th>
 									<td><form:input path="balanceAmount" class="textox" /></td>
@@ -225,8 +256,12 @@
 									<th valign="top"><form:label path="customerId.id">Customer:</form:label></th>
 									<td><form:select path="customerId.id" multiple="false"
 											class="textox">
-											<form:options items="${customerList}" itemValue="id"
-												itemLabel="firstName" />
+											<c:forEach var="customer" items="${customerList}">
+												<form:option value="${customer.id}">
+													<c:out
+														value="${customer.lastName} ${customer.midName} ${customer.firstName}" />
+												</form:option>
+											</c:forEach>
 										</form:select></td>
 									<th valign="top"><form:label path="interestRateId.id">Period:</form:label></th>
 									<td><form:select path="interestRateId.id" multiple="false"
@@ -306,6 +341,7 @@
 									<th>State</th>
 									<th>Date Start</th>
 									<th>Date End</th>
+									<th>View Transactions</th>
 									<sec:authorize access="hasRole('admin')">
 										<th>Edit Saving Account</th>
 									</sec:authorize>
@@ -326,6 +362,9 @@
 										<td>${savingAccount.state}</td>
 										<td>${savingAccount.dateStart}</td>
 										<td>${savingAccount.dateEnd}</td>
+										<td><a
+											href="viewListTransaction.html?SavingAccountId=${savingAccount.id}"
+											class="myButton">Transactions</a></td>
 										<sec:authorize access="hasRole('admin')">
 
 											<td><a

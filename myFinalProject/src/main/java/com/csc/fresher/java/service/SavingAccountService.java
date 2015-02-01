@@ -156,11 +156,7 @@ public class SavingAccountService {
 		// System.out.println(a.convertStringToDate(date1.toString()));
 		// System.out.println(a.convertDateToString(date2));
 
-		BigDecimal bigDecimal = new BigDecimal(4.8276E7);
-		System.out.println(bigDecimal);
-
-		Long a1 = Long.parseLong(bigDecimal.toString());
-		System.out.println(a1);
+	
 	}
 
 }

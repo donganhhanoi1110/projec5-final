@@ -197,6 +197,7 @@
 										<th>State</th>
 										<th>Date Start</th>
 										<th>Date End</th>
+										<th>View Transactions</th>
 										<sec:authorize access="hasRole('admin')">
 
 											<th>Edit Saving Account</th>
@@ -219,6 +220,9 @@
 											<td>${savingAccount.state}</td>
 											<td>${savingAccount.dateStart}</td>
 											<td>${savingAccount.dateEnd}</td>
+											<td><a
+													href="viewListTransaction.html?SavingAccountId=${savingAccount.id}"
+													class="myButton">Transactions</a></td>
 											<sec:authorize access="hasRole('admin')">
 
 												<td><a
