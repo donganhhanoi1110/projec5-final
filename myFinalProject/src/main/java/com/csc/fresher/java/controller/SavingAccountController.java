@@ -133,7 +133,7 @@ public class SavingAccountController {
 					.getInterestRateList();
 
 			// setDefault Saving Account Number
-			int savingAccountNumber = myRandom(50, 200);
+			int savingAccountNumber = myRandom(100, 400);
 			String[] states = { "new", "hold", "active" };
 			modelAndView.addObject("interestrateList", interestRate);
 			modelAndView.addObject("customerList", cus);
@@ -145,6 +145,14 @@ public class SavingAccountController {
 		} else {
 			return new ModelAndView("redirect:/login");
 		}
+	}
+
+	@RequestMapping(value = { "/getSavingAccountNumber" })
+	public @ResponseBody String getSavingAccountNumber(
+			HttpServletRequest request) {
+		int savingAccountNumber = myRandom(100, 400);
+		String number = "123" + savingAccountNumber;
+		return number;
 	}
 
 	@RequestMapping(value = "/createSavingAccountJson", method = RequestMethod.POST)
@@ -179,7 +187,10 @@ public class SavingAccountController {
 							+ savingaccount.getSavingAccountNumber()
 							+ " Successfully";
 					error_code = "1";
-					response.setSavingAccount(savingaccount);
+					saving.getCustomerId().setSavingaccounts(null);
+					saving.getInterestRateId().setSavingaccounts(null);
+					saving.setTransactions(null);
+					response.setSavingAccount(saving);
 					check = true;
 
 				} else {
@@ -492,6 +503,7 @@ public class SavingAccountController {
 			SavingAccount saving = new SavingAccount();
 			// FOr Add Transaction
 			modelview.addObject("transaction", new Transaction());
+			modelview.addObject("transactiondeposit", new Transaction());
 
 			// For Search
 			String searchValue = request.getParameter("searchSavingAcount");
@@ -572,6 +584,7 @@ public class SavingAccountController {
 					}
 				}
 			}
+
 			modelview.addObject("check", check);
 			return modelview;
 		} else {

@@ -33,7 +33,7 @@ public class UserRoleDAO {
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public UserRole getUserRole(int id) {
-		UserRole UserRole = new UserRole();
+		UserRole UserRole = null;
 		try {
 			UserRole = entityManager.find(UserRole.class, id);
 			if (UserRole == null) {
@@ -52,7 +52,7 @@ public class UserRoleDAO {
 
 
 	public String getUserRolebyUserName(String username) {
-		UserRole UserRole = new UserRole();
+		UserRole UserRole = null;
 		String role="";
 		try {
 			TypedQuery<UserRole> query = entityManager.createQuery("SELECT c FROM "

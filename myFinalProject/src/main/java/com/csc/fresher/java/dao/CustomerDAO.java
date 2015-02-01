@@ -29,7 +29,7 @@ public class CustomerDAO {
 
 	@Transactional
 	public List<Customer> getAllCustomer() {
-		List<Customer> list = new ArrayList<Customer>();
+		List<Customer> list = null;
 		try {
 			TypedQuery<Customer> query = entityManager.createQuery(
 					"SELECT C FROM " + Customer.class.getName() + " C",
@@ -45,7 +45,7 @@ public class CustomerDAO {
 
 	@Transactional
 	public Customer getCustomerByIDNumber(String idNumber) {
-		Customer list = new Customer();
+		Customer list = null;
 		try {
 			TypedQuery<Customer> query = entityManager.createQuery(
 					"SELECT C FROM " + Customer.class.getName()
@@ -62,7 +62,7 @@ public class CustomerDAO {
 
 	@Transactional
 	public Customer getCustomerId(int id) {
-		Customer customer = new Customer();
+		Customer customer = null;
 		try {
 			customer = entityManager.find(Customer.class, id);
 			if (customer == null) {
@@ -80,7 +80,7 @@ public class CustomerDAO {
 
 	@Transactional
 	public Customer getCustomerBySavingAccountId(SavingAccount saving) {
-		Customer customer = new Customer();
+		Customer customer = null;
 		try {
 			customer = entityManager.find(Customer.class, saving
 					.getCustomerId().getId());

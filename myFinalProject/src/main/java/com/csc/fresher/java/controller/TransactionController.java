@@ -167,6 +167,59 @@ public class TransactionController {
 
 	}
 
+	@RequestMapping(value = "/createTransactionDeposit", method = RequestMethod.POST)
+	public ModelAndView createTransactionDeposit(
+			@ModelAttribute("transactiondeposit") Transaction transaction,
+			HttpServletRequest request, Model model, HttpSession session) {
+		// Create a new AccountDAO
+		User user = null;
+		if (session.getAttribute("loginSession") != null) {
+			String message = "";
+			ModelAndView modelview = new ModelAndView(
+					"forward:/homeTransaction");
+
+			try {
+				Date dateStart = new Date();
+				SavingAccount savingAccount = transactionService
+						.getAccountbyTranID(transaction);
+				float currentBalance = savingAccount.getBalanceAmount();
+				transaction.setCurrentBalance(currentBalance);
+				transaction.setDateStart(dateStart.toString());
+				transaction.setState("hold");
+				boolean check = transactionService
+						.createTransaction(transaction);
+				if (check) {
+					String username = request.getSession()
+							.getAttribute("loginSession").toString();
+					// Add to table transactionuser in database bcz @ManyToMany
+					user = userService.getUserbyUserName(username);
+					Collection<User> userSets = transaction.getTransactions();
+					userSets.add(user);
+					transaction.setTransactions(userSets);
+					transactionService.updateTransaction(transaction);
+					message = "You have created Transaction successfully!!!";
+
+					modelview.addObject("message", message);
+
+				} else {
+					message = "You have created Transaction FAILED!!!";
+					modelview.addObject("ERROR_CODE", "0");
+					modelview.addObject("message", message);
+				}
+
+				return modelview;
+
+			} catch (Exception e) {
+				modelview.addObject("ERROR_CODE", "0");
+				return modelview;
+
+			}
+		} else {
+			return new ModelAndView("redirect:/login");
+		}
+
+	}
+
 	@RequestMapping(value = "/deleteTransaction")
 	public ModelAndView deleteTransaction(HttpServletRequest request,
 			Model model, HttpSession session) {

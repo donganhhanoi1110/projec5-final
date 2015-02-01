@@ -29,7 +29,7 @@ public class SavingAccountDAO {
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public SavingAccount getSavingAccount(int id) {
-		SavingAccount SavingAccount = new SavingAccount();
+		SavingAccount SavingAccount = null;
 		try {
 			SavingAccount = entityManager.find(SavingAccount.class, id);
 			if (SavingAccount == null) {
@@ -48,7 +48,7 @@ public class SavingAccountDAO {
 	}
 
 	public List<SavingAccount> getSavingAccountByState(String state) {
-		List<SavingAccount> list = new ArrayList<SavingAccount>();
+		List<SavingAccount> list = null;
 		try {
 			TypedQuery<SavingAccount> query = entityManager.createQuery(
 					"SELECT s FROM " + SavingAccount.class.getName()
@@ -66,7 +66,8 @@ public class SavingAccountDAO {
 
 	public SavingAccount getSavingAccountByNumber(int savingaccount_number) {
 
-		SavingAccount list = new SavingAccount();
+		SavingAccount savingAccount = null;
+		// new SavingAccount();
 
 		try {
 			TypedQuery<SavingAccount> query = entityManager.createQuery(
@@ -74,19 +75,19 @@ public class SavingAccountDAO {
 							+ " s where s.savingAccountNumber=:number",
 					SavingAccount.class);
 			query.setParameter("number", savingaccount_number);
-			list = query.getSingleResult();
+			savingAccount = query.getSingleResult();
 			System.out.println("Get Saving Account List ByNumber");
 		} catch (Exception e) {
 			System.out.println("Error get Saving Account List ByNumber");
 			e.printStackTrace();
 		}
-		return list;
+		return savingAccount;
 	}
 
 	public List<SavingAccount> getSavingAccountByCustomerIDNumber(
 			String IDNumber) {
 
-		List<SavingAccount> list = new ArrayList<SavingAccount>();
+		List<SavingAccount> list = null;
 
 		try {
 			TypedQuery<SavingAccount> query = entityManager.createQuery(
@@ -106,7 +107,7 @@ public class SavingAccountDAO {
 
 	public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
 
-		List<SavingAccount> list = new ArrayList<SavingAccount>();
+		List<SavingAccount> list = null;
 
 		try {
 			TypedQuery<SavingAccount> query = entityManager.createQuery(
@@ -126,7 +127,7 @@ public class SavingAccountDAO {
 
 	public List<SavingAccount> getSavingAccountList() {
 
-		List<SavingAccount> list = new ArrayList<SavingAccount>();
+		List<SavingAccount> list = null;
 
 		try {
 			TypedQuery<SavingAccount> query = entityManager.createQuery(

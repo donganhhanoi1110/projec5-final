@@ -26,6 +26,9 @@
 						$("#table").DataTable({
 							responsive : true
 						});
+						$("#popUpTable").DataTable({
+							responsive : true
+						});
 						$("#show").click(function() {
 							$("#hide").slideToggle();
 						});
@@ -38,8 +41,7 @@
 											var mydata = $("#savingaccount")
 													.serialize();
 											// if you Transaction ajax
-											$
-													.ajax({
+											$.ajax({
 														type : 'post',
 														url : 'createSavingAccountJson',
 														data : mydata,
@@ -53,49 +55,74 @@
 																		window.location.href = 'viewAllSavingAccount?ERROR_CODE='
 																				+ data.error_code;
 																	} else {
-																		window.location.href = 'viewAllSavingAccount';
-																		var t = $(
-																				'#table')
-																				.DataTable();
-																		t.row
-																				.add(
+																		/* window.location.href = 'viewAllSavingAccount'; */
+																		var t = $('#table').DataTable();
+																		t.row.add(
 																						[
-																								data.savingAccount.savingAccountNumber,
-																								data.savingAccount.customerId.lastName
-																										+ ''
-																										+ data.savingAccount.customerId.midName
-																										+ ''
-																										+ data.savingAccount.customerId.lastName,
-																								data.savingAccount.balanceAmount,
-																								data.savingAccount.repeatable,
-																								data.savingAccount.interestRateId.savingAccountType
-																										+ ' '
-																										+ data.savingAccount.interestRateId.interestRate
-																										+ ' '
-																										+ data.savingAccount.interestRateId.currency,
-																								data.savingAccount.state,
-																								data.savingAccount.dateStart,
-																								data.savingAccount.dateEnd ]
+																			data.savingAccount.savingAccountNumber,
+																			data.savingAccount.customerId.lastName
+																					+ ''
+																					+ data.savingAccount.customerId.midName
+																					+ ''
+																					+ data.savingAccount.customerId.lastName,
+																			data.savingAccount.balanceAmount,
+																			data.savingAccount.repeatable,
+																			data.savingAccount.interestRateId.savingAccountType
+																					+ ' '
+																					+ data.savingAccount.interestRateId.interestRate
+																					+ ' '
+																					+ data.savingAccount.interestRateId.currency,
+																			data.savingAccount.state,
+																			data.savingAccount.dateStart,
+																			data.savingAccount.dateEnd ]
 
-																				)
-																				.draw();
+																		).draw();
+																		$(".popupContainer").hide();
 																	}
-
 																} else {
 																	alert("Create Failed");
 																}
 															} else {
 																window.location.href = 'login';
 															}
+														},
+														error: function(a, b, c){
+															$("#errorPane").html(a.responseText);
+															console.log(a);
 														}
 													});
 
 										});
 						$(".addSavingAccount").bind("click", function(e) {
-							$(".popupContainer").show();
+							$(".popupContainer").fadeIn("fast", function(){
+
+								
+								
+								$.ajax({
+									type : 'post',
+									url : 'getSavingAccountNumber',
+									data : "",
+									datatype : 'json',
+									success : function(response) {
+										console.log(response);
+										 $(".createSavingForm").trigger("reset"); 
+										$("#savingAccountNumber").val(response);
+									},
+									error: function(a, b, c){
+										$("#errorPane").html(a.responseText);
+										console.log(a);
+									}
+								});
+
+							});
 						})
 						$(".popupCloseButton").bind("click", function(e) {
 							$(".popupContainer").hide();
+						});
+						$(".popupContainer").bind("click", function(e) {
+							if( e.target == this ) {
+								$(this).hide();
+							}
 						})
 						$(function() {
 							$(".datepicker").datepicker({
@@ -141,7 +168,7 @@
 	<div id="content-outer">
 		<!-- start content -->
 		<div id="content">
-
+			<div id="errorPane"></div>
 			<!--  start page-heading -->
 
 
@@ -173,7 +200,7 @@
 					<div class="popup">
 						<button class="popupCloseButton">X</button>
 						<form:form action="createSavingAccount.html" method="post"
-							modelAttribute="savingaccount">
+							modelAttribute="savingaccount" class="createSavingForm">
 							<table class="mytable2">
 								<input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}" />
@@ -182,7 +209,7 @@
 									<th valign="top"><form:label path="savingAccountNumber">Saving Account Number:</form:label>
 									</th>
 									<td><form:input readonly="true" path="savingAccountNumber"
-											class="textox" value="${savingAccountNumber }" /></td>
+											class="textox" id="savingAccountNumber" value="${savingAccountNumber }" /></td>
 									<th valign="top"><form:label path="balanceAmount">Balance Amount:</form:label>
 									</th>
 									<td><form:input path="balanceAmount" class="textox" /></td>
@@ -235,7 +262,7 @@
 									<span> Interest Rate Information</span>
 								</div>
 								<table class=" table table-striped table-bordered table-hover "
-									id="table">
+									id="popUpTable">
 									<thead>
 										<tr>
 											<th>ID</th>
@@ -280,9 +307,6 @@
 									<th>Date Start</th>
 									<th>Date End</th>
 									<sec:authorize access="hasRole('admin')">
-
-
-
 										<th>Edit Saving Account</th>
 									</sec:authorize>
 

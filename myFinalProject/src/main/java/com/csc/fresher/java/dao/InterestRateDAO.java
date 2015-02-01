@@ -29,7 +29,7 @@ public class InterestRateDAO {
 
 	@Transactional
 	public InterestRate getInterestRateBySavingAccountId(SavingAccount saving) {
-		InterestRate interestRate = new InterestRate();
+		InterestRate interestRate = null;
 		try {
 			interestRate = entityManager.find(InterestRate.class, saving
 					.getCustomerId().getId());
@@ -50,7 +50,7 @@ public class InterestRateDAO {
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public InterestRate getInterestRate(int id) {
-		InterestRate InterestRate = new InterestRate();
+		InterestRate InterestRate = null;
 		try {
 			InterestRate = entityManager.find(InterestRate.class, id);
 			if (InterestRate == null) {

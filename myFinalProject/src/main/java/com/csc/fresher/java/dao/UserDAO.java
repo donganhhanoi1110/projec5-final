@@ -33,7 +33,7 @@ public class UserDAO {
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public User getUser(int id) {
-		User user = new User();
+		User user = null;
 		try {
 			user = entityManager.find(User.class, id);
 			if (user == null) {
@@ -52,7 +52,7 @@ public class UserDAO {
 
 
 	public User getUserbyUserName(String username) {
-		User user = new User();
+		User user = null;
 		try {
 			TypedQuery<User> query = entityManager.createQuery("SELECT c FROM "
 					+ User.class.getName() + " c where c.userName=:username",

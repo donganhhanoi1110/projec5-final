@@ -337,8 +337,8 @@
 			<div class="popupContainerCreateTransaction">
 				<div class="popupCreateTransaction">
 					<button class="popupCloseButton">X</button>
-					<form:form action="createTransactionAttribute.html" method="post"
-						modelAttribute="transaction">
+					<form:form action="createTransactionDeposit.html" method="post"
+						modelAttribute="transactiondeposit">
 						<table id="id-form" class="table table-striped table-bordered">
 							<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />

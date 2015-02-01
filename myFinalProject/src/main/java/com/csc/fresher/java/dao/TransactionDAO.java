@@ -38,7 +38,7 @@ public class TransactionDAO {
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public Transaction getTransaction(int id) {
-		Transaction Transaction = new Transaction();
+		Transaction Transaction = null;
 		try {
 			System.out.println("getTransaction-DAO");
 			Transaction = entityManager.find(Transaction.class, id);
@@ -57,7 +57,7 @@ public class TransactionDAO {
 	}
 
 	public List<Transaction> getTransactionByState(String state) {
-		List<Transaction> list = new ArrayList<Transaction>();
+		List<Transaction> list = null;
 		try {
 			TypedQuery<Transaction> query = entityManager.createQuery(
 					"SELECT c FROM " + Transaction.class.getName()
@@ -74,7 +74,7 @@ public class TransactionDAO {
 	}
 
 	public List<Transaction> getAllTransaction() {
-		List<Transaction> list = new ArrayList<Transaction>();
+		List<Transaction> list = null;
 		try {
 			TypedQuery<Transaction> query = entityManager.createQuery(
 					"SELECT c FROM " + Transaction.class.getName() + " c",
@@ -189,7 +189,7 @@ public class TransactionDAO {
 
 	public List<Transaction> getTransactionBySavingAccountNumber(
 			int savingAccountNumber) {
-		List<Transaction> list = new ArrayList<Transaction>();
+		List<Transaction> list = null;
 		try {
 			TypedQuery<Transaction> query = entityManager
 					.createQuery(
