@@ -539,6 +539,7 @@ public class SavingAccountController {
 	public ModelAndView searchSavingAccount(HttpServletRequest request,
 			Model model, HttpSession session,
 			@ModelAttribute Customer customer,
+			@ModelAttribute SavingAccount savingaccount,
 			@ModelAttribute Transaction transaction) {
 		String message = "";
 		if (session.getAttribute("loginSession") != null) {
@@ -554,6 +555,13 @@ public class SavingAccountController {
 			String searchType = request.getParameter("searchType");
 			Customer customerfromSaving = null;
 			// Search by Saving Account Number
+			List<InterestRate> interestRate = interestRateService
+					.getInterestRateList();
+			modelview.addObject("savingaccount", new SavingAccount());
+			List<Customer> listCustomer = new ArrayList<Customer>();
+			listCustomer.add(customerfromSaving);
+			modelview.addObject("interestrateList", interestRate);
+			modelview.addObject("customerList", listCustomer);
 			if (searchType.equals("accountNumber")) {
 				try {
 					List<SavingAccount> listSaving = new ArrayList<SavingAccount>();

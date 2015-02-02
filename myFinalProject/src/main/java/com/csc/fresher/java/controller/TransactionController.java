@@ -191,16 +191,26 @@ public class TransactionController {
 			int savingAccountNumber=Integer.parseInt(request.getParameter("savingAccountNumber"));
 			
 			try {
+				SavingAccount savingAccount=savingAccountService.getSavingAccountByNumber(savingAccountNumber);
 			List<Transaction> transactions=transactionService.getTransactionBySavingAccountNumber(savingAccountNumber);
-				// Business With Saving Account
-				
+			List<Transaction> newTrans=new ArrayList<Transaction>();	
+			// Business With Saving Account
+				for(Transaction tran:transactions)
+				{
+					tran.setTransactions(null);
+					tran.setSavingAccountId(null);
+					newTrans.add(tran);
+				}
 			
 
 				// Check error when Delete to Database
 				if (transactions.size()>0){
-					response.setListTransactions(transactions);
+					response.setListTransactions(newTrans);
 					// Create transaction of this saving account to admin
-
+					savingAccount.setCustomerId(null);
+					savingAccount.setInterestRateId(null);
+					savingAccount.setTransactions(null);
+					response.setSavingAccount(savingAccount);
 					message = "Get Transactions"
 						
 							+ " Successfully";

@@ -20,6 +20,115 @@
 			xhr.setRequestHeader(header, token);
 		});
 	});
+	/* Create SavingAccount Json */
+	$(document)
+			.on(
+					"click",
+					"#createSavingAccount",
+					function(e) {
+						e.preventDefault();
+						var mydata = $("#savingaccount")
+								.serialize();
+						// if you Transaction ajax
+						$
+								.ajax({
+									type : 'post',
+									url : 'createSavingAccountJson',
+									data : mydata,
+									datatype : 'json',
+									success : function(data) {
+										console.log(data);
+										if (data.login == true) {
+											if (data.success == true) {
+												alert("Create successfully!");
+												if (data.error_code == '0') {
+													window.location.href = 'viewAllSavingAccount?ERROR_CODE='
+															+ data.error_code;
+												} else {
+													/*
+													 * window.location.href =
+													 * 'viewAllSavingAccount';
+													 */
+													var t = $(
+															'#table')
+															.DataTable();
+													var transaction = $('#transactions')
+													t.row
+															.add(
+																	[
+																			data.savingAccount.savingAccountNumber,
+																			data.savingAccount.customerId.lastName
+																					+ ''
+																					+ data.savingAccount.customerId.midName
+																					+ ''
+																					+ data.savingAccount.customerId.lastName,
+																			data.savingAccount.balanceAmount,
+																			data.savingAccount.repeatable,
+																			data.savingAccount.interestRateId.savingAccountType
+																					+ ' '
+																					+ data.savingAccount.interestRateId.interestRate
+																					+ ' '
+																					+ data.savingAccount.interestRateId.currency,
+																			data.savingAccount.state,
+																			data.savingAccount.dateStart,
+																			data.savingAccount.dateEnd,
+																			'<a href='
+																					+ '"viewListTransaction.html?SavingAccountId=${savingAccount.id}"'
+																					+ 'class="myButton" id="transactions">Transactions</a>' ]
+
+															)
+															.draw();
+													$(
+															".popupContainer")
+															.hide();
+												}
+											} else {
+												alert("Create Failed");
+											}
+										} else {
+											window.location.href = 'login';
+										}
+									},
+									error : function(a, b, c) {
+										$("#errorPane").html(
+												a.responseText);
+										console.log(a);
+									}
+								});
+
+					});
+	$(".addSavingAccount").bind("click", function(e) {
+		$(".popupContainerSavingAccount").fadeIn("fast", function() {
+
+			$.ajax({
+				type : 'post',
+				url : 'getSavingAccountNumber',
+				data : "",
+				datatype : 'json',
+				success : function(response) {
+					console.log(response);
+					$(".createSavingForm").trigger("reset");
+					$("#savingAccountNumber").val(response);
+				},
+				error : function(a, b, c) {
+					$("#errorPane").html(a.responseText);
+					console.log(a);
+				}
+			});
+
+		});
+	})
+	/* Popup Saving Account Close */
+	$(".popupCloseButton").bind("click", function(e) {
+		$(".popupContainerSavingAccount").hide();
+	});
+	$(".popupContainerSavingAccount").bind("click", function(e) {
+		if (e.target == this) {
+			$(this).hide();
+		}
+	})
+	/* End Create SavingAccount Json */
+
 	$(document)
 			.ready(
 					function() {
@@ -407,7 +516,105 @@
 		</div>
 
 	</div>
+<div class="popupContainerSavingAccount">
+					<div class="popupSavingAccount">
+						<button class="popupCloseButton">X</button>
+						<form:form action="createSavingAccount.html" method="post"
+							modelAttribute="savingaccount" class="createSavingForm">
+							<table class="mytable2">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
 
+								<tr>
+									<th valign="top"><form:label path="savingAccountNumber">Saving Account Number:</form:label>
+									</th>
+									<td><form:input readonly="true" path="savingAccountNumber"
+											class="textox" id="savingAccountNumber"
+											value="${savingAccountNumber }" /></td>
+									<th valign="top"><form:label path="balanceAmount">Balance Amount:</form:label>
+									</th>
+									<td><form:input path="balanceAmount" class="textox" /></td>
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="dateStart">Date Start:</form:label></th>
+									<td><form:input path="dateStart" class="textox datepicker" /></td>
+									<th valign="top"><form:label path="dateEnd">Date End:</form:label></th>
+									<td><form:input path="dateEnd" class="textox datepicker" /></td>
+								</tr>
+
+								<tr>
+									<th valign="top"><form:label path="customerId.id">Customer:</form:label></th>
+									<td><form:select path="customerId.id" multiple="false"
+											class="textox">
+											<c:forEach var="customer" items="${customerList}">
+												<form:option value="${customer.id}">
+													<c:out
+														value="${customer.lastName} ${customer.midName} ${customer.firstName}" />
+												</form:option>
+											</c:forEach>
+										</form:select></td>
+									<th valign="top"><form:label path="interestRateId.id">Period:</form:label></th>
+									<td><form:select path="interestRateId.id" multiple="false"
+											class="textox">
+											<form:options items="${interestrateList}" itemValue="id"
+												itemLabel="savingAccountType" />
+										</form:select></td>
+
+
+								</tr>
+								<tr>
+									<th valign="top"><form:label path="state">State:</form:label></th>
+									<td><form:select path="state" class="textox">
+											<form:options items="${states }" />
+										</form:select></td>
+									<th valign="top"><form:label path="repeatable">Repeatable:</form:label>
+									</th>
+									<td><form:input path="repeatable" class="textox" /></td>
+
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type="submit" class="myButton" value="Save"
+										id="addSavingAccountSubmit" /></td>
+
+								</tr>
+							</table>
+						</form:form>
+
+						<div class="panel-body">
+							<div class="dataTable_wrapper">
+								<div>
+									<span> Interest Rate Information</span>
+								</div>
+								<table class=" table table-striped table-bordered table-hover "
+									id="popUpTable">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Interest Rate Type</th>
+											<th>Rate</th>
+											<th>Currency</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="interest" items="${interestrateList}">
+											<c:if test="${interest.id != null}">
+												<tr>
+													<td>${interest.id}</td>
+													<td>${interest.savingAccountType}</td>
+													<td>${interest.interestRate}</td>
+													<td>${interest.currency}</td>
+												</tr>
+											</c:if>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!-- End popupContainer -->
 
 
 
