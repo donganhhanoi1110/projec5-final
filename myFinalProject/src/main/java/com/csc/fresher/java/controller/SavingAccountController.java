@@ -66,8 +66,23 @@ public class SavingAccountController {
 			model.addAttribute("ERROR_CODE", error_code);
 			model.addAttribute("message", message);
 			// Get the list of all accounts from DB
-
+			
 			try {
+				List<SavingAccount> savingAccountList = savingAccountService
+						.getSavingAccountList();
+				List<Customer> cus = customerService.getAllCustomer();
+				List<InterestRate> interestRate = interestRateService
+						.getInterestRateList();
+
+				// setDefault Saving Account Number
+				int savingAccountNumber = myRandom(100, 400);
+				String[] states = { "new", "hold", "active" };
+				modelview.addObject("interestrateList", interestRate);
+				modelview.addObject("customerList", cus);
+				modelview.addObject("states", states);
+				modelview.addObject("listSavingAccount", savingAccountList);
+				modelview.addObject("savingAccountNumber", "123"
+						+ savingAccountNumber);
 				List<SavingAccount> listAllSavingAccount = savingAccountService
 						.getSavingAccountList();
 				model.addAttribute("listSavingAccount", listAllSavingAccount);
@@ -80,6 +95,7 @@ public class SavingAccountController {
 					model.addAttribute("listHoldSavingAccount",
 							listHoldSavingAccount);
 					modelview.setViewName("adminSavingAccount");
+					modelview.addObject("savingaccount",new SavingAccount());
 				} else {
 					if ("support".equals(myrole)) {
 						List<SavingAccount> listActiveSavingAccount = savingAccountService
@@ -91,6 +107,7 @@ public class SavingAccountController {
 						model.addAttribute("listNewSavingAccount",
 								listNewSavingAccount);
 						modelview.setViewName("supportSavingAccount");
+						modelview.addObject("savingaccount",new SavingAccount());
 					}
 				}
 
@@ -181,6 +198,19 @@ public class SavingAccountController {
 					SavingAccount saving = savingAccountService
 							.getSavingAccountByNumber(savingaccount
 									.getSavingAccountNumber());
+
+					Transaction transaction = new Transaction(0,
+							saving.getBalanceAmount(), (new Date()).toString(),
+							"", "deposit", "new", (float) 0,
+							saving.getBalanceAmount(), saving);
+
+					if (transactionService.createTransaction(transaction)) {
+						System.out
+								.println("Sucessfully Create Tran from new savingAcount");
+					} else {
+						System.out
+								.println("Failed Create Tran from new savingAcount");
+					}
 					// Create transaction of this saving account to admin
 
 					message = "Create SavingAccount"
@@ -387,7 +417,7 @@ public class SavingAccountController {
 	public ModelAndView approveSavingAccount(HttpServletRequest request,
 			Model model, HttpSession session) {
 		ModelAndView modelview = new ModelAndView(
-				"forward:/viewAllSavingAccount");
+				"forward:/homeSavingAccount");
 
 		String message = "";
 
@@ -399,6 +429,17 @@ public class SavingAccountController {
 				SavingAccount savingAccount = savingAccountService
 						.getSavingAccount(savingAccountId);
 				savingAccount.setState("active");
+				List<Transaction> transactions = savingAccount
+						.getTransactions();
+				List<Transaction> newTrans = new ArrayList<Transaction>();
+				for (Transaction tran : transactions) {
+					if (tran.getState().equals("new")) {
+						tran.setState("done");
+
+					}
+					newTrans.add(tran);
+				}
+				savingAccount.setTransactions(newTrans);
 				// Check error when Update to Database
 				if (!savingAccountService.updateSavingAccount(savingAccount)) {
 					message = "Approve Saving Account" + savingAccountId

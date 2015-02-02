@@ -32,15 +32,14 @@
 						$(document)
 								.on(
 										"click",
-										"#linkDeleteTransaction",
+										"#addTransactionJson",
 										function(e) {
 											e.preventDefault();
-
-											var confirmMessage = confirm("Do you want to delete this Transaction?");
+											var mydata = $("#transaction")
+											.serialize();
+											var confirmMessage = confirm("Do you want to Add this Transaction?");
 											if (confirmMessage) {
 												//to delete Transaction page
-												var TransactionId = $(this)
-														.attr("Transaction");
 												/* 	$(this).closest("tr").remove(); */
 
 												//if you want to reload the page
@@ -49,9 +48,8 @@
 												$
 														.ajax({
 															type : 'post',
-															url : 'deleteTransactionJson',
-															data : 'TransactionId='
-																	+ TransactionId,
+															url : 'createTransactionJson',
+															data : mydata,
 															datatype : 'json',
 															success : function(
 																	data) {
@@ -59,20 +57,29 @@
 																		.log(data);
 																if (data.login == true) {
 																	if (data.success == true) {
-																		alert("Delete successfully!");
+																		alert("Create successfully! <br>"
+																				+ data.message);
 																		if (data.error_code == '0') {
-																			window.location.href = 'homeTransaction?ERROR_CODE='
+																			window.location.href = 'searchSavingAccount?ERROR_CODE='
 																					+ data.error_code;
 																		} else {
-																			window.location.href = 'homeTransaction';
+
+																			$(
+																					".popupContainerCreateTransaction")
+																					.hide();
 																		}
 
 																	} else {
-																		alert("Delete Failed");
+																		alert("Create Failed"
+																				+ data.message);
 																	}
 																} else {
 																	window.location.href = 'login';
 																}
+															},	error : function(a, b,
+																	c) {
+																
+																console.log(a);
 															}
 														});
 
@@ -221,8 +228,8 @@
 											<td>${savingAccount.dateStart}</td>
 											<td>${savingAccount.dateEnd}</td>
 											<td><a
-													href="viewListTransaction.html?SavingAccountId=${savingAccount.id}"
-													class="myButton">Transactions</a></td>
+												href="viewListTransaction.html?SavingAccountId=${savingAccount.id}"
+												class="myButton">Transactions</a></td>
 											<sec:authorize access="hasRole('admin')">
 
 												<td><a
@@ -339,7 +346,7 @@
 							<tr>
 								<td></td>
 								<td><input type="submit" class="myButton" value="Save"
-									id="addAccount" /></td>
+									 /></td>
 
 							</tr>
 						</table>
@@ -384,7 +391,7 @@
 							<tr>
 								<td></td>
 								<td><input type="submit" class="myButton" value="Save"
-									id="addAccount" /></td>
+									id="addTransactionJson"/></td>
 
 							</tr>
 						</table>

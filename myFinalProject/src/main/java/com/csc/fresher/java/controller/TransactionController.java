@@ -168,60 +168,71 @@ public class TransactionController {
 		}
 
 	}
-
-	@RequestMapping(value = "/createTransactionDeposit", method = RequestMethod.POST)
-	public ModelAndView createTransactionDeposit(
-			@ModelAttribute("transactiondeposit") Transaction transaction,
-			HttpServletRequest request, Model model, HttpSession session) {
+	@RequestMapping(value = "/createTransactionJson", method = RequestMethod.POST)
+	public @ResponseBody AjaxResponse createTransactionJson(
+			HttpServletRequest request, Model model, HttpSession session,@ModelAttribute("transaction") Transaction transaction) {
 		// Create a new AccountDAO
-		User user = null;
+		AjaxResponse response = new AjaxResponse();
+		String message = "";
+		String error_code = "";
+		boolean check = false;
+		
+		
 		if (session.getAttribute("loginSession") != null) {
-			String message = "";
-			ModelAndView modelview = new ModelAndView(
-					"forward:/homeTransaction");
-
+			Date dateStart = new Date();
+			SavingAccount savingAccount =savingAccountService.getSavingAccount(transaction.getSavingAccountId().getId());
+				
+			float currentBalance = savingAccount.getBalanceAmount();
+			transaction.setCurrentBalance(currentBalance);
+			transaction.setDateStart(dateStart.toString());
+			transaction.setState("hold");
 			try {
-				Date dateStart = new Date();
-				SavingAccount savingAccount = transactionService
-						.getAccountbyTranID(transaction);
-				float currentBalance = savingAccount.getBalanceAmount();
-				transaction.setCurrentBalance(currentBalance);
-				transaction.setDateStart(dateStart.toString());
-				transaction.setState("hold");
-				boolean check = transactionService
-						.createTransaction(transaction);
-				if (check) {
-					String username = request.getSession()
-							.getAttribute("loginSession").toString();
-					// Add to table transactionuser in database bcz @ManyToMany
-					user = userService.getUserbyUserName(username);
-					Collection<User> userSets = transaction.getTransactions();
-					userSets.add(user);
-					transaction.setTransactions(userSets);
-					transactionService.updateTransaction(transaction);
-					message = "You have created Transaction successfully!!!";
+				System.out.println("Json Saving Account: "
+						+ transaction.toString());
 
-					modelview.addObject("message", message);
+				// Business With Saving Account
 
-				} else {
-					message = "You have created Transaction FAILED!!!";
-					modelview.addObject("ERROR_CODE", "0");
-					modelview.addObject("message", message);
+				if (transaction.getAmount() > 10000000) {
+					transaction.setState("hold");
 				}
 
-				return modelview;
+				// Check error when Delete to Database
+				if (transactionService.createTransaction(transaction)){
+				
+					// Create transaction of this saving account to admin
 
+					message = "Create Transaction"
+						
+							+ " Successfully";
+					error_code = "1";
+				
+					check = true;
+
+				} else {
+					message = "Create Transaction"
+							 + " FAIL";
+					error_code = "0";
+					check = false;
+
+				}
 			} catch (Exception e) {
-				modelview.addObject("ERROR_CODE", "0");
-				return modelview;
+				System.out.println("Create TransactionJson Controller has Error");
+				message = "Create TransactionJson Controller has Error";
+				error_code = "0";
+				check = false;
 
 			}
+
+			response.setSuccess(check);
+			response.setMessage(message);
+			response.setError_code(error_code);
+			response.setLogin(true);
+
 		} else {
-			return new ModelAndView("redirect:/login");
+			response.setLogin(false);
 		}
-
+		return response;
 	}
-
 	@RequestMapping(value = "/deleteTransaction")
 	public ModelAndView deleteTransaction(HttpServletRequest request,
 			Model model, HttpSession session) {
