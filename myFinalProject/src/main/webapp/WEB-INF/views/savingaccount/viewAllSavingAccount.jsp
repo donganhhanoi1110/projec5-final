@@ -163,8 +163,10 @@
 								<tr>
 									<th valign="top"><form:label path="dateStart">Date Start:</form:label></th>
 									<td><form:input path="dateStart" class="textox datepicker" /></td>
-									<th valign="top"><form:label path="dateEnd">Date End:</form:label></th>
-									<td><form:input path="dateEnd" class="textox datepicker" /></td>
+									<th valign="top"><form:label path="state">State:</form:label></th>
+									<td><form:select path="state" class="textox">
+											<form:options items="${states }" />
+										</form:select></td>
 								</tr>
 
 								<tr>
@@ -188,10 +190,7 @@
 
 								</tr>
 								<tr>
-									<th valign="top"><form:label path="state">State:</form:label></th>
-									<td><form:select path="state" class="textox">
-											<form:options items="${states }" />
-										</form:select></td>
+									
 									<th valign="top"><form:label path="repeatable">Repeatable:</form:label>
 									</th>
 									<td><form:input path="repeatable" class="textox" /></td>

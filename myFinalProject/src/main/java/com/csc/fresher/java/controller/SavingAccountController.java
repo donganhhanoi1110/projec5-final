@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -190,10 +191,17 @@ public class SavingAccountController {
 				if (savingaccount.getBalanceAmount() > 10000000) {
 					savingaccount.setState("hold");
 				}
-
+				InterestRate interestRate=interestRateService.getInterestRate(savingaccount.getInterestRateId().getId());
+				
+				Date date=savingAccountService.convertStringToDate(savingaccount.getDateStart());
+				Date dateEnd=DateUtils.addMonths(date, interestRate.getMonth());
+				String dateEndtemp=savingAccountService.convertDateToString(dateEnd);
+				
+				savingaccount.setDateEnd(dateEndtemp);
 				// Check error when Delete to Database
 				if (savingAccountService.createSavingAccount(savingaccount)) {
-					Date currentDate = new Date();
+					
+					
 					SavingAccount saving = savingAccountService
 							.getSavingAccountByNumber(savingaccount
 									.getSavingAccountNumber());

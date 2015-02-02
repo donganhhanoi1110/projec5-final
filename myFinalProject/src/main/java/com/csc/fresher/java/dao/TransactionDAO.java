@@ -243,13 +243,11 @@ public class TransactionDAO {
 			int days = Days.daysBetween(
 					new DateTime(savingService.convertStringToDate(acc
 							.getDateStart())), new DateTime(date)).getDays();
-			float newBalance = (float) ((acc.getBalanceAmount() * days * (0.01/365)) + acc.getBalanceAmount()+tran.getAmount());
+			float newBalance = (float) ((acc.getBalanceAmount() * days * (0.01/360)) + acc.getBalanceAmount()+tran.getAmount());
 			
 			// Update Saving Account with new Balance
 	
-			Date nextDate = DateUtils.addMonths(date, Integer
-					.parseInt(interestRateofSavingAcc.getSavingAccountType()
-							.substring(0, 1)));
+			Date nextDate = DateUtils.addMonths(date, interestRateofSavingAcc.getMonth());
 
 			acc.setBalanceAmount(newBalance);
 			acc.setDateStart(savingService.convertDateToString(date));
