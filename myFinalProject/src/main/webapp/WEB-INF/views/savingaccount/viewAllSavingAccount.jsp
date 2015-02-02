@@ -176,6 +176,57 @@
 				</div>
 				<!-- End popupContainer -->
 
+				<div class="popupContainerGetTransactions">
+					<div class="popupGetTransactions">
+						<button class="popupCloseButtonGetTransactions">X</button>
+						
+							
+				<div class="panel-body">
+					<h1>All Transaction</h1>
+					<div class="dataTable_wrapper">
+						<table class="mytable1 table table-striped table-bordered " id="tableGetTransactions"
+							>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Amount</th>
+									<th>Start Time</th>
+									<th>End Time</th>
+									<th>Account Number</th>
+									<th>State</th>
+									<th>Transaction Type</th>
+									<th>Current Balance</th>
+									<th>After Balance</th>
+								
+
+
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="Transaction" items="${listTransaction}">
+									<c:if test="${Transaction.id != null}">
+										<tr>
+											<td>${Transaction.id}</td>
+											<td>${Transaction.amount}</td>
+											<td>${Transaction.dateStart}</td>
+											<td>${Transaction.dateEnd}</td>
+											<td>${Transaction.savingAccountId.savingAccountNumber}</td>
+											<td>${Transaction.state}</td>
+											<td>${Transaction.transactionType}</td>
+											<td>${Transaction.currentBalance}</td>
+											<td>${Transaction.afterBalance}</td>
+										
+										</tr>
+									</c:if>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+						
+					</div>
+				</div>
+				<!-- End popupContainer -->
 
 				<div class="panel-body">
 					<div class="dataTable_wrapper">
@@ -212,9 +263,9 @@
 										<td>${savingAccount.state}</td>
 										<td>${savingAccount.dateStart}</td>
 										<td>${savingAccount.dateEnd}</td>
-										<td><a
-											href="viewListTransaction.html?SavingAccountId=${savingAccount.id}"
-											class="myButton" id="transactions">Transactions</a></td>
+										<td><a SavingAccount=${savingAccount.savingAccountNumber }
+											href=""
+											class="myButton getMyTransactions" >Transactions</a></td>
 										<sec:authorize access="hasRole('admin')">
 
 											<td><a

@@ -1,15 +1,4 @@
 
-
-.form_transaction input,select
-{
-	width:300px;
-
-}
-
-#select_option_setwidth
-{
-	width: 300px;
-}
 #show {
 	margin-top:10px;
 	margin-bottom: 20px;
@@ -25,46 +14,106 @@
 	margin-bottom:10px; 
 }
 
-#search {
-	clear: both;
+
+.popupContainerGetTransactions {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5);
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 9999;
+	display: none;
 }
 
-#text {
-	width: 500px;
-	height: 400px;
-	float: left;
+.popupGetTransactions{
+	background-color: white;
+	width: 80%;
+	height: 80%;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	margin: auto;
+	padding: 1%;
+	top: 50px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 5px black;
+}
+button.popupCloseButtonGetTransactions {
+	font-family: cursive;
+	color: crimson;
+	position: absolute;
+	/* bottom: 10%; */
+	top: 1%;
+	right: 1%;
+	border: none;
+	background: none;
+}
+.popupContainerCreateTransaction {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5);
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 9999;
+	display: none;
 }
 
-#linked {
-	float: left;
-	width: 500px;
-	border: .1em solid #000;;
-	margin-left: 5px;
-	min-height: 400px;
-	padding: 10px;
+.popupCreateTransaction {
+	background-color: white;
+	width: 80%;
+	height: 80%;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	margin: auto;
+	padding: 1%;
+	top: 50px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 5px black;
 }
 
-#button_center {
-	float: left;
+.popupContainer {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5);
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 9999;
+	display: none;
 }
 
-#button_center button {
-	font-size: 18pt;
-	margin: 10px;
+.popup {
+	background-color: white;
+	width: 70%;
+	height: 93%;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	margin: auto;
+	padding: 1%;
+	top: 20px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 5px black;
 }
 
-#button_center_temp {
-	float: left;
-}
-
-#button_center_temp button {
-	font-size: 18pt;
-	margin: 10px;
-}
-
-#linked button {
-	font-size: 18pt;
-	margin: 40px;
+button.popupCloseButton {
+	font-family: cursive;
+	color: crimson;
+	position: absolute;
+	/* bottom: 10%; */
+	top: 1%;
+	right: 1%;
+	border: none;
+	background: none;
 }
 
 .error{

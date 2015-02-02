@@ -1,12 +1,21 @@
 package com.csc.fresher.java.domain;
 
+import java.util.List;
+
 public class AjaxResponse {
 	private boolean success;
 	private String message;
 	private String error_code;
 	private boolean login;
 	private SavingAccount savingAccount;
+	private List<Transaction> listTransactions;
 	
+	public List<Transaction> getListTransactions() {
+		return listTransactions;
+	}
+	public void setListTransactions(List<Transaction> listTransactions) {
+		this.listTransactions = listTransactions;
+	}
 	public SavingAccount getSavingAccount() {
 		return savingAccount;
 	}

@@ -168,6 +168,62 @@ public class TransactionController {
 		}
 
 	}
+	@RequestMapping(value = "/viewListTransactionJson", method = RequestMethod.POST)
+	public @ResponseBody AjaxResponse viewListTransactionJson(
+			HttpServletRequest request, Model model, HttpSession session) {
+		// Create a new AccountDAO
+		AjaxResponse response = new AjaxResponse();
+		String message = "";
+		String error_code = "";
+		boolean check = false;
+		
+		
+		if (session.getAttribute("loginSession") != null) {
+			int savingAccountNumber=Integer.parseInt(request.getParameter("savingAccountNumber"));
+			
+			try {
+			List<Transaction> transactions=transactionService.getTransactionBySavingAccountNumber(savingAccountNumber);
+				// Business With Saving Account
+				
+			
+
+				// Check error when Delete to Database
+				if (transactions.size()>0){
+					response.setListTransactions(transactions);
+					// Create transaction of this saving account to admin
+
+					message = "Get Transactions"
+						
+							+ " Successfully";
+					error_code = "1";
+				
+					check = true;
+
+				} else {
+					message = "Getting Transactions has Failed, No Transactions Found!!!";
+					error_code = "0";
+					check = false;
+
+				}
+			} catch (Exception e) {
+				System.out.println("Get TransactionsJson Controller has Error");
+				message = "Getting Transactions has Failed, No Transactions Found!!!";
+				error_code = "0";
+				check = false;
+
+			}
+
+			response.setSuccess(check);
+			response.setMessage(message);
+			response.setError_code(error_code);
+			response.setLogin(true);
+
+		} else {
+			response.setLogin(false);
+		}
+		return response;
+	}
+	
 	@RequestMapping(value = "/createTransactionJson", method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse createTransactionJson(
 			HttpServletRequest request, Model model, HttpSession session,@ModelAttribute("transaction") Transaction transaction) {
