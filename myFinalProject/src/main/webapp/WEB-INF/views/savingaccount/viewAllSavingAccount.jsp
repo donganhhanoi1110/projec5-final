@@ -15,12 +15,10 @@
 
 </head>
 <body>
-	<%-- 	<c:if test="${loginSession == null}"><jsp:forward
-			page="/login.jsp" /></c:if> --%>
-
+	<jsp:include page="popup/getTransactionPopup.jsp"></jsp:include>
+	
 	<div id="manu_main">
 		<ul>
-
 			<li><a href="homeSavingAccount.html">Home Saving Acccount</a></li>
 			<li><a href="viewAllSavingAccount.html">View All Saving
 					Account</a></li>
@@ -78,6 +76,71 @@
 				</div>
 
 
+
+
+				<div class="panel-body">
+					<div class="dataTable_wrapper">
+						<table class="mytable1 table table-striped table-bordered "
+							id="table">
+							<thead>
+								<tr>
+									<th>Saving Account Number</th>
+									<th>Customer</th>
+									<th>Saving Balance Amount</th>
+									<th>Repeatable</th>
+									<th>Interest Rate</th>
+									<th>State</th>
+									<th>Date Start</th>
+									<th>Date End</th>
+									<th>View Transactions</th>
+									<sec:authorize access="hasRole('admin')">
+										<th>Edit Saving Account</th>
+									</sec:authorize>
+
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="savingAccount" items="${listSavingAccount}">
+
+									<tr>
+										<td>${savingAccount.savingAccountNumber}</td>
+										<td>${savingAccount.customerId.firstName}</td>
+										<td>${savingAccount.balanceAmount}</td>
+										<td>${savingAccount.repeatable}</td>
+										<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
+											${savingAccount.interestRateId.interestRate}%&nbsp;
+											(${savingAccount.interestRateId.currency})</td>
+										<td>${savingAccount.state}</td>
+										<td>${savingAccount.dateStart}</td>
+										<td>${savingAccount.dateEnd}</td>
+										<td>
+										<a
+											SavingAccount=${savingAccount.savingAccountNumber } href=""
+											class="myButton getMyTransactions">Transactions</a></td>
+										<sec:authorize access="hasRole('admin')">
+
+											<td><a
+												href="editSavingAccount.html?SavingAccountId=${savingAccount.id}"
+												class="myButton">Edit</a></td>
+											<input type="hidden" name="${_csrf.parameterName}"
+												value="${_csrf.token}" />
+										</sec:authorize>
+
+
+									</tr>
+
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+
+			<br />
+		</div>
+
+	</div>
 
 				<div class="popupContainer">
 					<div class="popup">
@@ -177,117 +240,6 @@
 					</div>
 				</div>
 				<!-- End popupContainer -->
-
-				<div class="popupContainerGetTransactions">
-					<div class="popupGetTransactions">
-						<button class="popupCloseButtonGetTransactions">X</button>
-						<div>
-							<span style="color: blue; font-size: 20px;">Transactions </span>
-							<button id="exitGetTransaction" class="myButton">Exit</button>
-
-							<div>
-								<table class="myPadding table-striped table-bordered "
-									id="tableGetTransactions">
-									<thead>
-										<tr>
-											<th >ID</th>
-											<th  >Amount</th>
-											<th  >Start Time</th>
-											<th  >End Time</th>
-											<th  >Account Number</th>
-											<th  >State</th>
-											<th  >Transaction Type</th>
-											<th  >Current Balance</th>
-											<th  >After Balance</th>
-										</tr>
-									</thead>
-									<tbody >
-
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-
-										</tr>
-
-									</tbody>
-								</table>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<!-- End popupContainer -->
-
-				<div class="panel-body">
-					<div class="dataTable_wrapper">
-						<table class="mytable1 table table-striped table-bordered "
-							id="table">
-							<thead>
-								<tr>
-									<th>Saving Account Number</th>
-									<th>Customer</th>
-									<th>Saving Balance Amount</th>
-									<th>Repeatable</th>
-									<th>Interest Rate</th>
-									<th>State</th>
-									<th>Date Start</th>
-									<th>Date End</th>
-									<th>View Transactions</th>
-									<sec:authorize access="hasRole('admin')">
-										<th>Edit Saving Account</th>
-									</sec:authorize>
-
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="savingAccount" items="${listSavingAccount}">
-
-									<tr>
-										<td>${savingAccount.savingAccountNumber}</td>
-										<td>${savingAccount.customerId.firstName}</td>
-										<td>${savingAccount.balanceAmount}</td>
-										<td>${savingAccount.repeatable}</td>
-										<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
-											${savingAccount.interestRateId.interestRate}%&nbsp;
-											(${savingAccount.interestRateId.currency})</td>
-										<td>${savingAccount.state}</td>
-										<td>${savingAccount.dateStart}</td>
-										<td>${savingAccount.dateEnd}</td>
-										<td><a
-											SavingAccount=${savingAccount.savingAccountNumber } href=""
-											class="myButton getMyTransactions">Transactions</a></td>
-										<sec:authorize access="hasRole('admin')">
-
-											<td><a
-												href="editSavingAccount.html?SavingAccountId=${savingAccount.id}"
-												class="myButton">Edit</a></td>
-											<input type="hidden" name="${_csrf.parameterName}"
-												value="${_csrf.token}" />
-										</sec:authorize>
-
-
-									</tr>
-
-								</c:forEach>
-							</tbody>
-						</table>
-					</div>
-				</div>
-
-			</div>
-
-			<br />
-		</div>
-
-	</div>
-
 
 </body>
 </html>
