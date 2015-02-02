@@ -11,7 +11,7 @@
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>CSC Banking System</title>
 <script src="js/popup/createSavingAccount.js"></script>
-
+<script src="js/popup/getTransactionsPopup.js"></script>
 
 </head>
 <body>
@@ -72,7 +72,7 @@
 					<h1>Saving Account Information</h1>
 					<sec:authorize access="hasRole('support')">
 						<button class="addSavingAccount myButton" value="addSavingAccount">
-							>>Add New Saving Account<< </button>
+							>>Add New Saving Account<<</button>
 					</sec:authorize>
 
 				</div>
@@ -181,27 +181,27 @@
 				<div class="popupContainerGetTransactions">
 					<div class="popupGetTransactions">
 						<button class="popupCloseButtonGetTransactions">X</button>
+						<div>
+							<span style="color: blue; font-size: 20px;">Transactions </span>
+							<button id="exitGetTransaction" class="myButton">Exit</button>
 
-
-						<div class="panel-body">
-							<h1>All Transaction</h1>
-							<div class="dataTable_wrapper">
-								<table class="mytable1 table table-striped table-bordered "
+							<div>
+								<table class="myPadding table-striped table-bordered "
 									id="tableGetTransactions">
 									<thead>
 										<tr>
-											<th>ID</th>
-											<th>Amount</th>
-											<th>Start Time</th>
-											<th>End Time</th>
-											<th>Account Number</th>
-											<th>State</th>
-											<th>Transaction Type</th>
-											<th>Current Balance</th>
-											<th>After Balance</th>
+											<th >ID</th>
+											<th  >Amount</th>
+											<th  >Start Time</th>
+											<th  >End Time</th>
+											<th  >Account Number</th>
+											<th  >State</th>
+											<th  >Transaction Type</th>
+											<th  >Current Balance</th>
+											<th  >After Balance</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody >
 
 										<tr>
 											<td></td>
@@ -287,23 +287,6 @@
 		</div>
 
 	</div>
-	<!-- 	<script>
-		$(document).ready(function() {
-			$("#linkPopup").bind("click", function(e) {
-				e.preventDefault();
-				$(".popupContainer").show();
-			});
-			$(".popupCloseButton").bind("click", function(e) {
-				$(".popupContainer").hide();
-			});
-		});
-	</script>
-	<a href="dskaj" id="linkPopup">click to show popup</a>
-	<div class="popupContainer">
-		<div class="popup">
-			<button class="popupCloseButton">X</button>
-		</div>
-	</div> -->
 
 
 </body>

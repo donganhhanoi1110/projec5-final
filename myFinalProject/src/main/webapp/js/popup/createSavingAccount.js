@@ -1,13 +1,20 @@
-$(function() {
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	$(document).ajaxSend(function(e, xhr, options) {
-		xhr.setRequestHeader(header, token);
-	});
-});
+
 $(document)
 		.ready(
 				function() {
+					$(function() {
+						$(".datepicker").datepicker({
+							inline : true,
+							dateFormat : 'dd/mm/yy'
+						});
+					});
+					$(function() {
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr("content");
+						$(document).ajaxSend(function(e, xhr, options) {
+							xhr.setRequestHeader(header, token);
+						});
+					});
 					$("#table").DataTable({
 						responsive : true
 					});
@@ -97,87 +104,7 @@ $(document)
 									});
 					/* End Create SavingAccount Json */
 
-					/* Get Transactions Json */
-					$(document)
-					.on(
-							"click",
-							".getMyTransactions",
-							function(e) {
-								e.preventDefault();
-
-								var mydata = $(this).attr(
-										"SavingAccount");
-								// if you Transaction ajax
-								$
-										.ajax({
-											type : 'post',
-											url : 'viewListTransactionJson',
-											data : "savingAccountNumber="
-													+ mydata,
-											datatype : 'json',
-											success : function(data) {
-												console.log(data);
-												if (data.login == true) {
-													if (data.success == true) {
-														alert("Success:"+data.message+"!!!");
-														if (data.error_code == '0') {
-															window.location.href = 'viewAllSavingAccount?ERROR_CODE='
-																	+ data.error_code;
-														} else {
-															/*
-															 * window.location.href =
-															 * 'viewAllSavingAccount';
-															 */
-															var t = $(
-																	'#tableGetTransactions')
-																	.DataTable();
-															for (var i = 0; i < data.listTransactions.length; i++) {
-																console.log(data.listTransactions[i].id);
-																t.row
-																		.add(
-																				[
-																						data.listTransactions[i].id,
-																						data.listTransactions[i].amount,
-																						data.listTransactions[i].dateStart,
-																						data.listTransactions[i].dateEnd,
-																						data.savingAccount.savingAccountNumber,
-																						data.listTransactions[i].state,
-																						data.listTransactions[i].transactionType,
-																						data.listTransactions[i].currentBalance,
-																						data.listTransactions[i].afterBalance ]
-
-																		)
-																		.draw();
-															}
-															$(
-																	".popupContainerGetTransactions")
-																	.fadeOut();
-														}
-													} else {
-														alert( "Fail:"+data.message);
-														$(
-														".popupContainerGetTransactions")
-														.fadeOut();
-													}
-												} else {
-													window.location.href = 'login';
-												}
-											},
-											error : function(a, b, c) {
-												alert("Fail:"+"Get Error When Get Transactions");
-												$(
-												".popupContainerGetTransactions")
-												.fadeOut();
-												$("#errorPane").html(
-														a.responseText);
-												console.log(a);
-											}
-										});
-
-							
-							
-							});
-					/* End Get Transactions Json */
+					
 					$(".addSavingAccount").bind("click", function(e) {
 						$(".popupContainer").fadeIn("fast", function() {
 
@@ -209,29 +136,7 @@ $(document)
 						}
 					})
 					/* Popup Saving Account Close */
-					$(".popupCloseButtonGetTransactions").bind("click", function(e) {
-						$(".popupContainerGetTransactions").hide();
-					});
-					$(".getMyTransactions").bind(
-							"click",
-							function(e) {
-							
-								e.preventDefault();
-								$(".popupContainerGetTransactions").fadeIn(
-										"fast"), function() {
-								
-								}
-							});
-					$(".popupContainerGetTransactions").bind("click", function(e) {
-						if (e.target == this) {
-							$(this).hide();
-						}
-					})
-					$(function() {
-						$(".datepicker").datepicker({
-							inline : true,
-							dateFormat : 'dd/mm/yy'
-						});
-					});
+			
+					
 
 				});
