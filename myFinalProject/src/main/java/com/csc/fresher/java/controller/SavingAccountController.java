@@ -66,7 +66,7 @@ public class SavingAccountController {
 			model.addAttribute("ERROR_CODE", error_code);
 			model.addAttribute("message", message);
 			// Get the list of all accounts from DB
-			
+
 			try {
 				List<SavingAccount> savingAccountList = savingAccountService
 						.getSavingAccountList();
@@ -95,7 +95,7 @@ public class SavingAccountController {
 					model.addAttribute("listHoldSavingAccount",
 							listHoldSavingAccount);
 					modelview.setViewName("adminSavingAccount");
-					modelview.addObject("savingaccount",new SavingAccount());
+					modelview.addObject("savingaccount", new SavingAccount());
 				} else {
 					if ("support".equals(myrole)) {
 						List<SavingAccount> listActiveSavingAccount = savingAccountService
@@ -107,7 +107,8 @@ public class SavingAccountController {
 						model.addAttribute("listNewSavingAccount",
 								listNewSavingAccount);
 						modelview.setViewName("supportSavingAccount");
-						modelview.addObject("savingaccount",new SavingAccount());
+						modelview.addObject("savingaccount",
+								new SavingAccount());
 					}
 				}
 
@@ -150,7 +151,7 @@ public class SavingAccountController {
 					.getInterestRateList();
 
 			// setDefault Saving Account Number
-			int savingAccountNumber = myRandom(100, 400);
+			int savingAccountNumber = myRandom(100, 1000);
 			String[] states = { "new", "hold", "active" };
 			modelAndView.addObject("interestrateList", interestRate);
 			modelAndView.addObject("customerList", cus);
@@ -416,8 +417,7 @@ public class SavingAccountController {
 	@RequestMapping(value = "/approveSavingAccount")
 	public ModelAndView approveSavingAccount(HttpServletRequest request,
 			Model model, HttpSession session) {
-		ModelAndView modelview = new ModelAndView(
-				"forward:/homeSavingAccount");
+		ModelAndView modelview = new ModelAndView("forward:/homeSavingAccount");
 
 		String message = "";
 
@@ -429,15 +429,18 @@ public class SavingAccountController {
 				SavingAccount savingAccount = savingAccountService
 						.getSavingAccount(savingAccountId);
 				savingAccount.setState("active");
-				List<Transaction> transactions = savingAccount
-						.getTransactions();
+				List<Transaction> transactions = transactionService
+						.getTransactionBySavingAccountNumber(savingAccount
+								.getSavingAccountNumber());
 				List<Transaction> newTrans = new ArrayList<Transaction>();
+
 				for (Transaction tran : transactions) {
 					if (tran.getState().equals("new")) {
 						tran.setState("done");
 
 					}
 					newTrans.add(tran);
+					transactionService.updateTransaction(tran);
 				}
 				savingAccount.setTransactions(newTrans);
 				// Check error when Update to Database

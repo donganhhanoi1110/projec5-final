@@ -204,7 +204,7 @@ public class TransactionDAO {
 									+ Transaction.class.getName()
 									+ " c where c.savingAccountId.savingAccountNumber=:number",
 							Transaction.class);
-			query.setParameter("state", savingAccountNumber);
+			query.setParameter("number", savingAccountNumber);
 			list = query.getResultList();
 			System.out.println("Get getTransactionBySavingAccountNumber");
 		} catch (Exception e) {
