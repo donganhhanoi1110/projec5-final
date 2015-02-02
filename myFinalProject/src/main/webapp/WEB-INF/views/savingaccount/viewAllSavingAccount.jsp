@@ -69,9 +69,12 @@
 							</c:if>
 						</c:if>
 					</h1>
-					<h1>Add Saving Account Information</h1>
-					<button class="addSavingAccount myButton" value="addSavingAccount">
-						Add New Saving Account</button>
+					<h1>Saving Account Information</h1>
+					<sec:authorize access="hasRole('support')">
+						<button class="addSavingAccount myButton" value="addSavingAccount">
+							>>Add New Saving Account<< </button>
+					</sec:authorize>
+
 				</div>
 
 
@@ -81,10 +84,9 @@
 						<button class="popupCloseButton">X</button>
 						<form:form action="createSavingAccount.html" method="post"
 							modelAttribute="savingaccount" class="createSavingForm">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
 							<table class="mytable2">
-								<input type="hidden" name="${_csrf.parameterName}"
-									value="${_csrf.token}" />
-
 								<tr>
 									<th valign="top"><form:label path="savingAccountNumber">Saving Account Number:</form:label>
 									</th>
@@ -197,9 +199,6 @@
 											<th>Transaction Type</th>
 											<th>Current Balance</th>
 											<th>After Balance</th>
-
-
-
 										</tr>
 									</thead>
 									<tbody>

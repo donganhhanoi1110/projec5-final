@@ -73,7 +73,7 @@
 					<div class="cover_box">
 						<div class="box_image">
 
-							<a href="homeSavingAccount" title="title"><img
+							<a href="homeCustomer" title="title"><img
 								src="images/myimage/manageCustomer.png" height="100px" /></a>
 						</div>
 						<div class="box_title">Manage Customer</div>
@@ -81,7 +81,7 @@
 					<div class="cover_box">
 						<div class="box_image">
 
-							<a href="homeSavingAccount" title="title"><img
+							<a href="homeUser" title="title"><img
 								src="images/myimage/manageuser.png" height="100px" /></a>
 						</div>
 						<div class="box_title">Manage User</div>

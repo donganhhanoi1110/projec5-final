@@ -40,7 +40,6 @@
 												//to delete user page
 												var userId = $(this).attr(
 														"user");
-												/* 	$(this).closest("tr").remove(); */
 
 												//if you want to reload the page
 												//window.location.href = 'deleteUser?userId=' + userId;
@@ -63,11 +62,12 @@
 																			window.location.href = 'home?ERROR_CODE='
 																					+ data.error_code;
 																		} else {
-																			window.location.href = 'home';
+																			 window.location.href = 'homeUser'; 
+																			
 																		}
 
 																	} else {
-																		alert("Delete Failed");
+																		alert("Delete User Failed");
 																	}
 																} else {
 																	window.location.href = 'login';
@@ -136,10 +136,10 @@
 								<div style="float: left;">
 
 									<form action="createUser.html" method="post">
-										<table border="0" cellpadding="0" cellspacing="0" id="id-form"
-											class="table table-striped table-bordered">
-											<input type="hidden" name="${_csrf.parameterName}"
-												value="${_csrf.token}" />
+										<input type="hidden" name="${_csrf.parameterName}"
+											value="${_csrf.token}" />
+										<table id="id-form" class="table table-striped table-bordered">
+
 											<tr>
 												<th valign="top">User Name:</th>
 												<td><input type="text" class="form-control"
@@ -154,7 +154,11 @@
 											<tr>
 												<th valign="top">Enable</th>
 												<td><input type="text" class="form-control"
-													name="enable" /></td>
+													name="enable" /> <select type="text" class="form-control"
+													name="enable">
+														<option value="1">active</option>
+														<option value="0">non-active</option>
+												</select></td>
 
 											</tr>
 											<tr>
@@ -167,15 +171,7 @@
 									</form>
 
 								</div>
-								<div style="float: right; margin-right: 20%;">
 
-
-									<a class="myButton" href="addCard.html" style="margin: 5px;">
-										Create Card</a> <a class="myButton" href="addNewTransaction.html">
-										Create Transaction</a>
-
-
-								</div>
 							</div>
 
 

@@ -10,8 +10,8 @@
 <!-- default header name is X-CSRF-TOKEN -->
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>CSC Banking System</title>
-
-
+<script src="js/popup/createSavingAccountOnSearchPage.js"></script>
+<script src="js/popup/createTransactionOnSearchPage.js"></script>
 <script type="text/javascript">
 	$(function() {
 		var token = $("meta[name='_csrf']").attr("content");
@@ -20,212 +20,15 @@
 			xhr.setRequestHeader(header, token);
 		});
 	});
-	/* Create SavingAccount Json */
-	$(document)
-			.on(
-					"click",
-					"#createSavingAccount",
-					function(e) {
-						e.preventDefault();
-						var mydata = $("#savingaccount")
-								.serialize();
-						// if you Transaction ajax
-						$
-								.ajax({
-									type : 'post',
-									url : 'createSavingAccountJson',
-									data : mydata,
-									datatype : 'json',
-									success : function(data) {
-										console.log(data);
-										if (data.login == true) {
-											if (data.success == true) {
-												alert("Create successfully!");
-												if (data.error_code == '0') {
-													window.location.href = 'viewAllSavingAccount?ERROR_CODE='
-															+ data.error_code;
-												} else {
-													/*
-													 * window.location.href =
-													 * 'viewAllSavingAccount';
-													 */
-													var t = $(
-															'#table')
-															.DataTable();
-													var transaction = $('#transactions')
-													t.row
-															.add(
-																	[
-																			data.savingAccount.savingAccountNumber,
-																			data.savingAccount.customerId.lastName
-																					+ ''
-																					+ data.savingAccount.customerId.midName
-																					+ ''
-																					+ data.savingAccount.customerId.lastName,
-																			data.savingAccount.balanceAmount,
-																			data.savingAccount.repeatable,
-																			data.savingAccount.interestRateId.savingAccountType
-																					+ ' '
-																					+ data.savingAccount.interestRateId.interestRate
-																					+ ' '
-																					+ data.savingAccount.interestRateId.currency,
-																			data.savingAccount.state,
-																			data.savingAccount.dateStart,
-																			data.savingAccount.dateEnd,
-																			'<a href='
-																					+ '"viewListTransaction.html?SavingAccountId=${savingAccount.id}"'
-																					+ 'class="myButton" id="transactions">Transactions</a>' ]
-
-															)
-															.draw();
-													$(
-															".popupContainer")
-															.hide();
-												}
-											} else {
-												alert("Create Failed");
-											}
-										} else {
-											window.location.href = 'login';
-										}
-									},
-									error : function(a, b, c) {
-										$("#errorPane").html(
-												a.responseText);
-										console.log(a);
-									}
-								});
-
-					});
-	$(".addSavingAccount").bind("click", function(e) {
-		$(".popupContainerSavingAccount").fadeIn("fast", function() {
-
-			$.ajax({
-				type : 'post',
-				url : 'getSavingAccountNumber',
-				data : "",
-				datatype : 'json',
-				success : function(response) {
-					console.log(response);
-					$(".createSavingForm").trigger("reset");
-					$("#savingAccountNumber").val(response);
-				},
-				error : function(a, b, c) {
-					$("#errorPane").html(a.responseText);
-					console.log(a);
-				}
-			});
-
+	$(function() {
+		$(".datepicker").datepicker({
+			inline : true,
+			dateFormat : 'dd/mm/yy'
 		});
-	})
-	/* Popup Saving Account Close */
-	$(".popupCloseButton").bind("click", function(e) {
-		$(".popupContainerSavingAccount").hide();
 	});
-	$(".popupContainerSavingAccount").bind("click", function(e) {
-		if (e.target == this) {
-			$(this).hide();
-		}
-	})
-	/* End Create SavingAccount Json */
 
-	$(document)
-			.ready(
-					function() {
-						$("#table").DataTable({
-							responsive : true
-						});
-						$("#show").click(function() {
-							$("#hide").slideToggle();
-						});
-						$(document)
-								.on(
-										"click",
-										"#addTransactionJson",
-										function(e) {
-											e.preventDefault();
-											var mydata = $("#transaction")
-											.serialize();
-											var confirmMessage = confirm("Do you want to Add this Transaction?");
-											if (confirmMessage) {
-												//to delete Transaction page
-												/* 	$(this).closest("tr").remove(); */
 
-												//if you want to reload the page
-												//window.location.href = 'deleteTransaction?TransactionId=' + TransactionId;
-												// if you Transaction ajax
-												$
-														.ajax({
-															type : 'post',
-															url : 'createTransactionJson',
-															data : mydata,
-															datatype : 'json',
-															success : function(
-																	data) {
-																console
-																		.log(data);
-																if (data.login == true) {
-																	if (data.success == true) {
-																		alert("Create successfully! <br>"
-																				+ data.message);
-																		if (data.error_code == '0') {
-																			window.location.href = 'searchSavingAccount?ERROR_CODE='
-																					+ data.error_code;
-																		} else {
-
-																			$(
-																					".popupContainerCreateTransaction")
-																					.hide();
-																		}
-
-																	} else {
-																		alert("Create Failed"
-																				+ data.message);
-																	}
-																} else {
-																	window.location.href = 'login';
-																}
-															},	error : function(a, b,
-																	c) {
-																
-																console.log(a);
-															}
-														});
-
-											} else {
-												//do nothing
-											}
-										});
-
-						/*For Popup only  */
-						$(".withDraw").bind("click", function(e) {
-							e.preventDefault();
-							$(".popupContainer").show();
-						})
-
-						$(".popupCloseButton").bind("click", function(e) {
-							$(".popupContainer").hide();
-						})
-						$(".popupContainer").bind("click", function(e) {
-							if (e.target == this) {
-								$(this).hide();
-							}
-						})
-						$(".popupContainerCreateTransaction").bind("click",
-								function(e) {
-									if (e.target == this) {
-										$(this).hide();
-									}
-								})
-						$(".createTransaction").bind("click", function(e) {
-							e.preventDefault();
-							$(".popupContainerCreateTransaction").show();
-						})
-
-						$(".popupCloseButton").bind("click", function(e) {
-							$(".popupContainerCreateTransaction").hide();
-						})
-					});
+	
 </script>
 </head>
 <body>
@@ -411,8 +214,8 @@
 							<td><input type="button" class="myButton createTransaction"
 								value="CreateTransaction" id="createTransaction" /></td>
 							<td><input type="button"
-								class="myButton createSavingAccount"
-								value="Create SavingAccount" id="createSavingAccount" /></td>
+								class="myButton"
+								value="Create SavingAccount" id="createMySavingAccount" /></td>
 							<td></td>
 
 						</tr>

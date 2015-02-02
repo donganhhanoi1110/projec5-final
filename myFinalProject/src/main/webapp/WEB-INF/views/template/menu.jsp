@@ -13,10 +13,6 @@
 		<li><a href="homeSavingAccount"><span class="fa fa-suitcase"></span>
 				Saving Account</a></li>
 
-
-
-
-
 		<li><a href="homeInterestRate"><span class="fa fa-suitcase"></span>
 				Interest Rate</a></li>
 		<!-- 
@@ -47,7 +43,7 @@
 						document.getElementById("logoutForm").submit();
 					}
 				</script> <c:if test="${pageContext.request.userPrincipal.name != null}">
-					<div class="fa fa-chevron-circle-right  style="color:white;">
+					<div class="fa fa-chevron-circle-right">
 						<a href="javascript:formSubmit()"> Logout</a>
 					</div>
 				</c:if> </a></li>

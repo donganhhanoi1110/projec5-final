@@ -184,9 +184,7 @@ public class SavingAccountController {
 		boolean check = false;
 		if (session.getAttribute("loginSession") != null) {
 			try {
-				System.out.println("Json Saving Account: "
-						+ savingaccount.toString());
-
+				
 				// Business With Saving Account
 
 				if (savingaccount.getBalanceAmount() > 10000000) {
@@ -550,18 +548,25 @@ public class SavingAccountController {
 			modelview.addObject("transaction", new Transaction());
 			modelview.addObject("transactiondeposit", new Transaction());
 
+			//For Create Saving Account
+			modelview.addObject("savingaccount", new SavingAccount());
+			
 			// For Search
 			String searchValue = request.getParameter("searchSavingAcount");
 			String searchType = request.getParameter("searchType");
 			Customer customerfromSaving = null;
 			// Search by Saving Account Number
+			
+			//List Interest Rate For Creating SavingAccount
 			List<InterestRate> interestRate = interestRateService
 					.getInterestRateList();
-			modelview.addObject("savingaccount", new SavingAccount());
-			List<Customer> listCustomer = new ArrayList<Customer>();
-			listCustomer.add(customerfromSaving);
 			modelview.addObject("interestrateList", interestRate);
-			modelview.addObject("customerList", listCustomer);
+			//List states for Creatiing new SavingAccount
+			String[] states = { "new", "hold", "active" };
+			modelview.addObject("states", states);
+			
+			
+			/**Check for Type of Searching*/
 			if (searchType.equals("accountNumber")) {
 				try {
 					List<SavingAccount> listSaving = new ArrayList<SavingAccount>();
@@ -583,7 +588,11 @@ public class SavingAccountController {
 							check = true;
 						}
 					}
-
+					//List Customer For Add Saving Account
+					List<Customer> listCustomer = new ArrayList<Customer>();
+					listCustomer.add(customerfromSaving);
+					modelview.addObject("customerList", listCustomer);
+					
 					// Check for Searching Result
 					modelview.addObject("myCustomer", customerfromSaving);
 					modelview.addObject("message", message);
@@ -623,6 +632,11 @@ public class SavingAccountController {
 						customerfromSaving = customerService
 								.getCustomerByIDNumber(searchValue);
 
+						//List Customer For Add Saving Account
+						List<Customer> listCustomer = new ArrayList<Customer>();
+						listCustomer.add(customerfromSaving);
+						modelview.addObject("customerList", listCustomer);
+						
 						modelview.addObject("myCustomer", customerfromSaving);
 						modelview.addObject("message", message);
 						modelview.addObject("listSavingAccount", listSaving);
