@@ -1,6 +1,7 @@
 package com.csc.fresher.java.controller;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -12,6 +13,9 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -24,10 +28,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.csc.fresher.java.dao.TransactionDAO;
 import com.csc.fresher.java.domain.AjaxResponse;
+import com.csc.fresher.java.domain.InterestRate;
 import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
 import com.csc.fresher.java.domain.User;
 import com.csc.fresher.java.domain.UserRole;
+import com.csc.fresher.java.service.InterestRateService;
 import com.csc.fresher.java.service.SavingAccountService;
 import com.csc.fresher.java.service.TransactionService;
 import com.csc.fresher.java.service.UserRoleService;
@@ -56,6 +62,9 @@ public class TransactionController {
 
 	@Autowired
 	private SavingAccountService savingAccountService;
+	
+	@Autowired
+	private InterestRateService interestRateService;
 
 	@RequestMapping(value = "/homeTransaction")
 	public ModelAndView getAccountList(HttpServletRequest request, Model model,
@@ -466,15 +475,123 @@ public class TransactionController {
 				int TransactionId = Integer.parseInt(request
 						.getParameter("TransactionId"));
 
-				// Transaction tran = transactionService
-				// .getTransaction(TransactionId);
+				 Transaction tran = transactionService
+				 .getTransaction(TransactionId);
 				// tran.setState("active");
 				// Check error when Update to Database
-				if (!transactionService.approveTransacsionAdmin(TransactionId)) {
-					message = "Approve Transaction" + TransactionId + " FAIL";
-					modelview.addObject("ERROR_CODE", "0");
-					modelview.addObject("message", message);
+				if(tran.getTransactionType().equals("withdraw")){
+					SavingAccount savingAccount = transactionService
+							.getAccountbyTranID(tran);
+					// find interest
+					SimpleDateFormat formatter = new SimpleDateFormat(
+							"dd/MM/yyyy");
+					Date startWithdraw =new Date();
+					Date dateStart = formatter.parse(savingAccount
+							.getDateStart());
+					
+					Date dateEnd = formatter.parse(savingAccount.getDateEnd());
+					float totalAmount = 0;
+					float interest = 0;
+					float interestPerDay=0;
+					Date date = new Date();
+
+					if (startWithdraw.compareTo(dateEnd) >= 0&&tran.getAmount()==savingAccount.getBalanceAmount()) {
+						interestPerDay = ((savingAccount.getInterestRateId()
+								.getInterestRate())/360)/100;
+						int days=Days.daysBetween(new DateTime(dateStart),new DateTime(startWithdraw)).getDays();
+					totalAmount = savingAccount.getBalanceAmount()
+								+ savingAccount.getBalanceAmount() * interestPerDay*days;
+							
+						// update Saving Account
+						savingAccount.setBalanceAmount(0);
+						savingAccount.setState("deactive");
+						savingAccountService.updateSavingAccount(savingAccount);
+
+						// update trasaction
+						
+						tran.setAmount(totalAmount);
+						tran.setState("done");
+						tran.setDateEnd(date.toString());
+						tran.setAfterBalance(0);
+						tran.setCurrentBalance(totalAmount);
+						tran.setSavingAccountId(savingAccount);
+						transactionService.updateTransaction(tran);
+						
+					} else {						
+						if(tran.getAmount()==savingAccount.getBalanceAmount()){
+						InterestRate interestRate = interestRateService
+								.getInterestRate(4);
+						interestPerDay = (interestRate.getInterestRate()/360)/100;
+						
+						int days=Days.daysBetween(new DateTime(dateStart),new DateTime(startWithdraw)).getDays();
+
+
+						totalAmount = savingAccount.getBalanceAmount()
+								+ savingAccount.getBalanceAmount()
+								*days*interestPerDay;
+						
+						// update Saving Account
+						savingAccount.setBalanceAmount(0);
+						savingAccount.setState("deactive");
+						savingAccountService.updateSavingAccount(savingAccount);
+
+						// update trasaction
+						
+						tran.setAmount(totalAmount);
+						tran.setState("done");
+						tran.setDateEnd(date.toString());
+						tran.setAfterBalance(0);
+						tran.setCurrentBalance(totalAmount);
+						tran.setSavingAccountId(savingAccount);
+						
+						transactionService.updateTransaction(tran);
+						
+						}else if(tran.getAmount()<savingAccount.getBalanceAmount()){
+							InterestRate interestRate = interestRateService
+									.getInterestRate(4);
+							interestPerDay = (interestRate.getInterestRate()/360)/100;
+							
+							int days=Days.daysBetween(new DateTime(dateStart),new DateTime(startWithdraw)).getDays();
+
+
+							totalAmount = savingAccount.getBalanceAmount()
+									+ savingAccount.getBalanceAmount()
+									*days*interestPerDay;
+							
+							
+							// update Saving Account
+							savingAccount.setBalanceAmount(totalAmount-tran.getAmount());
+							savingAccount.setState("active");
+							savingAccount.setDateStart(date.toString());
+									//next day
+							interestRate =savingAccount.getInterestRateId();
+							Date nextMonths =DateUtils.addMonths(date, interestRate.getMonth());
+							savingAccount.setDateEnd(nextMonths.toString());
+							savingAccount.setState("active");						
+							savingAccountService.updateSavingAccount(savingAccount);
+							//update transaction
+							tran.setState("done");
+							tran.setDateEnd(date.toString());
+							tran.setAfterBalance(totalAmount-tran.getAmount());
+							tran.setCurrentBalance(totalAmount);
+							tran.setSavingAccountId(savingAccount);
+							
+							transactionService.updateTransaction(tran);	
+						}
+						
+					}
+					
+					
+					
 				}
+				if(tran.getTransactionType().equals("deposit")){
+					if (!transactionService.approveTransacsionAdmin(TransactionId)) {
+						message = "Approve Transaction" + TransactionId + " FAIL";
+						modelview.addObject("ERROR_CODE", "0");
+						modelview.addObject("message", message);
+					}
+				}
+				
 			} catch (Exception e) {
 				System.out.println("Approve Transaction Controller has Error");
 				message = "Approve Transaction Controller has Error";

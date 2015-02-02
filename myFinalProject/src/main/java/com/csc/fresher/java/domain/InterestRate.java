@@ -28,6 +28,11 @@ public class InterestRate {
 
 	@Column(name = "currency")
 	private String currency;
+	
+	@Column(name="month")
+	private int month;
+	
+
 
 	@OneToMany(mappedBy = "interestRateId")
 	private List<SavingAccount> savingaccounts;
@@ -86,6 +91,13 @@ public class InterestRate {
 		this.currency = currency;
 	}
 
+	public int getMonth() {
+		return month;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
+	}
 	public InterestRate() {
 
 	}
