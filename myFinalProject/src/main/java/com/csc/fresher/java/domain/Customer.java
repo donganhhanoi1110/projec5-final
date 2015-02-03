@@ -12,58 +12,85 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="customer",uniqueConstraints = {
 		@UniqueConstraint(columnNames = "id_number")})
 public class Customer implements Serializable {
 
-	@Id
+		@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
-	int id;
-
+	Integer id;
+	
+	
 	@Column(name = "account_number")
-	private int accountNumber;
+	@NotNull(message="Can not empty")
+	private Integer accountNumber;
+	
+
 	@Column(name = "account_type")
+	@NotEmpty(message=" Can not empty")
 	private String accountType;
 
+
 	@Column(name = "first_name")
+	@NotEmpty(message=" Can not empty")
 	String firstName;
 
+	
 	@Column(name = "last_name")
+	@NotEmpty(message=" Can not empty")
 	String lastName;
 
 	@Column(name = "mid_name")
+	@NotEmpty(message=" Can not empty")
 	String midName;
-
+	
+	
 	@Column(name = "id_number")
+	@NotEmpty(message=" Can not empty")
 	String idNumber;
+	
+	
 	@Column(name = "phone1")
-	int phone1;
+	@NotNull(message="Can not empty")
+	Integer phone1;
 
 	@Column(name = "phone2")
-	int phone2;
+	@NotNull(message="Can not empty")
+	Integer phone2;
 
+	
 	@Column(name = "address1")
+	@NotEmpty(message=" Can not empty")
 	String add1;
 
 	@Column(name = "address2")
+	@NotEmpty(message=" Can not empty")
 	String add2;
 
+	
 	@Column(name = "email")
+	@NotEmpty(message=" Can not empty")
 	String email;
 
+	
 	@Column(name = "state")
+	@NotEmpty(message=" Can not empty")
 	String state;
 
 	@OneToMany(mappedBy = "customerId")
 	private List<SavingAccount> savingaccounts;
 
-	public Customer(int id, String accountType, String firstName,
-			String lastName, String midName, String idNumber, int phone1,
-			int phone2, String add1, String add2, String email, String state,
-			List<SavingAccount> savingaccounts, int accountNumber) {
+	public Customer(Integer id, String accountType, String firstName,
+			String lastName, String midName, String idNumber, Integer phone1,
+			Integer phone2, String add1, String add2, String email, String state,
+			List<SavingAccount> savingaccounts, Integer accountNumber) {
 		super();
 		this.id = id;
 		this.accountType = accountType;
@@ -89,27 +116,27 @@ public class Customer implements Serializable {
 		this.savingaccounts = savingaccounts;
 	}
 
-	public int getPhone1() {
+	public Integer getPhone1() {
 		return phone1;
 	}
 
-	public void setPhone1(int phone1) {
+	public void setPhone1(Integer phone1) {
 		this.phone1 = phone1;
 	}
 
-	public int getPhone2() {
+	public Integer getPhone2() {
 		return phone2;
 	}
 
-	public void setPhone2(int phone2) {
+	public void setPhone2(Integer phone2) {
 		this.phone2 = phone2;
 	}
 
-	public int getAccountNumber() {
+	public Integer getAccountNumber() {
 		return accountNumber;
 	}
 
-	public void setAccountNumber(int accountNumber) {
+	public void setAccountNumber(Integer accountNumber) {
 		this.accountNumber = accountNumber;
 	}
 
@@ -185,11 +212,11 @@ public class Customer implements Serializable {
 		this.state = state;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -197,9 +224,9 @@ public class Customer implements Serializable {
 
 	}
 
-	public Customer(int id, int accountNumber, String accountType,
+	public Customer(Integer id, Integer accountNumber, String accountType,
 			String firstName, String lastName, String midName, String idNumber,
-			int phone1, int phone2, String add1, String add2, String email,
+			Integer phone1, Integer phone2, String add1, String add2, String email,
 			String state) {
 		super();
 		this.id = id;
