@@ -136,8 +136,9 @@ public class TransactionController {
 			SavingAccount savingAccount = transactionService
 					.getAccountbyTranID(transaction);
 			float currentBalance = savingAccount.getBalanceAmount();
+			
 			transaction.setCurrentBalance(currentBalance);
-			transaction.setDateStart(dateStart.toString());
+			transaction.setDateStart(savingAccountService.convertDateToString(dateStart));
 			transaction.setState("hold");
 
 			try {
@@ -258,7 +259,7 @@ public class TransactionController {
 				
 			float currentBalance = savingAccount.getBalanceAmount();
 			transaction.setCurrentBalance(currentBalance);
-			transaction.setDateStart(dateStart.toString());
+			transaction.setDateStart(savingAccountService.convertDateToString(dateStart));
 			transaction.setState("hold");
 			try {
 				System.out.println("Json Saving Account: "

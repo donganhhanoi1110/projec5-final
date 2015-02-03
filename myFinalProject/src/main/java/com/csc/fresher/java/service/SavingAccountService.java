@@ -118,7 +118,7 @@ public class SavingAccountService {
 		try {
 			SimpleDateFormat formatter;
 
-			formatter = new SimpleDateFormat("dd/MM/yyyy");
+			formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 			date = (Date) formatter.parse(mydate);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -131,7 +131,7 @@ public class SavingAccountService {
 		try {
 			SimpleDateFormat formatter;
 
-			formatter = new SimpleDateFormat("dd/MM/yyyy");
+			formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			date = (Date) formatter.parse(mydate);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -140,16 +140,22 @@ public class SavingAccountService {
 	}
 
 	public String convertDateToString(Date date) {
-		String myDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+		String myDate = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(date);
 		return myDate;
 	}
 
 	public static void main(String[] args) {
-		 String d1 = "20/11/2015";
+		 String d1 = "20/11/2015 00:00:00";
 		 String d2 = "14/11/2015";
 		 SavingAccountService a = new SavingAccountService();
 		
-		 System.out.println(a.checkDate(d1, d2));
+		Date date= a.convertStringToDate(d1);
+		
+		String b=a.convertDateToString(date);
+		
+		System.out.println(date.toString());
+		System.out.println(b);
+		
 		// Date date1 = new Date();
 		// Date date2 = new Date();
 		//

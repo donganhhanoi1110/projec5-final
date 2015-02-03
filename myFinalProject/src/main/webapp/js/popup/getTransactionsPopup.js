@@ -40,7 +40,8 @@ $(document)
 																	var table = $(
 																			'#tableGetTransactions')
 																			.DataTable();
-
+																	table
+																			.clear();
 																	for (var i = 0; i < data.listTransactions.length; i++) {
 																		console
 																				.log(data.listTransactions[i].id);
@@ -90,13 +91,11 @@ $(document)
 					/* End Get Transactions Json */
 					$("#exitGetTransaction").bind("click", function(e) {
 						$(".popupContainerGetTransactions").fadeOut();
-						window.location.href = 'viewAllSavingAccount';
 
 					});
 					$(".popupCloseButtonGetTransactions").bind("click",
 							function(e) {
 								$(".popupContainerGetTransactions").fadeOut();
-								window.location.href = 'viewAllSavingAccount';
 
 							});
 					$(".getMyTransactions").bind(
@@ -105,18 +104,16 @@ $(document)
 
 								e.preventDefault();
 								$(".popupContainerGetTransactions").fadeIn(
-										"fast"), function() {
+										"slow"), function() {
 
 								}
 							});
-					$(".popupContainerGetTransactions")
-							.bind(
-									"click",
-									function(e) {
-										if (e.target == this) {
-											$(this).fadeOut();
-											window.location.href = 'viewAllSavingAccount';
-										}
-									})
+					$(".popupContainerGetTransactions").bind("click",
+							function(e) {
+								if (e.target == this) {
+									$(this).fadeOut();
+
+								}
+							})
 
 				});

@@ -101,7 +101,7 @@ public class CustomerController {
 					modelview.addObject("message", message);
 				}
 			} catch (Exception e) {
-				System.out.println("Create User Controller has Error");
+				System.out.println("Edit User Controller has Error");
 				message = "Edit User Controller has Error";
 				modelview.addObject("ERROR_CODE", "0");
 				modelview.addObject("message", message);

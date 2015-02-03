@@ -40,7 +40,7 @@ $(document)
 																	var table = $(
 																			'#tableGetTransactions')
 																			.DataTable();
-
+																	table.clear();
 																	for (var i = 0; i < data.listTransactions.length; i++) {
 																		console
 																				.log(data.listTransactions[i].id);
@@ -105,7 +105,7 @@ $(document)
 
 								e.preventDefault();
 								$(".popupContainerGetTransactions").fadeIn(
-										"fast"), function() {
+										"slow"), function() {
 
 								}
 							});
