@@ -71,7 +71,7 @@ public class TransactionController {
 			HttpSession session) {
 		// Create a new AccountDAO
 		if (session.getAttribute("loginSession") != null) {
-			User user = null;
+		
 			String username = request.getSession().getAttribute("loginSession")
 					.toString();
 			String error_code = request.getParameter("ERROR_CODE");
@@ -245,7 +245,7 @@ public class TransactionController {
 	
 	@RequestMapping(value = "/createTransactionJson", method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse createTransactionJson(
-			HttpServletRequest request, Model model, HttpSession session,@ModelAttribute("transaction") Transaction transaction) {
+			HttpServletRequest request, Model model, HttpSession session,@ModelAttribute Transaction transaction) {
 		// Create a new AccountDAO
 		AjaxResponse response = new AjaxResponse();
 		String message = "";
@@ -501,7 +501,7 @@ public class TransactionController {
 					
 					Date dateEnd = formatter.parse(savingAccount.getDateEnd());
 					float totalAmount = 0;
-					float interest = 0;
+				
 					float interestPerDay=0;
 					Date date = new Date();
 

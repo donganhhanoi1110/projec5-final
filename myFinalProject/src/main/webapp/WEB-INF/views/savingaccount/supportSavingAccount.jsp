@@ -10,29 +10,28 @@
 <!-- default header name is X-CSRF-TOKEN -->
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>CSC Banking System</title>
-
+<script src="js/popup/createSavingAccountOnSupportPage.js"></script>
 
 
 <script type="text/javascript">
-$(document).ready(function() 
-		{
-	$("#table").DataTable({
-		responsive : true
-	});
-	$(function() {
-		$(".datepicker").datepicker({
-			inline : true,
-			dateFormat : 'dd/mm/yy'
+	$(document).ready(function() {
+		$("#table").DataTable({
+			responsive : true
+		});
+		$(function() {
+			$(".datepicker").datepicker({
+				inline : true,
+				dateFormat : 'dd/mm/yy'
+			});
+		});
+
+		$("#popUpTable").DataTable({
+			responsive : true
+		});
+		$("#show").click(function() {
+			$("#hide").slideToggle();
 		});
 	});
-
-	$("#popUpTable").DataTable({
-		responsive : true
-	});
-	$("#show").click(function() {
-		$("#hide").slideToggle();
-	});
-});
 </script>
 </head>
 <body>
@@ -93,9 +92,16 @@ $(document).ready(function()
 					</h1>
 
 				</div>
+				<div>
+					<h1>New Saving Account</h1>
+					<sec:authorize access="hasRole('support')">
+						<button class="addSavingAccount myButton" value="addSavingAccount">
+							>>Add New Saving Account<<</button>
+					</sec:authorize>
+				</div>
 				<div class="panel-body">
-					<h1>Waiting SavingAccount</h1>
-					
+
+
 					<div class="dataTable_wrapper">
 						<table class="mytable1 table table-striped table-bordered "
 							id="table">
@@ -121,9 +127,9 @@ $(document).ready(function()
 
 									<tr>
 										<td>${savingAccount.savingAccountNumber}</td>
-									<td>${savingAccount.customerId.lastName} &nbsp;
-										${savingAccount.customerId.midName} &nbsp;
-										${savingAccount.customerId.firstName} </td>
+										<td>${savingAccount.customerId.lastName}&nbsp;
+											${savingAccount.customerId.midName} &nbsp;
+											${savingAccount.customerId.firstName}</td>
 										<td>${savingAccount.balanceAmount}</td>
 										<td>${savingAccount.repeatable}</td>
 										<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
@@ -160,7 +166,106 @@ $(document).ready(function()
 		</div>
 
 	</div>
+	<div class="popupContainer">
+		<div class="popup">
+			<button class="popupCloseButton">X</button>
 
+			<form:form action="createSavingAccount.html" method="post"
+				modelAttribute="savingaccount" class="createSavingForm">
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+				<table class="mytable2">
+					<tr>
+						<th valign="top"><form:label path="savingAccountNumber">Saving Account Number:</form:label>
+						</th>
+						<td><form:input readonly="true" path="savingAccountNumber"
+								class="textox" id="savingAccountNumber"
+								value="${savingAccountNumber }" /></td>
+
+						<th valign="top"><form:label path="balanceAmount">Balance Amount:</form:label>
+						</th>
+						<td><form:input path="balanceAmount" class="textox" /></td>
+					</tr>
+					<tr>
+						<th valign="top"><form:label path="dateStart">Date Start:</form:label></th>
+						<td><form:input path="dateStart" class="textox datepicker" /></td>
+
+						<th valign="top"><form:label path="state">State:</form:label></th>
+						<td><form:select path="state" class="textox">
+								<form:options items="${states }" />
+							</form:select></td>
+
+					</tr>
+
+					<tr>
+						<th valign="top"><form:label path="customerId.id">Customer:</form:label></th>
+						<td><form:select path="customerId.id" multiple="false"
+								class="textox">
+								<c:forEach var="customer" items="${customerList}">
+									<form:option value="${customer.id}">
+										<c:out
+											value="${customer.lastName} ${customer.midName} ${customer.firstName}" />
+									</form:option>
+								</c:forEach>
+							</form:select></td>
+						<th valign="top"><form:label path="interestRateId.id">Period:</form:label></th>
+						<td><form:select path="interestRateId.id" multiple="false"
+								class="textox">
+								<form:options items="${interestrateList}" itemValue="id"
+									itemLabel="savingAccountType" />
+							</form:select></td>
+
+
+					</tr>
+					<tr>
+
+						<th valign="top"><form:label path="repeatable">Repeatable:</form:label>
+						</th>
+						<td><form:input path="repeatable" class="textox" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" class="myButton" value="Save"
+							id="addSavingAccountSubmit" /></td>
+
+					</tr>
+				</table>
+			</form:form>
+
+			<div class="panel-body">
+				<div class="dataTable_wrapper">
+					<div>
+						<span> Interest Rate Information</span>
+					</div>
+					<table class=" table table-striped table-bordered table-hover "
+						id="popUpTable">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Interest Rate Type</th>
+								<th>Rate</th>
+								<th>Currency</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="interest" items="${interestrateList}">
+								<c:if test="${interest.id != null}">
+									<tr>
+										<td>${interest.id}</td>
+										<td>${interest.savingAccountType}</td>
+										<td>${interest.interestRate}</td>
+										<td>${interest.currency}</td>
+									</tr>
+								</c:if>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- End popupContainer -->
 
 </body>
 </html>

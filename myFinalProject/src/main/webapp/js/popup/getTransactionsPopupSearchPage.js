@@ -1,7 +1,14 @@
 $(document)
 		.ready(
 				function() {
-
+					$(function() {
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr(
+								"content");
+						$(document).ajaxSend(function(e, xhr, options) {
+							xhr.setRequestHeader(header, token);
+						});
+					});
 					/* Create SavingAccount Json */
 
 					/* End Create SavingAccount Json */
@@ -40,7 +47,8 @@ $(document)
 																	var table = $(
 																			'#tableGetTransactions')
 																			.DataTable();
-																	table.clear();
+																	table
+																			.clear();
 																	for (var i = 0; i < data.listTransactions.length; i++) {
 																		console
 																				.log(data.listTransactions[i].id);
@@ -79,9 +87,8 @@ $(document)
 																+ "Get Error When Get Transactions");
 														$(
 																".popupContainerGetTransactions")
-																.fadeOut();
-														$("#errorPane").html(
-																a.responseText);
+																.fadeOut('fast');
+
 														console.log(a);
 													}
 												});
@@ -90,13 +97,11 @@ $(document)
 					/* End Get Transactions Json */
 					$("#exitGetTransaction").bind("click", function(e) {
 						$(".popupContainerGetTransactions").fadeOut();
-						
 
 					});
 					$(".popupCloseButtonGetTransactions").bind("click",
 							function(e) {
 								$(".popupContainerGetTransactions").fadeOut();
-							
 
 							});
 					$(".getMyTransactions").bind(
@@ -109,14 +114,12 @@ $(document)
 
 								}
 							});
-					$(".popupContainerGetTransactions")
-							.bind(
-									"click",
-									function(e) {
-										if (e.target == this) {
-											$(this).fadeOut();
-										
-										}
-									})
+					$(".popupContainerGetTransactions").bind("click",
+							function(e) {
+								if (e.target == this) {
+									$(this).fadeOut();
+
+								}
+							})
 
 				});

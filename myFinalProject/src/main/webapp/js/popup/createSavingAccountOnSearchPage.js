@@ -37,17 +37,17 @@ $(document)
 										t.row.add([
 					data.savingAccount.savingAccountNumber,
 					data.savingAccount.customerId.lastName
-							+ ''
+							+ '&nbsp;'
 							+ data.savingAccount.customerId.midName
-							+ ''
-							+ data.savingAccount.customerId.lastName,
+							+ '&nbsp;'
+							+ data.savingAccount.customerId.firstName,
 					data.savingAccount.balanceAmount,
 					data.savingAccount.repeatable,
 					data.savingAccount.interestRateId.savingAccountType
-							+ ' '
+							+ '&nbsp;'
 							+ data.savingAccount.interestRateId.interestRate
-							+ ' '
-							+ data.savingAccount.interestRateId.currency,
+							+ '% &nbsp;'
+							+ '('+data.savingAccount.interestRateId.currency+')',
 					data.savingAccount.state,
 					data.savingAccount.dateStart,
 					data.savingAccount.dateEnd,

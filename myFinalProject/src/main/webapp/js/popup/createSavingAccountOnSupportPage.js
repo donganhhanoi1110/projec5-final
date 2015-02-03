@@ -2,27 +2,13 @@
 $(document)
 		.ready(
 				function() {
-					$(function() {
-						$(".datepicker").datepicker({
-							inline : true,
-							dateFormat : 'dd/mm/yy'
-						});
-					});
+					
 					$(function() {
 						var token = $("meta[name='_csrf']").attr("content");
 						var header = $("meta[name='_csrf_header']").attr("content");
 						$(document).ajaxSend(function(e, xhr, options) {
 							xhr.setRequestHeader(header, token);
 						});
-					});
-					$("#table").DataTable({
-						responsive : true
-					});
-					$("#popUpTable").DataTable({
-						responsive : true
-					});
-					$("#show").click(function() {
-						$("#hide").slideToggle();
 					});
 
 					/* Create SavingAccount Json */
@@ -65,23 +51,26 @@ $(document)
 																					[
 																							data.savingAccount.savingAccountNumber,
 																							data.savingAccount.customerId.lastName
-																									+ ''
+																									+ '&nbsp;'
 																									+ data.savingAccount.customerId.midName
-																									+ ''
-																									+ data.savingAccount.customerId.lastName,
+																									+ '&nbsp;'
+																									+ data.savingAccount.customerId.firstName,
 																							data.savingAccount.balanceAmount,
 																							data.savingAccount.repeatable,
 																							data.savingAccount.interestRateId.savingAccountType
-																									+ ' '
+																									+ '&nbsp; '
 																									+ data.savingAccount.interestRateId.interestRate
-																									+ ' '
-																									+ data.savingAccount.interestRateId.currency,
+																									+ '% &nbsp;'
+																									+ '('+data.savingAccount.interestRateId.currency+')',
 																							data.savingAccount.state,
 																							data.savingAccount.dateStart,
 																							data.savingAccount.dateEnd,
 																							'<a href='
-																									+ '"viewListTransaction.html?SavingAccountId=${savingAccount.id}"'
-																									+ 'class="myButton" id="transactions">Transactions</a>' ]
+																									+ '"submitSavingAccount.html?SavingAccountId=${savingAccount.id}"'
+																									+ 'class="myButton">Submit</a>',
+																									'<a href='
+																									+ '"editSavingAccount.html?SavingAccountId=${savingAccount.id}"'
+																									+ 'class="myButton">Edit</a>']
 
 																			)
 																			.draw();

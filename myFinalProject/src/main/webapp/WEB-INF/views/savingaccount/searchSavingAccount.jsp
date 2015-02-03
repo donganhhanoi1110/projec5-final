@@ -220,54 +220,11 @@
 			</div>
 
 
-			<div class="popupContainer">
-				<div class="popup">
-					<button class="popupCloseButton">X</button>
-					<form:form action="createTransactionAttribute.html" method="post"
-						modelAttribute="transaction">
-						<table id="id-form" class="table table-striped table-bordered">
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
-
-							<tr>
-								<th valign="top"><form:label path="amount">Amount</form:label>
-								</th>
-								<td><form:input path="amount" class="form-control" /></td>
-							</tr>
-							<tr>
-								<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
-								<td><form:select path="savingAccountId.id" multiple="false"
-										class="form-control">
-										<form:options items="${listSavingAccount}" itemValue="id"
-											itemLabel="savingAccountNumber" />
-									</form:select></td>
-							</tr>
-							<tr>
-								<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
-								<td><form:select path="transactionType"
-										class="form-control">
-										<form:option value="deposit">new</form:option>
-										<form:option value="withdraw">withdraw</form:option>
-
-									</form:select></td>
-
-							</tr>
-							<tr>
-								<td></td>
-								<td><input type="submit" class="myButton" value="Save" /></td>
-
-							</tr>
-						</table>
-					</form:form>
-
-				</div>
-
-			</div>
-			<!--  End popup-->
+			
 			<div class="popupContainerCreateTransaction">
 				<div class="popupCreateTransaction">
 					<button class="popupCloseButton">X</button>
-					<form:form action="createTransactionAttribute.html" method="post"
+					<form:form action="" method="post"
 						modelAttribute="transaction">
 						<table id="id-form" class="table table-striped table-bordered">
 							<input type="hidden" name="${_csrf.parameterName}"

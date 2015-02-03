@@ -15,8 +15,10 @@ $(document)
 											e.preventDefault();
 											var mydata = $("#transaction")
 											.serialize();
+											console.log(mydata);
 											var confirmMessage = confirm("Do you want to Add this Transaction?");
 											if (confirmMessage) {
+												console.log("\n"+mydata);
 												//to delete Transaction page
 												/* 	$(this).closest("tr").remove(); */
 
