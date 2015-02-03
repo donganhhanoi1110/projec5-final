@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,10 +116,13 @@ public class CustomerController {
 
 	
 	@RequestMapping(value = "/createCustomer", method = RequestMethod.POST)
-	public ModelAndView createeCustomer(HttpServletRequest request,@ModelAttribute("customer") @Valid Customer customer,
-			Model model, HttpSession session) {
+	public ModelAndView createeCustomer(HttpServletRequest request,Model model, HttpSession session,@ModelAttribute("customer") @Valid Customer customer,
+			BindingResult result) throws Exception{
 
 		if (session.getAttribute("loginSession") != null) {
+			if(result.hasErrors()){
+				return new ModelAndView("customer");
+			}else{
 			String message = "";
 			ModelAndView modelview = new ModelAndView("forward:/homeCustomer");
 			try {
@@ -136,7 +140,7 @@ public class CustomerController {
 				modelview.addObject("ERROR_CODE", "0");
 				return modelview;
 			}
-		} else {
+		} }else {
 			return new ModelAndView("redirect:/login");
 		}
 
