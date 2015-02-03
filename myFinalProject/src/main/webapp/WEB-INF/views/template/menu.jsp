@@ -28,12 +28,12 @@
 
 		</ul></li> -->
 
-		<li><a href="#dasfa"> <c:if test="${pageContext.request.userPrincipal.name != null}">
+		<li><a href="home"> <c:if test="${pageContext.request.userPrincipal.name != null}">
 					<div class="fa fa-chevron-circle-right  style="color:white;">
 						Welcome : <span style="color: red;"><b>${pageContext.request.userPrincipal.name}</b></span>
 					</div>
 				</c:if> </a></li>
-		<li><a href="#dasfa"><c:url value="/j_spring_security_logout"
+		<li><a href="#"><c:url value="/j_spring_security_logout"
 					var="logoutUrl" />
 				<form action="${logoutUrl}" method="post" id="logoutForm">
 					<input type="hidden" name="${_csrf.parameterName}"

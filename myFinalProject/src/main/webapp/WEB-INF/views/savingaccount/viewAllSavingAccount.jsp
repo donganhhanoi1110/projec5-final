@@ -104,7 +104,9 @@
 
 									<tr>
 										<td>${savingAccount.savingAccountNumber}</td>
-										<td>${savingAccount.customerId.firstName}</td>
+									<td>${savingAccount.customerId.lastName} &nbsp;
+										${savingAccount.customerId.midName} &nbsp;
+										${savingAccount.customerId.firstName} </td>
 										<td>${savingAccount.balanceAmount}</td>
 										<td>${savingAccount.repeatable}</td>
 										<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
