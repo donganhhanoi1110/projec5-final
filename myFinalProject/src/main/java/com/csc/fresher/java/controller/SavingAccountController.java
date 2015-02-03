@@ -194,28 +194,30 @@ public class SavingAccountController {
 				// Business With Saving Account
 
 				if (!result.hasErrors()) {
-				InterestRate interestRate = interestRateService
-						.getInterestRate(savingaccount.getInterestRateId()
-								.getId());
+					InterestRate interestRate = interestRateService
+							.getInterestRate(savingaccount.getInterestRateId()
+									.getId());
+					// Change dateStart and dateEnd to dd/MM/yyyy hh/mm/ss
+					String sysTime = savingAccountService
+							.convertTimeToString(new Date());
+					String dateStart = savingaccount.getDateStart().concat(
+							" " + sysTime);
+					Date date = savingAccountService
+							.convertStringToDate(dateStart);
+					Date dateEnd = DateUtils.addMonths(date,
+							interestRate.getMonth());
+					String dateEndtemp = savingAccountService
+							.convertDateToString(dateEnd);
+					// Set new date to database
+					savingaccount.setDateStart(dateStart);
+					savingaccount.setDateEnd(dateEndtemp);
+					// Check error when Delete to Database
 
-				Date date = savingAccountService
-						.convertStringToDate(savingaccount.getDateStart());
-				Date dateEnd = DateUtils.addMonths(date,
-						interestRate.getMonth());
-				String dateEndtemp = savingAccountService
-						.convertDateToString(dateEnd);
-
-				savingaccount.setDateEnd(dateEndtemp);
-				// Check error when Delete to Database
-				
 					response.setErrorValidattionCheck(false);
 					boolean myCheck = savingAccountService
 							.createSavingAccount(savingaccount);
 					if (myCheck) {
-							
-						
-						
-						
+
 						SavingAccount saving = savingAccountService
 								.getSavingAccountByNumber(savingaccount
 										.getSavingAccountNumber());
@@ -255,12 +257,11 @@ public class SavingAccountController {
 					// Else of HasError
 				} else {
 					message = "Getting Error with Validation"
-							+ savingaccount.getSavingAccountNumber()
-							+ " FAIL";
+							+ savingaccount.getSavingAccountNumber() + " FAIL";
 					error_code = "0";
 					response.setErrorValidattionCheck(true);
 					response.setErrorValidation(result.getAllErrors());
-				
+
 				}
 			} catch (Exception e) {
 				System.out.println("Create SavingAccount Controller has Error");

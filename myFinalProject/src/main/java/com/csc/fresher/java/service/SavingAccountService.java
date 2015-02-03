@@ -143,7 +143,10 @@ public class SavingAccountService {
 		String myDate = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(date);
 		return myDate;
 	}
-
+	public String convertTimeToString(Date date) {
+		String myDate = new SimpleDateFormat("hh:mm:ss").format(date);
+		return myDate;
+	}
 	public static void main(String[] args) {
 		 String d1 = "20/11/2015 00:00:00";
 		 String d2 = "14/11/2015";
@@ -154,8 +157,10 @@ public class SavingAccountService {
 		String b=a.convertDateToString(date);
 		
 		System.out.println(date.toString());
+		System.out.println(date.getDate());
 		System.out.println(b);
-		
+		String d3=d2.concat(" "+a.convertTimeToString(new Date()));
+		System.out.println(d3);
 		// Date date1 = new Date();
 		// Date date2 = new Date();
 		//
