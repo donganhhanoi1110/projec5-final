@@ -110,9 +110,6 @@ public class TransactionController {
 						modelview.setViewName("supportTransaction");
 					}
 				}
-				String test = null;
-				test.length();
-
 			} catch (Exception e) {
 				modelview.addObject("ERROR_CODE", "0");
 				modelview.addObject("message",

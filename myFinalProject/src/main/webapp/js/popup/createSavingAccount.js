@@ -108,8 +108,7 @@ $(document)
 														}
 													},
 													error : function(a, b, c) {
-														$("#errorPane").html(
-																a.responseText);
+														alert("Error When Create Saving Account!!! ");
 														console.log(a);
 													}
 												});

@@ -169,6 +169,7 @@
 						<td><form:select path="state" class="textox">
 								<form:options items="${states }" />
 							</form:select></td>
+						
 					</tr>
 
 					<tr>

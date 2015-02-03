@@ -20,6 +20,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
 
 @Entity
 @Table(name = "savingaccount", uniqueConstraints = { @UniqueConstraint(columnNames = "savingaccount_number") })
@@ -45,12 +48,13 @@ public class SavingAccount {
 	private Integer repeatable;
 
 	@Column(name = "state")
-	@NotEmpty(message = "Please Input Select State.")
+	@NotEmpty(message = "Please Input Select State.") 
 	private String state;
 
 	@Column(name = "date_start")
 	@NotEmpty(message = "Please Input Date Start.")
-	@Size(min = 5, max = 20)
+	@Size(min = 5, max = 20, message="Date Start Must be 5-10")
+	 @DateTimeFormat(pattern="dd/MM/yyyy")
 	private String dateStart;
 
 	@Column(name = "date_end")

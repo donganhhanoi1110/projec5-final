@@ -145,10 +145,11 @@ public class SavingAccountService {
 	}
 
 	public static void main(String[] args) {
-		// String d1 = "20/11/2015";
-		// String d2 = "14/11/2015";
-		// SavingAccountService a = new SavingAccountService();
-		//
+		 String d1 = "20/11/2015";
+		 String d2 = "14/11/2015";
+		 SavingAccountService a = new SavingAccountService();
+		
+		 System.out.println(a.checkDate(d1, d2));
 		// Date date1 = new Date();
 		// Date date2 = new Date();
 		//
