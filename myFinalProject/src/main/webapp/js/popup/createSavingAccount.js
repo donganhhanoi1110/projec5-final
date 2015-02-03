@@ -44,6 +44,8 @@ $(document)
 													success : function(data) {
 														console.log(data);
 														if (data.login == true) {
+															if(!data.errorValidattionCheck){
+
 															if (data.success == true) {
 																alert("Create successfully!");
 																if (data.error_code == '0') {
@@ -87,8 +89,19 @@ $(document)
 																			".popupContainer")
 																			.hide();
 																}
+																//else success
 															} else {
-																alert("Create Failed");
+																alert("Fail: "+data.message);
+															}
+															//Close ErrorValidation
+															}else{
+																errorInfo="Please correct following errors:";
+																for(var i=0;i<data.errorValidation.length;i++)
+																	{
+																	 errorInfo += "\n" + (i + 1) +". " + data.errorValidation[i].defaultMessage;
+
+																	}
+															alert(errorInfo);
 															}
 														} else {
 															window.location.href = 'login';

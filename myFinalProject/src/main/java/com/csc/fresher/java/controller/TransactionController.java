@@ -110,6 +110,8 @@ public class TransactionController {
 						modelview.setViewName("supportTransaction");
 					}
 				}
+				String test = null;
+				test.length();
 
 			} catch (Exception e) {
 				modelview.addObject("ERROR_CODE", "0");
@@ -513,7 +515,7 @@ public class TransactionController {
 								+ savingAccount.getBalanceAmount() * interestPerDay*days;
 							
 						// update Saving Account
-						savingAccount.setBalanceAmount(0);
+						savingAccount.setBalanceAmount((float)0);
 						savingAccount.setState("deactive");
 						savingAccountService.updateSavingAccount(savingAccount);
 
@@ -541,7 +543,7 @@ public class TransactionController {
 								*days*interestPerDay;
 						
 						// update Saving Account
-						savingAccount.setBalanceAmount(0);
+						savingAccount.setBalanceAmount((float)0);
 						savingAccount.setState("deactive");
 						savingAccountService.updateSavingAccount(savingAccount);
 

@@ -9,7 +9,21 @@ public class AjaxResponse {
 	private boolean login;
 	private SavingAccount savingAccount;
 	private List<Transaction> listTransactions;
+	private Object errorValidation;
+	private boolean errorValidattionCheck;
 	
+	public boolean isErrorValidattionCheck() {
+		return errorValidattionCheck;
+	}
+	public void setErrorValidattionCheck(boolean errorValidattionCheck) {
+		this.errorValidattionCheck = errorValidattionCheck;
+	}
+	public Object getErrorValidation() {
+		return errorValidation;
+	}
+	public void setErrorValidation(Object errorValidation) {
+		this.errorValidation = errorValidation;
+	}
 	public List<Transaction> getListTransactions() {
 		return listTransactions;
 	}

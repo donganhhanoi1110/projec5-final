@@ -8,11 +8,15 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -177,7 +181,8 @@ public class SavingAccountController {
 	@RequestMapping(value = "/createSavingAccountJson", method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse createSavingAccountJson(
 			HttpServletRequest request, Model model, HttpSession session,
-			@ModelAttribute("savingacount") SavingAccount savingaccount) {
+			@Valid @ModelAttribute("savingacount") SavingAccount savingaccount,
+			BindingResult result) {
 		// Create a new AccountDAO
 		AjaxResponse response = new AjaxResponse();
 		String message = "";
@@ -185,57 +190,77 @@ public class SavingAccountController {
 		boolean check = false;
 		if (session.getAttribute("loginSession") != null) {
 			try {
-				
+
 				// Business With Saving Account
 
-				if (savingaccount.getBalanceAmount() > 10000000) {
-					savingaccount.setState("hold");
-				}
-				InterestRate interestRate=interestRateService.getInterestRate(savingaccount.getInterestRateId().getId());
-				
-				Date date=savingAccountService.convertStringToDate(savingaccount.getDateStart());
-				Date dateEnd=DateUtils.addMonths(date, interestRate.getMonth());
-				String dateEndtemp=savingAccountService.convertDateToString(dateEnd);
-				
+				if (!result.hasErrors()) {
+				InterestRate interestRate = interestRateService
+						.getInterestRate(savingaccount.getInterestRateId()
+								.getId());
+
+				Date date = savingAccountService
+						.convertStringToDate(savingaccount.getDateStart());
+				Date dateEnd = DateUtils.addMonths(date,
+						interestRate.getMonth());
+				String dateEndtemp = savingAccountService
+						.convertDateToString(dateEnd);
+
 				savingaccount.setDateEnd(dateEndtemp);
 				// Check error when Delete to Database
-				if (savingAccountService.createSavingAccount(savingaccount)) {
-					
-					
-					SavingAccount saving = savingAccountService
-							.getSavingAccountByNumber(savingaccount
-									.getSavingAccountNumber());
+				
+					response.setErrorValidattionCheck(false);
+					boolean myCheck = savingAccountService
+							.createSavingAccount(savingaccount);
+					if (myCheck) {
+							
+						
+						
+						
+						SavingAccount saving = savingAccountService
+								.getSavingAccountByNumber(savingaccount
+										.getSavingAccountNumber());
 
-					Transaction transaction = new Transaction(0,
-							saving.getBalanceAmount(), (new Date()).toString(),
-							"", "deposit", "new", (float) 0,
-							saving.getBalanceAmount(), saving);
+						Transaction transaction = new Transaction(0,
+								saving.getBalanceAmount(),
+								(new Date()).toString(), "", "deposit", "new",
+								(float) 0, saving.getBalanceAmount(), saving);
 
-					if (transactionService.createTransaction(transaction)) {
-						System.out
-								.println("Sucessfully Create Tran from new savingAcount");
+						if (transactionService.createTransaction(transaction)) {
+							System.out
+									.println("Sucessfully Create Tran from new savingAcount");
+						} else {
+							System.out
+									.println("Failed Create Tran from new savingAcount");
+						}
+						// Create transaction of this saving account to admin
+
+						message = "Create SavingAccount"
+								+ savingaccount.getSavingAccountNumber()
+								+ " Successfully";
+						error_code = "1";
+						saving.getCustomerId().setSavingaccounts(null);
+						saving.getInterestRateId().setSavingaccounts(null);
+						saving.setTransactions(null);
+						response.setSavingAccount(saving);
+						check = true;
+
 					} else {
-						System.out
-								.println("Failed Create Tran from new savingAcount");
+						message = "Create SavingAccount"
+								+ savingaccount.getSavingAccountNumber()
+								+ " FAIL";
+						error_code = "0";
+						check = false;
+
 					}
-					// Create transaction of this saving account to admin
-
-					message = "Create SavingAccount"
-							+ savingaccount.getSavingAccountNumber()
-							+ " Successfully";
-					error_code = "1";
-					saving.getCustomerId().setSavingaccounts(null);
-					saving.getInterestRateId().setSavingaccounts(null);
-					saving.setTransactions(null);
-					response.setSavingAccount(saving);
-					check = true;
-
+					// Else of HasError
 				} else {
-					message = "Create SavingAccount"
-							+ savingaccount.getSavingAccountNumber() + " FAIL";
+					message = "Getting Error with Validation"
+							+ savingaccount.getSavingAccountNumber()
+							+ " FAIL";
 					error_code = "0";
-					check = false;
-
+					response.setErrorValidattionCheck(true);
+					response.setErrorValidation(result.getAllErrors());
+				
 				}
 			} catch (Exception e) {
 				System.out.println("Create SavingAccount Controller has Error");
@@ -556,25 +581,24 @@ public class SavingAccountController {
 			modelview.addObject("transaction", new Transaction());
 			modelview.addObject("transactiondeposit", new Transaction());
 
-			//For Create Saving Account
+			// For Create Saving Account
 			modelview.addObject("savingaccount", new SavingAccount());
-			
+
 			// For Search
 			String searchValue = request.getParameter("searchSavingAcount");
 			String searchType = request.getParameter("searchType");
 			Customer customerfromSaving = null;
 			// Search by Saving Account Number
-			
-			//List Interest Rate For Creating SavingAccount
+
+			// List Interest Rate For Creating SavingAccount
 			List<InterestRate> interestRate = interestRateService
 					.getInterestRateList();
 			modelview.addObject("interestrateList", interestRate);
-			//List states for Creatiing new SavingAccount
+			// List states for Creatiing new SavingAccount
 			String[] states = { "new", "hold", "active" };
 			modelview.addObject("states", states);
-			
-			
-			/**Check for Type of Searching*/
+
+			/** Check for Type of Searching */
 			if (searchType.equals("accountNumber")) {
 				try {
 					List<SavingAccount> listSaving = new ArrayList<SavingAccount>();
@@ -596,11 +620,11 @@ public class SavingAccountController {
 							check = true;
 						}
 					}
-					//List Customer For Add Saving Account
+					// List Customer For Add Saving Account
 					List<Customer> listCustomer = new ArrayList<Customer>();
 					listCustomer.add(customerfromSaving);
 					modelview.addObject("customerList", listCustomer);
-					
+
 					// Check for Searching Result
 					modelview.addObject("myCustomer", customerfromSaving);
 					modelview.addObject("message", message);
@@ -640,11 +664,11 @@ public class SavingAccountController {
 						customerfromSaving = customerService
 								.getCustomerByIDNumber(searchValue);
 
-						//List Customer For Add Saving Account
+						// List Customer For Add Saving Account
 						List<Customer> listCustomer = new ArrayList<Customer>();
 						listCustomer.add(customerfromSaving);
 						modelview.addObject("customerList", listCustomer);
-						
+
 						modelview.addObject("myCustomer", customerfromSaving);
 						modelview.addObject("message", message);
 						modelview.addObject("listSavingAccount", listSaving);

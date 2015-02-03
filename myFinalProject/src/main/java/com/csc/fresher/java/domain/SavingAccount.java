@@ -13,6 +13,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "savingaccount", uniqueConstraints = { @UniqueConstraint(columnNames = "savingaccount_number") })
@@ -21,21 +28,29 @@ public class SavingAccount {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
-	private int id;
+	private Integer id;
 
+	
 	@Column(name = "savingaccount_number")
-	private int savingAccountNumber;
+	@NotNull(message="Saving Account Number Cant Be Null")
+	private Integer savingAccountNumber;
 
 	@Column(name = "balance_amount")
-	private float balanceAmount;
+	@NotNull(message="Balance Amount Cant Be Null")
+	@Min(1000000)//,message="Balance Amount must be greater 1.000.000")
+	private Float balanceAmount;
 
 	@Column(name = "repeatable")
-	private int repeatable;
+	@NotNull(message="Saving Account Number Cant Be Null")
+	private Integer repeatable;
 
 	@Column(name = "state")
+	@NotEmpty(message = "Please Input Select State.")
 	private String state;
 
 	@Column(name = "date_start")
+	@NotEmpty(message = "Please Input Date Start.")
+	@Size(min = 5, max = 20)
 	private String dateStart;
 
 	@Column(name = "date_end")
@@ -51,8 +66,8 @@ public class SavingAccount {
 	@OneToMany(mappedBy = "savingAccountId")
 	private List<Transaction> transactions;
 
-	public SavingAccount(int id, int savingAccountNumber, float balanceAmount,
-			int repeatable, String state, String dateStart, String dateEnd,
+	public SavingAccount(Integer id, Integer savingAccountNumber, Float balanceAmount,
+			Integer repeatable, String state, String dateStart, String dateEnd,
 			Customer customerId, InterestRate interestRateId,
 			List<Transaction> transactions) {
 		super();
@@ -94,9 +109,9 @@ public class SavingAccount {
 		this.dateEnd = dateEnd;
 	}
 
-	public SavingAccount(int id, float balanceAmount, int repeatable,
+	public SavingAccount(Integer id, Float balanceAmount, Integer repeatable,
 			String state, Customer customerId, InterestRate interestRateId,
-			List<Transaction> transactions, int savingaccountnumber) {
+			List<Transaction> transactions, Integer savingaccountnumber) {
 		super();
 		this.id = id;
 		this.balanceAmount = balanceAmount;
@@ -108,11 +123,11 @@ public class SavingAccount {
 		this.savingAccountNumber = savingaccountnumber;
 	}
 
-	public int getSavingAccountNumber() {
+	public Integer getSavingAccountNumber() {
 		return savingAccountNumber;
 	}
 
-	public void setSavingAccountNumber(int savingAccountNumber) {
+	public void setSavingAccountNumber(Integer savingAccountNumber) {
 		this.savingAccountNumber = savingAccountNumber;
 	}
 
@@ -132,31 +147,31 @@ public class SavingAccount {
 		this.state = state;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public float getBalanceAmount() {
+	public Float getBalanceAmount() {
 		return balanceAmount;
 	}
 
-	public void setBalanceAmount(float balanceAmount) {
-		this.balanceAmount = balanceAmount;
+	public void setBalanceAmount(Float i) {
+		this.balanceAmount = i;
 	}
 
-	public int getRepeatable() {
+	public Integer getRepeatable() {
 		return repeatable;
 	}
 
-	public void setRepeatable(int repeatable) {
+	public void setRepeatable(Integer repeatable) {
 		this.repeatable = repeatable;
 	}
 
-	public SavingAccount(int id, float balanceAmount, int repeatable,
+	public SavingAccount(Integer id, Float balanceAmount, Integer repeatable,
 			String state) {
 		super();
 
@@ -179,8 +194,8 @@ public class SavingAccount {
 
 	}
 
-	public SavingAccount(int id, float balanceAmount, int repeatable,
-			String state, Customer customerId, int savingaccountnumber) {
+	public SavingAccount(Integer id, Float balanceAmount, Integer repeatable,
+			String state, Customer customerId, Integer savingaccountnumber) {
 		super();
 		this.id = id;
 		this.balanceAmount = balanceAmount;
@@ -198,7 +213,7 @@ public class SavingAccount {
 		this.interestRateId = interestRateId;
 	}
 
-	public SavingAccount(int id, float balanceAmount, int repeatable,
+	public SavingAccount(Integer id, Float balanceAmount, Integer repeatable,
 			String state, Customer customerId, InterestRate interestRateId) {
 		super();
 		this.id = id;
