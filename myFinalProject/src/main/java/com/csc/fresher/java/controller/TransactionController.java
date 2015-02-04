@@ -484,115 +484,14 @@ public class TransactionController {
 			try {
 				int TransactionId = Integer.parseInt(request
 						.getParameter("TransactionId"));
-
 				 Transaction tran = transactionService
 				 .getTransaction(TransactionId);
-				// tran.setState("active");
-				// Check error when Update to Database
 				if(tran.getTransactionType().equals("withdraw")){
-					SavingAccount savingAccount = transactionService
-							.getAccountbyTranID(tran);
-					// find interest
-					SimpleDateFormat formatter = new SimpleDateFormat(
-							"dd/MM/yyyy");
-					Date startWithdraw =new Date();
-					Date dateStart = formatter.parse(savingAccount
-							.getDateStart());
-					
-					Date dateEnd = formatter.parse(savingAccount.getDateEnd());
-					float totalAmount = 0;
-				
-					float interestPerDay=0;
-					Date date = new Date();
-
-					if (startWithdraw.compareTo(dateEnd) >= 0&&tran.getAmount()==savingAccount.getBalanceAmount()) {
-						interestPerDay = ((savingAccount.getInterestRateId()
-								.getInterestRate())/360)/100;
-						int days=Days.daysBetween(new DateTime(dateStart),new DateTime(startWithdraw)).getDays();
-					totalAmount = savingAccount.getBalanceAmount()
-								+ savingAccount.getBalanceAmount() * interestPerDay*days;
-							
-						// update Saving Account
-						savingAccount.setBalanceAmount((float)0);
-						savingAccount.setState("deactive");
-						savingAccountService.updateSavingAccount(savingAccount);
-
-						// update trasaction
-						
-						tran.setAmount(totalAmount);
-						tran.setState("done");
-						tran.setDateEnd(date.toString());
-						tran.setAfterBalance(0);
-						tran.setCurrentBalance(totalAmount);
-						tran.setSavingAccountId(savingAccount);
-						transactionService.updateTransaction(tran);
-						
-					} else {						
-						if(tran.getAmount()==savingAccount.getBalanceAmount()){
-						InterestRate interestRate = interestRateService
-								.getInterestRate(4);
-						interestPerDay = (interestRate.getInterestRate()/360)/100;
-						
-						int days=Days.daysBetween(new DateTime(dateStart),new DateTime(startWithdraw)).getDays();
-
-
-						totalAmount = savingAccount.getBalanceAmount()
-								+ savingAccount.getBalanceAmount()
-								*days*interestPerDay;
-						
-						// update Saving Account
-						savingAccount.setBalanceAmount((float)0);
-						savingAccount.setState("deactive");
-						savingAccountService.updateSavingAccount(savingAccount);
-
-						// update trasaction
-						
-						tran.setAmount(totalAmount);
-						tran.setState("done");
-						tran.setDateEnd(date.toString());
-						tran.setAfterBalance(0);
-						tran.setCurrentBalance(totalAmount);
-						tran.setSavingAccountId(savingAccount);
-						
-						transactionService.updateTransaction(tran);
-						
-						}else if(tran.getAmount()<savingAccount.getBalanceAmount()){
-							InterestRate interestRate = interestRateService
-									.getInterestRate(4);
-							interestPerDay = (interestRate.getInterestRate()/360)/100;
-							
-							int days=Days.daysBetween(new DateTime(dateStart),new DateTime(startWithdraw)).getDays();
-
-
-							totalAmount = savingAccount.getBalanceAmount()
-									+ savingAccount.getBalanceAmount()
-									*days*interestPerDay;
-							
-							
-							// update Saving Account
-							savingAccount.setBalanceAmount(totalAmount-tran.getAmount());
-							savingAccount.setState("active");
-							savingAccount.setDateStart(date.toString());
-									//next day
-							interestRate =savingAccount.getInterestRateId();
-							Date nextMonths =DateUtils.addMonths(date, interestRate.getMonth());
-							savingAccount.setDateEnd(nextMonths.toString());
-							savingAccount.setState("active");						
-							savingAccountService.updateSavingAccount(savingAccount);
-							//update transaction
-							tran.setState("done");
-							tran.setDateEnd(date.toString());
-							tran.setAfterBalance(totalAmount-tran.getAmount());
-							tran.setCurrentBalance(totalAmount);
-							tran.setSavingAccountId(savingAccount);
-							
-							transactionService.updateTransaction(tran);	
-						}
-						
+					if(!transactionService.ApproveWithdraw(tran)){
+						message = "Approve Transaction" + TransactionId + " FAIL";
+						modelview.addObject("ERROR_CODE", "0");
+						modelview.addObject("message", message);
 					}
-					
-					
-					
 				}
 				if(tran.getTransactionType().equals("deposit")){
 					if (!transactionService.approveTransacsionAdmin(TransactionId)) {
@@ -773,33 +672,4 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
-	
-	@RequestMapping(value = "/searchTransaction", method = RequestMethod.POST)
-	public ModelAndView createTransactionAttribute(HttpServletRequest request,
-			Model model, HttpSession session) {
-		// Create a new AccountDAO
-		User user = null;
-		String dateStart = request.getParameter("dateStart");
-		String dateEnd = request.getParameter("dateEnd");
-		System.out.println("Date Format" + dateStart);
-		ModelAndView modelAndView = new ModelAndView("searchTran");
-		if (session.getAttribute("loginSession") != null) {
-
-			List<Transaction> listTrans = new ArrayList<Transaction>();
-			List<Transaction> listTransaction = transactionService
-					.getAllTransaction();
-			for (Transaction trans : listTransaction) {
-				if (transactionService.checkDate(dateStart, dateEnd,
-						trans.getDateStart()) == true) {
-					listTrans.add(trans);
-				}
-			}
-
-			modelAndView.addObject("listTrans", listTrans);
-			return modelAndView;
-		} else {
-			return new ModelAndView("redirect:/login");
-		}
-	}
-	
 }
