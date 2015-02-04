@@ -26,6 +26,12 @@
 		$("#show").click(function() {
 			$("#hide").slideToggle();
 		});
+		$(function() {
+			$(".datepicker").datepicker({
+				inline : true,
+				dateFormat : 'dd/mm/yy'
+			});
+		});
 
 	});
 </script>
@@ -87,6 +93,25 @@
 
 				</div>
 				<div class="panel-body">
+					<div>
+						<!-- Start search -->
+						<form action="searchTransaction.html" method="post">
+							<table>
+								<tr>
+									<td><input type="hidden" name="${_csrf.parameterName}"
+										style="width: 15px; height: 30px;" value="${_csrf.token}" /></td>
+									<th valign="top">Date Start:</th>
+									<td><input class="textox datepicker" name="dateStart" /></td>
+									<th valign="top">Date End:</th>
+									<td><input class="textox datepicker" name="dateEnd" /></td>
+
+									<td><input type="submit" value="Search"
+										id="searchTransaction" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<!-- End search -->
 					<h1>Waiting Transaction</h1>
 					<div class="dataTable_wrapper">
 						<table class="mytable1 table table-striped table-bordered "
