@@ -773,4 +773,33 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
+	
+	@RequestMapping(value = "/searchTransaction", method = RequestMethod.POST)
+	public ModelAndView createTransactionAttribute(HttpServletRequest request,
+			Model model, HttpSession session) {
+		// Create a new AccountDAO
+		User user = null;
+		String dateStart = request.getParameter("dateStart");
+		String dateEnd = request.getParameter("dateEnd");
+		System.out.println("Date Format" + dateStart);
+		ModelAndView modelAndView = new ModelAndView("searchTran");
+		if (session.getAttribute("loginSession") != null) {
+
+			List<Transaction> listTrans = new ArrayList<Transaction>();
+			List<Transaction> listTransaction = transactionService
+					.getAllTransaction();
+			for (Transaction trans : listTransaction) {
+				if (transactionService.checkDate(dateStart, dateEnd,
+						trans.getDateStart()) == true) {
+					listTrans.add(trans);
+				}
+			}
+
+			modelAndView.addObject("listTrans", listTrans);
+			return modelAndView;
+		} else {
+			return new ModelAndView("redirect:/login");
+		}
+	}
+	
 }
