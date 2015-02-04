@@ -4,10 +4,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.csc.fresher.java.dao.TransactionDAO;
+import com.csc.fresher.java.domain.InterestRate;
 import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
 
@@ -22,6 +26,10 @@ import com.csc.fresher.java.domain.Transaction;
 public class TransactionService {
 
 	TransactionDAO TransactionDAO;
+	@Autowired
+	private SavingAccountService savingAccountService;
+	@Autowired
+	private InterestRateService interestRateService;
 
 	public TransactionDAO getTransactionDAO() {
 		return TransactionDAO;
@@ -84,56 +92,95 @@ public class TransactionService {
 
 	public SavingAccount getAccountbyTranID(Transaction tran) {
 		return this.getTransactionDAO().getAccountbyTranID(tran);
-
 	}
 
-	public Date convertStringToDate(String mydate) {
-		Date date = null;
-		try {
-			SimpleDateFormat formatter;
-
-			formatter = new SimpleDateFormat("dd/MM/yyyy");
-			date = (Date) formatter.parse(mydate);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return date;
-	}
-
-	public Date convertStringToDateDB(String mydate) {
-		Date date = null;
-		try {
-			SimpleDateFormat formatter;
-			// Fri Jan 30 10:54:23 ICT 2015
-			formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
-			date = (Date) formatter.parse(mydate);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return date;
-	}
-
-	public boolean checkDate(String dateStart, String dateEnd, String transStart) {
-
-		Date myDateStart = convertStringToDate(dateStart);
-		Date myDateEnd = convertStringToDate(dateEnd);
-		Date myTransStart = convertStringToDateDB(transStart);
-		
-		boolean res = false;
+	public boolean  ApproveWithdraw( Transaction tran){
 		try{
-			if ((myTransStart.compareTo(myDateStart) >= 0) && (myTransStart.compareTo(myDateEnd) <= 0)) {
-				res = true;
+		SavingAccount savingAccount = getAccountbyTranID(tran);
+		// find interest
+		SimpleDateFormat formatter = new SimpleDateFormat(
+				"dd/MM/yyyy");
+		Date startWithdraw =new Date();
+		Date dateStart = formatter.parse(savingAccount
+				.getDateStart());
+		Date dateEnd = formatter.parse(savingAccount.getDateEnd());
+		float totalAmount = 0;
+		float interestPerDay=0;
+		Date date = new Date();
+		if (startWithdraw.compareTo(dateEnd) >= 0&&tran.getAmount()==savingAccount.getBalanceAmount()) {
+			interestPerDay = ((savingAccount.getInterestRateId()
+					.getInterestRate())/360)/100;
+			int days=Days.daysBetween(new DateTime(dateStart),new DateTime(startWithdraw)).getDays();
+		totalAmount = savingAccount.getBalanceAmount()
+					+ savingAccount.getBalanceAmount() * interestPerDay*days;
+		// update Saving Account
+					savingAccount.setBalanceAmount(0f);
+					savingAccount.setState("deactive");
+		// update trasaction
+					tran.setAmount(totalAmount);
+					tran.setState("done");
+					tran.setDateEnd(date.toString());
+					tran.setAfterBalance(0);
+					tran.setCurrentBalance(totalAmount);
+					tran.setSavingAccountId(savingAccount);
+					updateTransaction(tran);
+			
+		savingAccountService.updateSavingAccount(savingAccount);
+			
+		} else {						
+			if(tran.getAmount()==savingAccount.getBalanceAmount()){
+			InterestRate interestRate = interestRateService
+					.getInterestRate(4);
+			interestPerDay = (interestRate.getInterestRate()/360)/100;
+			int days=Days.daysBetween(new DateTime(dateStart),new DateTime(startWithdraw)).getDays();
+			totalAmount = savingAccount.getBalanceAmount()
+					+ savingAccount.getBalanceAmount()
+					*days*interestPerDay;
+			// update trasaction
+						tran.setAmount(totalAmount);
+						tran.setState("done");
+						tran.setDateEnd(date.toString());
+						tran.setAfterBalance(0);
+						tran.setCurrentBalance(totalAmount);
+						tran.setSavingAccountId(savingAccount);
+						updateTransaction(tran);
+			// update Saving Account
+			savingAccount.setBalanceAmount(0f);
+			savingAccount.setState("deactive");
+			savingAccountService.updateSavingAccount(savingAccount);
+			
+			}else if(tran.getAmount()<savingAccount.getBalanceAmount()){
+				InterestRate interestRate = interestRateService
+						.getInterestRate(4);
+				interestPerDay = (interestRate.getInterestRate()/360)/100;
+				int days=Days.daysBetween(new DateTime(dateStart),new DateTime(startWithdraw)).getDays();
+				totalAmount = savingAccount.getBalanceAmount()
+						+ savingAccount.getBalanceAmount()
+						*days*interestPerDay;
+				// update Saving Account
+				savingAccount.setBalanceAmount(totalAmount-tran.getAmount());
+				savingAccount.setState("active");
+				savingAccount.setDateStart(date.toString());
+						//next day
+				interestRate =savingAccount.getInterestRateId();
+				Date nextMonths =DateUtils.addMonths(date, interestRate.getMonth());
+				savingAccount.setDateEnd(nextMonths.toString());
+				savingAccount.setState("active");						
+				savingAccountService.updateSavingAccount(savingAccount);
+				//update transaction
+				tran.setState("done");
+				tran.setDateEnd(date.toString());
+				tran.setAfterBalance(totalAmount-tran.getAmount());
+				tran.setCurrentBalance(totalAmount);
+				tran.setSavingAccountId(savingAccount);
+				
+				updateTransaction(tran);	
 			}
 		}
-		catch(Exception e){
-			e.printStackTrace();
-			res = false;
+		}catch(Exception e){
+			System.out.println("Approve Transaction Controller has Error");
+			return false;
 		}
-/*		 if ((myDateStart.getTime() <= myTransStart.getTime()) && (
-		 myTransStart.getTime() <= myDateEnd.getTime()) ) {
-		 return true;
-		 } else*/
-		return res;
+		return true;
 	}
-
 }
