@@ -53,7 +53,6 @@ public class SavingAccount {
 
 	@Column(name = "date_start")
 	@NotEmpty(message = "Please Input Date Start.")
-	@Size(min = 5, max = 20, message="Date Start Must be 5-10")
 	 @DateTimeFormat(pattern="dd/MM/yyyy")
 	private String dateStart;
 

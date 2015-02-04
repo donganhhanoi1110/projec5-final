@@ -83,7 +83,7 @@
 								<tr>
 									<th>Saving Account Number</th>
 									<th>Customer</th>
-									<th>Saving Balance Amount</th>
+									<th>Balance Amount</th>
 									<th>Repeatable</th>
 									<th>Interest Rate</th>
 									<th>State</th>
@@ -91,7 +91,7 @@
 									<th>Date End</th>
 									<th>View Transactions</th>
 									<sec:authorize access="hasRole('admin')">
-										<th>Edit Saving Account</th>
+										<th>Edit</th>
 									</sec:authorize>
 
 								</tr>

@@ -62,7 +62,7 @@ public class TransactionController {
 
 	@Autowired
 	private SavingAccountService savingAccountService;
-	
+
 	@Autowired
 	private InterestRateService interestRateService;
 
@@ -71,7 +71,7 @@ public class TransactionController {
 			HttpSession session) {
 		// Create a new AccountDAO
 		if (session.getAttribute("loginSession") != null) {
-		
+
 			String username = request.getSession().getAttribute("loginSession")
 					.toString();
 			String error_code = request.getParameter("ERROR_CODE");
@@ -136,13 +136,13 @@ public class TransactionController {
 			SavingAccount savingAccount = transactionService
 					.getAccountbyTranID(transaction);
 			float currentBalance = savingAccount.getBalanceAmount();
-			
+
 			transaction.setCurrentBalance(currentBalance);
-			transaction.setDateStart(savingAccountService.convertDateToString(dateStart));
+			transaction.setDateStart(savingAccountService
+					.convertDateToString(dateStart));
 			transaction.setState("hold");
 
 			try {
-				
 
 				boolean check = transactionService
 						.createTransaction(transaction);
@@ -177,6 +177,7 @@ public class TransactionController {
 		}
 
 	}
+
 	@RequestMapping(value = "/viewListTransactionJson", method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse viewListTransactionJson(
 			HttpServletRequest request, Model model, HttpSession session) {
@@ -185,26 +186,26 @@ public class TransactionController {
 		String message = "";
 		String error_code = "";
 		boolean check = false;
-		
-		
+
 		if (session.getAttribute("loginSession") != null) {
-			int savingAccountNumber=Integer.parseInt(request.getParameter("savingAccountNumber"));
-			
+			int savingAccountNumber = Integer.parseInt(request
+					.getParameter("savingAccountNumber"));
+
 			try {
-				SavingAccount savingAccount=savingAccountService.getSavingAccountByNumber(savingAccountNumber);
-			List<Transaction> transactions=transactionService.getTransactionBySavingAccountNumber(savingAccountNumber);
-			List<Transaction> newTrans=new ArrayList<Transaction>();	
-			// Business With Saving Account
-				for(Transaction tran:transactions)
-				{
+				SavingAccount savingAccount = savingAccountService
+						.getSavingAccountByNumber(savingAccountNumber);
+				List<Transaction> transactions = transactionService
+						.getTransactionBySavingAccountNumber(savingAccountNumber);
+				List<Transaction> newTrans = new ArrayList<Transaction>();
+				// Business With Saving Account
+				for (Transaction tran : transactions) {
 					tran.setTransactions(null);
 					tran.setSavingAccountId(null);
 					newTrans.add(tran);
 				}
-			
 
 				// Check error when Delete to Database
-				if (transactions.size()>0){
+				if (transactions.size() > 0) {
 					response.setListTransactions(newTrans);
 					// Create transaction of this saving account to admin
 					savingAccount.setCustomerId(null);
@@ -212,10 +213,10 @@ public class TransactionController {
 					savingAccount.setTransactions(null);
 					response.setSavingAccount(savingAccount);
 					message = "Get Transactions"
-						
-							+ " Successfully";
+
+					+ " Successfully";
 					error_code = "1";
-				
+
 					check = true;
 
 				} else {
@@ -242,24 +243,67 @@ public class TransactionController {
 		}
 		return response;
 	}
-	
+
+	@RequestMapping(value = "/getSavingAccountInfoJson", method = RequestMethod.POST)
+	public @ResponseBody SavingAccount getSavingAccountInfoJson(
+			HttpServletRequest request, Model model, HttpSession session) {
+
+		if (session.getAttribute("loginSession") != null) {
+			SavingAccount saving = null;
+
+			int number = Integer.parseInt(request.getParameter
+
+			("savingAccountNumber"));
+
+			try {
+				saving = savingAccountService.getSavingAccountByNumber
+
+				(number);
+
+				if (saving == null) {
+
+					// Create transaction of this saving account to admin
+
+					return null;
+
+				} else {
+					saving.setTransactions(null);
+					saving.getCustomerId().setSavingaccounts(null);
+					saving.getInterestRateId().setSavingaccounts(null);
+
+					return saving;
+
+				}
+			} catch (Exception e) {
+				return null;
+
+			}
+
+		} else {
+			return null;
+		}
+
+	}
+
 	@RequestMapping(value = "/createTransactionJson", method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse createTransactionJson(
-			HttpServletRequest request, Model model, HttpSession session,@ModelAttribute Transaction transaction) {
+			HttpServletRequest request, Model model, HttpSession session,
+			@ModelAttribute Transaction transaction) {
 		// Create a new AccountDAO
 		AjaxResponse response = new AjaxResponse();
 		String message = "";
 		String error_code = "";
 		boolean check = false;
-		
-		
+
 		if (session.getAttribute("loginSession") != null) {
 			Date dateStart = new Date();
-			SavingAccount savingAccount =savingAccountService.getSavingAccount(transaction.getSavingAccountId().getId());
-				
+			SavingAccount savingAccount = savingAccountService
+					.getSavingAccountByNumber(transaction.getSavingAccountId().getSavingAccountNumber());
+
 			float currentBalance = savingAccount.getBalanceAmount();
 			transaction.setCurrentBalance(currentBalance);
-			transaction.setDateStart(savingAccountService.convertDateToString(dateStart));
+			transaction.setDateStart(savingAccountService
+					.convertDateToString(dateStart));
 			transaction.setState("hold");
 			try {
 				System.out.println("Json Saving Account: "
@@ -270,28 +314,28 @@ public class TransactionController {
 				if (transaction.getAmount() > 10000000) {
 					transaction.setState("hold");
 				}
-
+				transaction.setSavingAccountId(savingAccount);
 				// Check error when Delete to Database
-				if (transactionService.createTransaction(transaction)){
-				
+				if (transactionService.createTransaction(transaction)) {
+
 					// Create transaction of this saving account to admin
 
 					message = "Create Transaction"
-						
-							+ " Successfully";
+
+					+ " Successfully";
 					error_code = "1";
-				
+
 					check = true;
 
 				} else {
-					message = "Create Transaction"
-							 + " FAIL";
+					message = "Create Transaction" + " FAIL";
 					error_code = "0";
 					check = false;
 
 				}
 			} catch (Exception e) {
-				System.out.println("Create TransactionJson Controller has Error");
+				System.out
+						.println("Create TransactionJson Controller has Error");
 				message = "Create TransactionJson Controller has Error";
 				error_code = "0";
 				check = false;
@@ -308,6 +352,7 @@ public class TransactionController {
 		}
 		return response;
 	}
+
 	@RequestMapping(value = "/deleteTransaction")
 	public ModelAndView deleteTransaction(HttpServletRequest request,
 			Model model, HttpSession session) {
@@ -484,23 +529,26 @@ public class TransactionController {
 			try {
 				int TransactionId = Integer.parseInt(request
 						.getParameter("TransactionId"));
-				 Transaction tran = transactionService
-				 .getTransaction(TransactionId);
-				if(tran.getTransactionType().equals("withdraw")){
-					if(!transactionService.ApproveWithdraw(tran)){
-						message = "Approve Transaction" + TransactionId + " FAIL";
+				Transaction tran = transactionService
+						.getTransaction(TransactionId);
+				if (tran.getTransactionType().equals("withdraw")) {
+					if (!transactionService.ApproveWithdraw(tran)) {
+						message = "Approve Transaction" + TransactionId
+								+ " FAIL";
 						modelview.addObject("ERROR_CODE", "0");
 						modelview.addObject("message", message);
 					}
 				}
-				if(tran.getTransactionType().equals("deposit")){
-					if (!transactionService.approveTransacsionAdmin(TransactionId)) {
-						message = "Approve Transaction" + TransactionId + " FAIL";
+				if (tran.getTransactionType().equals("deposit")) {
+					if (!transactionService
+							.approveTransacsionAdmin(TransactionId)) {
+						message = "Approve Transaction" + TransactionId
+								+ " FAIL";
 						modelview.addObject("ERROR_CODE", "0");
 						modelview.addObject("message", message);
 					}
 				}
-				
+
 			} catch (Exception e) {
 				System.out.println("Approve Transaction Controller has Error");
 				message = "Approve Transaction Controller has Error";

@@ -10,24 +10,39 @@
 <!-- default header name is X-CSRF-TOKEN -->
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <title>CSC Banking System</title>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#table").DataTable({
+			responsive : true
+		});
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		});
+		$(function() {
+			$(".datepicker").datepicker({
+				inline : true,
+				dateFormat : 'dd/mm/yy'
+			});
+		});
+		
+		$("#tableShowSavingAccInfo").DataTable({
+			responsive : true
+		});
+		$("#popUpTable").DataTable({
+			responsive : true
+		});
+		/*For Create new Transaciton  */
+		
+	});
+</script>
 <script src="js/popup/createSavingAccountOnSearchPage.js"></script>
 <script src="js/popup/createTransactionOnSearchPage.js"></script>
 <script src="js/popup/getTransactionsPopupSearchPage.js"></script>
-<script type="text/javascript">
-	$(function() {
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-		$(document).ajaxSend(function(e, xhr, options) {
-			xhr.setRequestHeader(header, token);
-		});
-	});
-	$(function() {
-		$(".datepicker").datepicker({
-			inline : true,
-			dateFormat : 'dd/mm/yy'
-		});
-	});
-</script>
 </head>
 <body>
 	<jsp:include page="popup/getTransactionPopup.jsp"></jsp:include>
@@ -106,16 +121,21 @@
 									<tr>
 										<th>Saving Account Number</th>
 										<th>Customer</th>
-										<th>Saving Balance Amount</th>
+										<th>Balance Amount</th>
 										<th>Repeatable</th>
 										<th>Interest Rate</th>
 										<th>State</th>
 										<th>Date Start</th>
 										<th>Date End</th>
 										<th>View Transactions</th>
+										<sec:authorize access="hasRole('support')">
+											<th>Add New Transaction</th>
+
+										</sec:authorize>
+
 										<sec:authorize access="hasRole('admin')">
 
-											<th>Edit Saving Account</th>
+											<th>Edit</th>
 
 										</sec:authorize>
 
@@ -126,9 +146,9 @@
 
 										<tr>
 											<td><a>${savingAccount.savingAccountNumber}</a></td>
-										<td>${savingAccount.customerId.lastName} &nbsp;
-										${savingAccount.customerId.midName} &nbsp;
-										${savingAccount.customerId.firstName} </td>
+											<td>${savingAccount.customerId.lastName}&nbsp;
+												${savingAccount.customerId.midName} &nbsp;
+												${savingAccount.customerId.firstName}</td>
 											<td>${savingAccount.balanceAmount}</td>
 											<td>${savingAccount.repeatable}</td>
 											<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
@@ -140,6 +160,11 @@
 											<td><a
 												SavingAccount=${savingAccount.savingAccountNumber } href=""
 												class="myButton getMyTransactions">Transactions</a></td>
+											<sec:authorize access="hasRole('support')">
+												<td><a
+													SavingAccountNumber=${savingAccount.savingAccountNumber }
+													href="" class="myButton createTransaction">Add Tran</a></td>
+											</sec:authorize>
 											<sec:authorize access="hasRole('admin')">
 
 												<td><a
@@ -205,49 +230,50 @@
 						</tr>
 
 
+						<sec:authorize access="hasRole('support')">
+							<tr>
 
-						<tr>
-							<td><input type="button" class="myButton withDraw"
-								value="Withdraw" id="withDraw" /></td>
-							<td><input type="button" class="myButton createTransaction"
-								value="CreateTransaction" id="createTransaction" /></td>
-							<td><input type="button" class="myButton"
-								value="Create SavingAccount" id="createMySavingAccount" /></td>
-							<td></td>
+								<td><input type="button" class="myButton"
+									value="Create SavingAccount" id="createMySavingAccount" /></td>
 
-						</tr>
+							</tr>
+						</sec:authorize>
 					</table>
+				</c:if>
 			</div>
 
 
-			
 			<div class="popupContainerCreateTransaction">
 				<div class="popupCreateTransaction">
-					<button class="popupCloseButton">X</button>
-					<form:form action="" method="post"
-						modelAttribute="transaction">
-						<table id="id-form" class="table table-striped table-bordered">
-							<input type="hidden" name="${_csrf.parameterName}"
+
+					<div class="headerPopup">
+						<span> Add New Transaction</span>
+						<button class="popupCloseButton">X</button>
+					</div>
+
+					<form:form modelAttribute="transaction" method="post" action=""
+						id="formCreateTransactionId">
+						<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />
+						<table id="id-form" class="table table-striped table-bordered">
+							
 
 							<tr>
 								<th valign="top"><form:label path="amount">Amount</form:label>
 								</th>
-								<td><form:input path="amount" class="form-control" /></td>
+								<td><form:input path="amount" class="form-control " id="amountTran" /></td>
 							</tr>
 							<tr>
-								<th valign="top"><form:label path="savingAccountId.id">Saving Account</form:label></th>
-								<td><form:select path="savingAccountId.id" multiple="false"
-										class="form-control">
-										<form:options items="${listSavingAccount}" itemValue="id"
-											itemLabel="savingAccountNumber" />
-									</form:select></td>
+								<th valign="top"><form:label path="savingAccountId.savingAccountNumber">Saving Account</form:label></th>
+								<td>
+									<form:input path="savingAccountId.savingAccountNumber" class="form-control " id="savingAccountId" />
+									</td>
 							</tr>
 							<tr>
 								<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
-								<td><form:select path="transactionType"
+								<td><form:select path="transactionType" id="typeTran"
 										class="form-control">
-										<form:option value="deposit">new</form:option>
+										<form:option value="deposit">deposit</form:option>
 										<form:option value="withdraw">withdraw</form:option>
 
 									</form:select></td>
@@ -255,28 +281,63 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td><input type="submit" class="myButton" value="Save"
-									id="addTransactionJson" /></td>
+								<td><button class="myButton" id="addTransactionJsonOnSearchPage" value="Save"
+								>Save</button></td>
 
 							</tr>
 						</table>
 					</form:form>
 
+					<!-- Saving Account Information  -->
+					<table class="myPadding table-striped table-bordered "
+						id="tableShowSavingAccInfo">
+						<thead>
+							<tr>
+								<th>Saving Account Number</th>
+								<th>Customer</th>
+								<th>Saving Balance Amount</th>
+								<th>Repeatable</th>
+								<th>Interest Rate</th>
+								<th>State</th>
+								<th>Date Start</th>
+								<th>Date End</th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><a>${savingAccount.savingAccountNumber}</a></td>
+								<td>${savingAccount.customerId.lastName}&nbsp;
+									${savingAccount.customerId.midName} &nbsp;
+									${savingAccount.customerId.firstName}</td>
+								<td>${savingAccount.balanceAmount}</td>
+								<td>${savingAccount.repeatable}</td>
+								<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
+									${savingAccount.interestRateId.interestRate}%&nbsp;
+									(${savingAccount.interestRateId.currency})</td>
+								<td>${savingAccount.state}</td>
+								<td>${savingAccount.dateStart}</td>
+								<td>${savingAccount.dateEnd}</td>
+							</tr>
+						</tbody>
+					</table>
+
 				</div>
 
 			</div>
 			<!--  End popup-->
-			</c:if>
-
 			<br />
 		</div>
 
 	</div>
 	<div class="popupContainerSavingAccount">
 		<div class="popupSavingAccount">
-			<button class="popupCloseButton">X</button>
+			<div class="headerPopup">
+				<span> Add New Saving Account</span>
+				<button class="popupCloseButton">X</button>
+			</div>
 			<form:form action="createSavingAccount.html" method="post"
-				modelAttribute="savingaccount" class="createSavingForm">
+				modelAttribute="savingaccount" class="createSavingForm" id="savingAccountFormId">
 				<table class="mytable2">
 					<input type="hidden" name="${_csrf.parameterName}"
 						value="${_csrf.token}" />

@@ -7,7 +7,14 @@
 	background-color: #0099FF;
 	color: #FFF;
 }
-
+.headerPopup{
+	 font-size: x-large;
+	 color:white;
+	padding:5px 3px 3px 8px;
+	background-color: #3399CC;
+	margin-bottom: 5px;
+ 
+}
 #hide {
 	display: none;
 	margin-bottom: 10px;
@@ -19,7 +26,15 @@
 	text-align: center;
 }
 
-.myPadding th, tr {
+.myPadding  th {
+		background-color: #3399CC;
+		color:white;
+	padding: 10px;
+	margin-left: 5px;
+	text-align: center;
+}
+.myPadding  tr {
+	
 	padding: 10px;
 	margin-left: 5px;
 	text-align: center;
@@ -81,13 +96,10 @@
 
 button.popupCloseButtonGetTransactions {
 	font-family: cursive;
-	color: crimson;
-	position: absolute;
-	/* bottom: 10%; */
-	top: 1%;
-	right: 1%;
-	border: none;
-	background: none;
+	color: white;
+	float:right;
+	font-size: large; 
+		background: none; 
 }
 
 .popupContainerCreateTransaction {
@@ -146,13 +158,17 @@ button.popupCloseButtonGetTransactions {
 
 button.popupCloseButton {
 	font-family: cursive;
-	color: crimson;
-	position: absolute;
-	/* bottom: 10%; */
+	color: white;
+	float:right;
+	font-size: large; 
+		background: none; 
+/* 	position: absolute;
+	bottom: 10%;
 	top: 1%;
 	right: 1%;
 	border: none;
-	background: none;
+	*/
+
 }
 
 .error {

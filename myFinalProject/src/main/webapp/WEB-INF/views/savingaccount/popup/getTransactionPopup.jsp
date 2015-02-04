@@ -1,9 +1,10 @@
 			<div class="popupContainerGetTransactions">
 					<div class="popupGetTransactions">
-						<button class="popupCloseButtonGetTransactions">X</button>
+						
+						
+						<div class="headerPopup"><span> Transactions</span> <button class="popupCloseButtonGetTransactions">X</button></div>
 						<div>
-							<span style="color: blue; font-size: 20px;">Transactions </span>
-							<button id="exitGetTransaction" class="myButton">Exit</button>
+						
 
 							<div>
 								<table class="myPadding table-striped table-bordered "

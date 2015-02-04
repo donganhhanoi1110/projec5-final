@@ -8,7 +8,7 @@ $(document)
 		"#addSavingAccountSubmit",
 		function(e) {
 			e.preventDefault();
-			var mydata = $("#savingaccount")
+			var mydata = $("#savingAccountFormId")
 					.serialize();
 			// if you Transaction ajax
 			$
@@ -30,30 +30,36 @@ $(document)
 										 * window.location.href =
 										 * 'viewAllSavingAccount';
 										 */
-										var t = $(
-												'#table')
-												.DataTable();
-										var transaction = $('#transactions')
-										t.row.add([
-					data.savingAccount.savingAccountNumber,
-					data.savingAccount.customerId.lastName
-							+ '&nbsp;'
-							+ data.savingAccount.customerId.midName
-							+ '&nbsp;'
-							+ data.savingAccount.customerId.firstName,
-					data.savingAccount.balanceAmount,
-					data.savingAccount.repeatable,
-					data.savingAccount.interestRateId.savingAccountType
-							+ '&nbsp;'
-							+ data.savingAccount.interestRateId.interestRate
-							+ '% &nbsp;'
-							+ '('+data.savingAccount.interestRateId.currency+')',
-					data.savingAccount.state,
-					data.savingAccount.dateStart,
-					data.savingAccount.dateEnd,
-					'<a href='
-							+ '"viewListTransaction.html?SavingAccountId=${savingAccount.id}"'
-							+ 'class="myButton" id="transactions">Transactions</a>' ]).draw();
+																	/*
+																	 * var t = $(
+																	 * '#table')
+																	 * .DataTable();
+																	 * var
+																	 * transaction =
+																	 * $('#transactions')
+																	 * t.row.add([
+																	 * data.savingAccount.savingAccountNumber,
+																	 * data.savingAccount.customerId.lastName +
+																	 * '&nbsp;' +
+																	 * data.savingAccount.customerId.midName +
+																	 * '&nbsp;' +
+																	 * data.savingAccount.customerId.firstName,
+																	 * data.savingAccount.balanceAmount,
+																	 * data.savingAccount.repeatable,
+																	 * data.savingAccount.interestRateId.savingAccountType +
+																	 * '&nbsp;' +
+																	 * data.savingAccount.interestRateId.interestRate + '%
+																	 * &nbsp;' +
+																	 * '('+data.savingAccount.interestRateId.currency+')',
+																	 * data.savingAccount.state,
+																	 * data.savingAccount.dateStart,
+																	 * data.savingAccount.dateEnd, '<a
+																	 * href=' +
+																	 * '"viewListTransaction.html?SavingAccountId=${savingAccount.id}"' +
+																	 * 'class="myButton"
+																	 * id="transactions">Transactions</a>'
+																	 * ]).draw();
+																	 */
 							$(".popupContainerSavingAccount").hide();
 					}
 				} else {

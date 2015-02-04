@@ -69,13 +69,11 @@ $(document)
 																					 	data.customer.add1,
 																					 	data.customer.email,
 																					 	data.customer.state,
-																					 	'<a href='
-																					 	+ '"viewListTransaction.html?SavingAccountId=${cus.id}"'
-																						+ 'class="myButton" id="transactions">Customer</a>'
-																					 	/*<a customer="data.customer.id," href=""
-																					 		id="linkDeleteCustomer" class="myButton"> Delete </a>
-																					 		<a href="editCustomer.html?custID=data.customer.id,"
-																					 			class="myButton">Edit</a>*/
+																					 	
+																						'<a customer='+'"${cus.id}"'+ 'href=""'+
+																							'id="linkDeleteCustomer" class="myButton"> Delete </a>',
+																						'<a href="editCustomer.html?custID=${cus.id}"'+
+																							'class="myButton">Edit</a>'
 																					 	]
 
 																			)

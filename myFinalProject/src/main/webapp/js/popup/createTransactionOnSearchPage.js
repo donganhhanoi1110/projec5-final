@@ -1,99 +1,168 @@
 $(document)
-			.ready(
-					function() {
-						$("#table").DataTable({
-							responsive : true
+		.ready(
+				function() {
+					$(function() {
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr(
+								"content");
+						$(document).ajaxSend(function(e, xhr, options) {
+							xhr.setRequestHeader(header, token);
 						});
-						$("#show").click(function() {
-							$("#hide").slideToggle();
-						});
-						$(document)
-								.on(
-										"click",
-										"#addTransactionJson",
-										function(e) {
-											e.preventDefault();
-											var mydata = $("#transaction")
-											.serialize();
-											console.log(mydata);
-											var confirmMessage = confirm("Do you want to Add this Transaction?");
-											if (confirmMessage) {
-												console.log("\n"+mydata);
-												//to delete Transaction page
-												/* 	$(this).closest("tr").remove(); */
+					});
+					$(document)
+							.on(
+									"click",
+									"#addTransactionJsonOnSearchPage",
+									function(e) {
+										e.preventDefault();
+										var mydata = $(
+												"#formCreateTransactionId")
+												.serialize();
+										var confirmMessage = confirm("Do you want to Add this Transaction?");
+										if (confirmMessage) {
 
-												//if you want to reload the page
-												//window.location.href = 'deleteTransaction?TransactionId=' + TransactionId;
-												// if you Transaction ajax
-												$
-														.ajax({
-															type : 'post',
-															url : 'createTransactionJson',
-															data : mydata,
-															datatype : 'json',
-															success : function(
-																	data) {
-																console
-																		.log(data);
-																if (data.login == true) {
-																	if (data.success == true) {
-																		alert("Create successfully! <br>"
-																				+ data.message);
-																		if (data.error_code == '0') {
-																			window.location.href = 'searchSavingAccount?ERROR_CODE='
-																					+ data.error_code;
-																		} else {
+											$
+													.ajax({
+														type : 'post',
+														url : 'createTransactionJson',
+														data : mydata,
+														datatype : 'json',
+														success : function(data) {
+															console.log(data);
+															if (data.login == true) {
+																if (data.success == true) {
+																	alert("Create successfully! \n"
+																			+ data.message);
+																	if (data.error_code == '0') {
+																		window.location.href = 'searchSavingAccount?ERROR_CODE='
+																				+ data.error_code;
+																	} else {
+
+																		$(
+																				".popupContainerCreateTransaction")
+																				.hide();
+																	}
+
+																} else {
+																	alert("Create Failed"
+																			+ data.message);
+																}
+															} else {
+																window.location.href = 'login';
+															}
+														},
+														error : function(a, b,
+																c) {
+															alert(a.responseText);
+															console.log(a);
+														}
+													});
+
+										} else {
+											// do nothing
+										}
+									});
+
+					/* For Popup only */
+					$(".withDraw").bind("click", function(e) {
+						e.preventDefault();
+						$(".popupContainer").show();
+					})
+
+					$(".popupCloseButton").bind("click", function(e) {
+						$(".popupContainer").hide();
+					})
+					$(".popupContainer").bind("click", function(e) {
+						if (e.target == this) {
+							$(this).hide();
+						}
+					})
+					$(".popupContainerCreateTransaction").bind("click",
+							function(e) {
+								if (e.target == this) {
+									$(this).hide();
+								}
+							});
+					$(".createTransaction")
+							.bind(
+									"click",
+
+									function(e) {
+										var thisElement = $(this);
+										e.preventDefault();
+										$(".popupContainerCreateTransaction")
+												.fadeIn(
+														'slow',
+														function() {
+															var savingAccountNumber = thisElement
+																	.attr("savingaccountnumber");
+
+															$
+																	.ajax({
+																		type : 'post',
+																		url : 'getSavingAccountInfoJson',
+																		data : "savingAccountNumber="
+																				+ savingAccountNumber,
+																		datatype : 'json',
+																		success : function(
+																				savingAccount) {
+
+																			/* $('#formCreateTransactionId').trigger("reset"); */
+
+																			var table = $(
+																					'#tableShowSavingAccInfo')
+																					.DataTable(
+																							{
+																								retrieve : true,
+																								paging : false
+																							});
+																			table
+																					.clear();
+																			table.row
+																					.add(
+																							[
+																									savingAccount.savingAccountNumber,
+																									savingAccount.customerId.lastName
+																											+ '&nbsp;'
+																											+ savingAccount.customerId.midName
+																											+ '&nbsp;'
+																											+ savingAccount.customerId.firstName,
+																									savingAccount.balanceAmount,
+																									savingAccount.repeatable,
+																									savingAccount.interestRateId.savingAccountType
+																											+ '&nbsp;'
+																											+ savingAccount.interestRateId.interestRate
+																											+ '%&nbsp;'
+																											+ savingAccount.interestRateId.currency,
+																									savingAccount.state,
+																									savingAccount.dateStart,
+																									savingAccount.dateEnd ])
+																					.draw();
+																			$(
+																					"#savingAccountId")
+																					.val(
+																							'');
 
 																			$(
-																					".popupContainerCreateTransaction")
-																					.hide();
+																					"#savingAccountId")
+																					.val(
+																							savingAccount.savingAccountNumber);
+
+																		},
+																		error : function(
+																				a,
+																				b,
+																				c) {
+																			alert(a.responseText);
+																			console
+																					.log(a);
 																		}
 
-																	} else {
-																		alert("Create Failed"
-																				+ data.message);
-																	}
-																} else {
-																	window.location.href = 'login';
-																}
-															},	error : function(a, b,
-																	c) {
-																
-																console.log(a);
-															}
+																	});
 														});
+									});
 
-											} else {
-												//do nothing
-											}
-										});
-
-						/*For Popup only  */
-						$(".withDraw").bind("click", function(e) {
-							e.preventDefault();
-							$(".popupContainer").show();
-						})
-
-						$(".popupCloseButton").bind("click", function(e) {
-							$(".popupContainer").hide();
-						})
-						$(".popupContainer").bind("click", function(e) {
-							if (e.target == this) {
-								$(this).hide();
-							}
-						})
-						$(".popupContainerCreateTransaction").bind("click",
-								function(e) {
-									if (e.target == this) {
-										$(this).hide();
-									}
-								})
-						$(".createTransaction").bind("click", function(e) {
-							e.preventDefault();
-							$(".popupContainerCreateTransaction").show();
-						})
-
-						$(".popupCloseButton").bind("click", function(e) {
-							$(".popupContainerCreateTransaction").hide();
-						})
+					$(".popupCloseButton").bind("click", function(e) {
+						$(".popupContainerCreateTransaction").hide();
 					});
+				});

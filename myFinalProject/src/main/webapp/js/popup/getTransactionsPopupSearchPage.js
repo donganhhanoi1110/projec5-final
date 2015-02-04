@@ -110,7 +110,7 @@ $(document)
 
 								e.preventDefault();
 								$(".popupContainerGetTransactions").fadeIn(
-										"slow"), function() {
+										"fast"), function() {
 
 								}
 							});

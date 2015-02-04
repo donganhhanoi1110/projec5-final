@@ -225,7 +225,8 @@ public class SavingAccountController {
 
 						Transaction transaction = new Transaction(0,
 								saving.getBalanceAmount(),
-								(new Date()).toString(), "", "deposit", "new",
+								savingAccountService
+								.convertDateToString(new Date()), "", "deposit", "new",
 								(float) 0, saving.getBalanceAmount(), saving);
 
 						if (transactionService.createTransaction(transaction)) {
