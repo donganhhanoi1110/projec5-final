@@ -110,6 +110,11 @@
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/loginFailed.jsp" />
 	</definition>
+	<definition name="searchTran" extends="DefaultTemplate">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/transaction/searchTran.jsp" />
+	</definition>
 	<definition name="admin" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/admin.jsp" />
