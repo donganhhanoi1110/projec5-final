@@ -93,8 +93,8 @@
 
 				</div>
 				<div class="panel-body">
-					<div>
-						<!-- Start search -->
+					<div><!-- Start search -->
+						
 						<form action="searchTransaction.html" method="post">
 							<table>
 								<tr>
