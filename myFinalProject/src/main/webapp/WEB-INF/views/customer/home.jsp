@@ -164,7 +164,7 @@
 								<tr>
 									<td></td>
 									<td><input type="submit" class="myButton" value="Save"
-										id="addAccount" /></td>
+										id="addCustomer" /></td>
 									<td></td>
 									<td></td>
 

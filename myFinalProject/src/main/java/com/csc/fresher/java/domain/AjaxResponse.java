@@ -11,7 +11,14 @@ public class AjaxResponse {
 	private List<Transaction> listTransactions;
 	private Object errorValidation;
 	private boolean errorValidattionCheck;
+	private Customer customer;
 	
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 	public boolean isErrorValidattionCheck() {
 		return errorValidattionCheck;
 	}

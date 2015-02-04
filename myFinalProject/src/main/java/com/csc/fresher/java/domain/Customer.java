@@ -29,59 +29,56 @@ public class Customer implements Serializable {
 	
 	
 	@Column(name = "account_number")
-	@NotNull(message="Can not empty")
+	@NotNull(message="The Account Number can not empty")
 	private Integer accountNumber;
 	
 
 	@Column(name = "account_type")
-	@NotEmpty(message=" Can not empty")
+	@NotEmpty(message="The Account Type an not empty")
 	private String accountType;
 
 
 	@Column(name = "first_name")
-	@NotEmpty(message=" Can not empty")
+	@NotEmpty(message="Please input First Name")
 	String firstName;
 
 	
 	@Column(name = "last_name")
-	@NotEmpty(message=" Can not empty")
+	@NotEmpty(message=" Please input last name")
 	String lastName;
 
 	@Column(name = "mid_name")
-	@NotEmpty(message=" Can not empty")
 	String midName;
 	
 	
 	@Column(name = "id_number")
-	@NotEmpty(message=" Can not empty")
+	@NotEmpty(message=" Please input ID card")
 	String idNumber;
 	
 	
 	@Column(name = "phone1")
-	@NotNull(message="Can not empty")
+	@NotNull(message="Please input number phone")
 	Integer phone1;
 
 	@Column(name = "phone2")
-	@NotNull(message="Can not empty")
 	Integer phone2;
 
 	
 	@Column(name = "address1")
-	@NotEmpty(message=" Can not empty")
+	@NotEmpty(message=" Please input Address")
 	String add1;
 
 	@Column(name = "address2")
-	@NotEmpty(message=" Can not empty")
 	String add2;
 
 	
 	@Column(name = "email")
-	@NotEmpty(message=" Can not empty")
+	@Email(message=" Please input email")
 	String email;
 
 	
 	@Column(name = "state")
-	@NotEmpty(message=" Can not empty")
+	@NotEmpty(message=" Please input State")
 	String state;
 
 	@OneToMany(mappedBy = "customerId")

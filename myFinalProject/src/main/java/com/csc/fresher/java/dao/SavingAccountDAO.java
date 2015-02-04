@@ -163,12 +163,13 @@ public class SavingAccountDAO {
 	}
 
 	@Transactional
-	@SuppressWarnings("unchecked")
 	public boolean updateSavingAccount(SavingAccount savingAccount) {
 
 		boolean check = false;
 		try {
+			
 			entityManager.merge(savingAccount);
+			entityManager.flush();
 			check = true;
 			System.out.println("SavingAccount " + savingAccount.getId()
 					+ "updated");
@@ -182,7 +183,6 @@ public class SavingAccountDAO {
 	}
 
 	@Transactional
-	@SuppressWarnings("unchecked")
 	public boolean deleteSavingAccountById(int savingAccountId) {
 		boolean check = false;
 		try {

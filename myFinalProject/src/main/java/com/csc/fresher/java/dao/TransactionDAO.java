@@ -221,9 +221,9 @@ public class TransactionDAO {
 			acc = entityManager.find(SavingAccount.class, tran
 					.getSavingAccountId().getId());
 
-			System.out.println("delete Transaction by Transaction");
+			
 		} catch (Exception e) {
-			System.out.println("\nDelete Transaction get Error" + "*_"
+			System.out.println("\nFind  Transaction get Error" + "*_"
 					+ e.getMessage() + "*_");
 
 		}

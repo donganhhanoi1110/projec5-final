@@ -24,19 +24,15 @@ $(document)
 					});
 
 					/* Create SavingAccount Json */
-					$(document)
-							.on(
-									"click",
-									"#addSavingAccountSubmit",
-									function(e) {
+					$(document).on("click","#addCustomer",function(e) {
 										e.preventDefault();
-										var mydata = $("#savingaccount")
+										var mydata = $("#customer")
 												.serialize();
 										// if you Transaction ajax
 										$
 												.ajax({
 													type : 'post',
-													url : 'createSavingAccountJson',
+													url : 'createCustomerJson',
 													data : mydata,
 													datatype : 'json',
 													success : function(data) {
@@ -57,29 +53,30 @@ $(document)
 																	var t = $(
 																			'#table')
 																			.DataTable();
-																	var transaction = $('#transactions')
 																	t.row
 																			.add(
 																					[
-																							data.savingAccount.savingAccountNumber,
-																							data.savingAccount.customerId.lastName
-																									+ ''
-																									+ data.savingAccount.customerId.midName
-																									+ ''
-																									+ data.savingAccount.customerId.lastName,
-																							data.savingAccount.balanceAmount,
-																							data.savingAccount.repeatable,
-																							data.savingAccount.interestRateId.savingAccountType
-																									+ ' '
-																									+ data.savingAccount.interestRateId.interestRate
-																									+ ' '
-																									+ data.savingAccount.interestRateId.currency,
-																							data.savingAccount.state,
-																							data.savingAccount.dateStart,
-																							data.savingAccount.dateEnd,
-																							'<a href='
-																									+ '"viewListTransaction.html?SavingAccountId=${savingAccount.id}"'
-																									+ 'class="myButton" id="transactions">Transactions</a>' ]
+																					 	data.customer.id,
+																					 	data.customer.accountNumber,
+																					 	data.customer.accountType,
+																					 	data.customer.firstName
+																					 		+ ''
+																					 		+ data.customer.midName
+																					 		+ ''
+																					 		+ data.customer.lastName,
+																					 	data.customer.idNumber,
+																					 	data.customer.phone1,
+																					 	data.customer.add1,
+																					 	data.customer.email,
+																					 	data.customer.state,
+																					 	'<a href='
+																					 	+ '"viewListTransaction.html?SavingAccountId=${cus.id}"'
+																						+ 'class="myButton" id="transactions">Customer</a>'
+																					 	/*<a customer="data.customer.id," href=""
+																					 		id="linkDeleteCustomer" class="myButton"> Delete </a>
+																					 		<a href="editCustomer.html?custID=data.customer.id,"
+																					 			class="myButton">Edit</a>*/
+																					 	]
 
 																			)
 																			.draw();
