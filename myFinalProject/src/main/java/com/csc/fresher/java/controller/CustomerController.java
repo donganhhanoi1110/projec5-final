@@ -101,7 +101,7 @@ public class CustomerController {
 					modelview.addObject("message", message);
 				}
 			} catch (Exception e) {
-				System.out.println("Edit User Controller has Error");
+				System.out.println("Create User Controller has Error");
 				message = "Edit User Controller has Error";
 				modelview.addObject("ERROR_CODE", "0");
 				modelview.addObject("message", message);
@@ -145,7 +145,52 @@ public class CustomerController {
 		}
 
 	}
-
+	
+	@RequestMapping(value = "/createCustomerJson", method = RequestMethod.POST)
+	public @ResponseBody AjaxResponse CreateCustomerJson(
+			HttpServletRequest request, Model model, HttpSession session,
+			@Valid @ModelAttribute("customer") Customer customer, BindingResult result){
+		AjaxResponse response = new AjaxResponse();
+		String message="";
+		String error_code="";
+		boolean check =false;
+		if(session.getAttribute("loginSession")!=null){
+			try{
+				
+			
+			if(!result.hasErrors()){
+				response.setErrorValidattionCheck(false);
+				boolean myCheck = customerService.createCustomer(customer);
+				if(myCheck){
+					message = "You have created Customer successfully!!!";
+					response.setCustomer(customer);
+					check =true;
+				}else{
+					message = "You have created Customer FAILED!!!";
+					error_code = "0";
+					check = false;
+				}
+			}else{
+				message="Getting Error with Validation";
+				error_code = "0";
+				response.setErrorValidattionCheck(true);
+				response.setErrorValidation(result.getAllErrors());
+			}
+		} catch(Exception e){
+			System.out.println("Create Customer Controller has Error");
+			message = "Create SavingAccount Controller has Error";
+			error_code = "0";
+			check = false;
+		}
+			response.setSuccess(check);
+			response.setMessage(message);
+			response.setError_code(error_code);
+			response.setLogin(true);
+	}else {
+		response.setLogin(false);
+	}
+		return response;
+	}
 	@RequestMapping(value = "/deleteCustomerJson", method = RequestMethod.POST)
 	public @ResponseBody AjaxResponse deteleUser(HttpServletRequest request,
 			HttpSession session) {
