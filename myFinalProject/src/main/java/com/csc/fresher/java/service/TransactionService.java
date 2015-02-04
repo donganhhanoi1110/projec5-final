@@ -1,10 +1,8 @@
 package com.csc.fresher.java.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,6 +84,56 @@ public class TransactionService {
 
 	public SavingAccount getAccountbyTranID(Transaction tran) {
 		return this.getTransactionDAO().getAccountbyTranID(tran);
+
+	}
+
+	public Date convertStringToDate(String mydate) {
+		Date date = null;
+		try {
+			SimpleDateFormat formatter;
+
+			formatter = new SimpleDateFormat("dd/MM/yyyy");
+			date = (Date) formatter.parse(mydate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+
+	public Date convertStringToDateDB(String mydate) {
+		Date date = null;
+		try {
+			SimpleDateFormat formatter;
+			// Fri Jan 30 10:54:23 ICT 2015
+			formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+			date = (Date) formatter.parse(mydate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+
+	public boolean checkDate(String dateStart, String dateEnd, String transStart) {
+
+		Date myDateStart = convertStringToDate(dateStart);
+		Date myDateEnd = convertStringToDate(dateEnd);
+		Date myTransStart = convertStringToDateDB(transStart);
+		
+		boolean res = false;
+		try{
+			if ((myTransStart.compareTo(myDateStart) >= 0) && (myTransStart.compareTo(myDateEnd) <= 0)) {
+				res = true;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			res = false;
+		}
+/*		 if ((myDateStart.getTime() <= myTransStart.getTime()) && (
+		 myTransStart.getTime() <= myDateEnd.getTime()) ) {
+		 return true;
+		 } else*/
+		return res;
 	}
 
 }
