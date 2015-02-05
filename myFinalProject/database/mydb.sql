@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 02, 2015 at 05:58 PM
+-- Generation Time: Feb 05, 2015 at 03:40 PM
 -- Server version: 5.5.39
 -- PHP Version: 5.4.31
 
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS `customer` (
 
 INSERT INTO `customer` (`account_number`, `account_type`, `first_name`, `last_name`, `mid_name`, `id_number`, `phone1`, `phone2`, `address1`, `address2`, `email`, `state`, `id`) VALUES
 (123, 'saving', 'Minh', 'Nguyen', 'Anh', '024939082', 1699988263, 1699988263, 'Bui Dinh Tuy', 'Bui Dinh Tuy', 'minh@gmail.com', 'active', 1),
-(234, 'saving', 'Ngan', 'Nguyen', '123', '123', 123, 123, '123', '123', '123', 'active', 3),
-(345, 'saving', 'Phu', 'Nguyen', '123', '234', 123, 123, '123', '123', '123', 'active', 4);
+(234, 'saving', 'Ngan', 'Pham', 'Le', '12345', 1699988263, 1699988263, 'bach Dang', 'bach Dang', 'ngan@gmail.com', 'active', 3),
+(345, 'saving', 'Phu', 'Nguyen', 'Xuan', '23456', 1699988263, 1699988263, '123', '123', '123', 'active', 4);
 
 -- --------------------------------------------------------
 
@@ -88,27 +88,29 @@ CREATE TABLE IF NOT EXISTS `savingaccount` (
   `savingaccount_number` int(11) NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `balance_amount` float DEFAULT NULL,
-  `repeatable` int(11) DEFAULT NULL,
+  `repeatable` varchar(11) DEFAULT NULL,
   `interest_rate_id` int(11) NOT NULL,
   `state` varchar(45) DEFAULT NULL,
   `date_start` varchar(45) DEFAULT NULL,
   `date_end` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=97 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=126 ;
 
 --
 -- Dumping data for table `savingaccount`
 --
 
 INSERT INTO `savingaccount` (`id`, `savingaccount_number`, `customer_id`, `balance_amount`, `repeatable`, `interest_rate_id`, `state`, `date_start`, `date_end`) VALUES
-(1, 123458, 1, 8234530, 0, 1, 'active', 'Mon Feb 02 22:20:02 ICT 2015', 'Mon Nov 02 22:20:02 ICT 2015'),
-(2, 1234592, 1, 30000, 0, 1, 'active', '22/11/2015', '22/12/2015'),
-(89, 123570, 1, 5000000, 0, 1, 'new', '11/02/2015', '02/02/2015'),
-(90, 123427, 1, 1000000, 0, 1, 'new', '01/06/2014', '02/02/2015'),
-(91, 123469, 1, 100000, 0, 1, 'active', '04/02/2015', '08/02/2015'),
-(93, 123604, 1, 111, 0, 1, 'new', '1111111', '1111111'),
-(94, 123533, 1, 111111, 0, 1, 'new', '11/02/2015', '18/02/2015'),
-(95, 123411, 1, 1111, 0, 1, 'new', '04/02/2015', '09/02/2015'),
-(96, 123579, 1, 111111, 0, 1, 'new', '05/02/2015', '10/02/2015');
+(1, 123458, 1, 57641700, '2', 1, 'active', 'Mon Feb 02 22:20:02 ICT 2015', 'Mon Nov 02 22:20:02 ICT 2015'),
+(113, 123672, 1, 7861840, '2', 1, 'new', '04/02/2015 12:00:16', '04/11/2015 12:00:16'),
+(117, 123565, 1, 7778610, '2', 1, 'new', '04/02/2015 12:11:04', '04/11/2015 12:11:04'),
+(118, 123568, 1, 86415, '2', 1, 'new', '04/02/2015 12:15:04', '04/11/2015 12:15:04'),
+(119, 123637, 1, 12345, '1', 1, 'new', '03/02/2015 12:21:22', '03/11/2015 12:21:22'),
+(120, 123660, 1, 86419900, '2', 1, 'new', '02/02/2015 12:21:46', '02/11/2015 12:21:46'),
+(121, 123456, 1, 8641990, '2', 1, 'new', '04/02/2015 12:24:39', '04/11/2015 12:24:39'),
+(122, 123411, 1, 86186100, '2', 1, 'new', '03/02/2015 12:40:54', '03/11/2015 12:40:54'),
+(123, 123495, 1, 12312300, '1', 1, 'new', '03/02/2015 12:41:23', '03/11/2015 12:41:23'),
+(124, 123512, 1, 1231110, '1', 1, 'new', '04/02/2015 12:41:46', '04/11/2015 12:41:46'),
+(125, 123515, 1, 111111, '1', 1, 'new', '03/02/2015 10:10:17', '03/11/2015 10:10:17');
 
 -- --------------------------------------------------------
 
@@ -126,24 +128,23 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `state` varchar(45) DEFAULT NULL,
   `current_balance` float DEFAULT NULL,
   `after_balance` float DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=75 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101 ;
 
 --
 -- Dumping data for table `transaction`
 --
 
 INSERT INTO `transaction` (`id`, `transaction_type`, `amount`, `date_start`, `date_end`, `saving_account_id`, `state`, `current_balance`, `after_balance`) VALUES
-(60, 'deposit', 10000, 'Fri Jan 30 10:54:23 ICT 2015', 'Fri Jan 30 11:09:12 ICT 2015', 1, 'done', 80000, 90000),
-(61, 'deposit', 10000, 'Fri Jan 30 11:18:55 ICT 2015', 'Fri Jan 30 11:19:14 ICT 2015', 1, 'done', 90000, 100000),
-(62, 'deposit', 10000, 'Fri Jan 30 11:19:29 ICT 2015', 'Sun Feb 01 17:41:44 ICT 2015', 1, 'done', 1000000, 5300000),
-(67, 'deposit', 1000000, 'Sun Feb 01 22:44:03 ICT 2015', '', 1, 'hold', 0, 0),
-(68, 'deposit', 1000000, 'Sun Feb 01 22:49:15 ICT 2015', NULL, 1, 'hold', 5300000, 0),
-(69, 'deposit', 1000000, 'Mon Feb 02 00:14:34 ICT 2015', 'Mon Feb 02 00:42:14 ICT 2015', 1, 'done', 5300000, 8357650),
-(70, 'deposit', 111, 'Mon Feb 02 21:05:03 ICT 2015', '', 93, 'new', 0, 111),
-(71, 'deposit', 111111, 'Mon Feb 02 21:16:49 ICT 2015', '', 94, 'new', 0, 111111),
-(72, 'deposit', 1111, 'Mon Feb 02 21:19:29 ICT 2015', '', 95, 'new', 0, 1111),
-(73, 'deposit', 111111, 'Mon Feb 02 21:37:14 ICT 2015', '', 96, 'new', 0, 111111),
-(74, 'withdraw', 123123, 'Mon Feb 02 22:19:15 ICT 2015', 'Mon Feb 02 22:20:02 ICT 2015', 1, 'done', 8357650, 8234530);
+(84, 'deposit', 0, '03/02/2015 11:03:08', NULL, 1, 'hold', 8234530, 0),
+(85, 'deposit', 0, '03/02/2015 11:15:58', NULL, 1, 'hold', 8234530, 0),
+(86, 'deposit', 1231230, '03/02/2015 11:34:48', NULL, 1, 'hold', 8234530, 0),
+(93, 'deposit', 1123120, 'Wed Feb 04 00:00:17 ICT 2015', '', 113, 'new', 0, 1123120),
+(95, 'deposit', 12345, 'Wed Feb 04 00:15:04 ICT 2015', '', 118, 'new', 0, 12345),
+(96, 'deposit', 12345, 'Wed Feb 04 00:21:22 ICT 2015', '', 119, 'new', 0, 12345),
+(97, 'deposit', 12345700, 'Wed Feb 04 00:21:46 ICT 2015', '', 120, 'new', 0, 12345700),
+(98, 'deposit', 1234570, 'Wed Feb 04 00:24:39 ICT 2015', '', 121, 'new', 0, 1234570),
+(99, 'deposit', 12322300, '04/02/2015 10:08:52', NULL, 1, 'hold', 8234530, 0),
+(100, 'deposit', 111111, '04/02/2015 10:10:17', '', 125, 'new', 0, 111111);
 
 -- --------------------------------------------------------
 
@@ -155,17 +156,7 @@ CREATE TABLE IF NOT EXISTS `transactionuser` (
 `id` int(11) NOT NULL,
   `transaction_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=70 ;
-
---
--- Dumping data for table `transactionuser`
---
-
-INSERT INTO `transactionuser` (`id`, `transaction_id`, `user_id`) VALUES
-(67, 68, 10),
-(68, 69, 10),
-(69, 74, 10),
-(66, 67, 14);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -319,17 +310,17 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 -- AUTO_INCREMENT for table `savingaccount`
 --
 ALTER TABLE `savingaccount`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=97;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=126;
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=75;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=101;
 --
 -- AUTO_INCREMENT for table `transactionuser`
 --
 ALTER TABLE `transactionuser`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=70;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user`
 --

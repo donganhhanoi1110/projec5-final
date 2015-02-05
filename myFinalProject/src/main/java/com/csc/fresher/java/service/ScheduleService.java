@@ -18,8 +18,8 @@ public class ScheduleService implements Job {
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 
-		String message=savingAccountService.myAfterBalanceAmount();
-		System.out.println(message);
+		//String message=savingAccountService.myAfterBalanceAmount();
+		System.out.println("Minh");
 	}
 
 }

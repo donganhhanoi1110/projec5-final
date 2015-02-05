@@ -45,7 +45,7 @@ public class JobScheduler implements ServletContextListener {
 			simpleTrigger.setStartTime(toDay);
 			//simpleTrigger.setStartTime(toDay);
 			simpleTrigger.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-			simpleTrigger.setRepeatInterval(15000);
+			simpleTrigger.setRepeatInterval(5000);
 			simpleTrigger.setName("TestQuartz");
 			
 	    	

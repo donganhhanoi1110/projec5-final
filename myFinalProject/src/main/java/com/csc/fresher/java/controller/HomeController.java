@@ -88,7 +88,7 @@ public class HomeController {
 //						System.out.println(mysaving.getSavingAccountNumber() + " repeat: "+ mysaving.getRepeatable());
 //			}
 			
-			System.out.println("Message My After Balance: "+savingaccountService.myAfterBalanceAmount());
+			//System.out.println("Message My After Balance: "+savingaccountService.myAfterBalanceAmount());
 			modelview.addObject("loginSession", principal.getName());
 
 		} catch (Exception e) {
