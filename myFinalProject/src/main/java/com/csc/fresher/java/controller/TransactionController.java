@@ -306,6 +306,8 @@ public class TransactionController {
 					transaction.setTransactionType("withdrawAll");					
 					transaction.setAmount(currentBalance);
 					
+					
+					
 				}
 				if(request.getParameter("chooseAmmount").equals("apart")){
 					transaction.setTransactionType("withdraw");
@@ -542,7 +544,7 @@ public class TransactionController {
 						.getParameter("TransactionId"));
 				Transaction tran = transactionService
 						.getTransaction(TransactionId);
-				if (tran.getTransactionType().equals("withdraw")) {
+				if (tran.getTransactionType().startsWith("withdraw")) {
 					
 					if (!transactionService.ApproveWithdraw(tran)) {
 						message = "Approve Transaction" + TransactionId

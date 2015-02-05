@@ -106,7 +106,7 @@ public class TransactionService {
 		Date dateEnd = formatter.parse(savingAccount.getDateEnd());
 		float totalAmount = 0;
 		float interestPerDay=0;
-		int interest=0;
+		float interest=0;
 		Date date = new Date();
 		if(tran.getTransactionType().equals("withdrawAll")){
 			if (startWithdraw.compareTo(dateEnd) >= 0) {
@@ -117,7 +117,7 @@ public class TransactionService {
 				List<InterestRate> interestRate = interestRateService.getInterestRateList();
 				for(InterestRate a:interestRate){
 					if(a.getMonth()==0){
-						interest=a.getMonth();
+						interest=a.getInterestRate();
 						break;
 					}
 				}
@@ -132,7 +132,7 @@ public class TransactionService {
 			// update trasaction
 						tran.setAmount(totalAmount);
 						tran.setState("done");
-						tran.setDateEnd(date.toString());
+						tran.setDateEnd(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(date));
 						tran.setAfterBalance(0);
 						tran.setCurrentBalance(totalAmount);
 						tran.setSavingAccountId(savingAccount);
@@ -160,16 +160,16 @@ public class TransactionService {
 					*days*interestPerDay;
 			// update Saving Account
 			savingAccount.setBalanceAmount(totalAmount-tran.getAmount());
-			savingAccount.setDateStart(date.toString());
+			savingAccount.setDateStart(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(date));
 					//next day
 			InterestRate interestRate =savingAccount.getInterestRateId();
 			Date nextMonths =DateUtils.addMonths(date, interestRate.getMonth());
-			savingAccount.setDateEnd(nextMonths.toString());
+			savingAccount.setDateEnd(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(nextMonths));
 			savingAccount.setState("active");						
 			savingAccountService.updateSavingAccount(savingAccount);
 			//update transaction
 			tran.setState("done");
-			tran.setDateEnd(date.toString());
+			tran.setDateEnd(new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(date));
 			tran.setAfterBalance(totalAmount-tran.getAmount());
 			tran.setCurrentBalance(totalAmount);
 			tran.setSavingAccountId(savingAccount);
