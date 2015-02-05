@@ -105,16 +105,20 @@
 				<!-- Start search -->
 
 				<form action="searchTransaction.html" method="post">
+					<input type="hidden" name="${_csrf.parameterName}"
+						style="width: 15px; height: 30px;" value="${_csrf.token}" />
 					<table>
 						<tr>
-							<td><input type="hidden" name="${_csrf.parameterName}"
-								style="width: 15px; height: 30px;" value="${_csrf.token}" /></td>
+
 							<th valign="top">Date Start:</th>
 							<td><input class="textox datepicker" name="dateStart" /></td>
+							<td></td>
+						</tr>
+						<tr>
 							<th valign="top">Date End:</th>
 							<td><input class="textox datepicker" name="dateEnd" /></td>
 
-							<td><input type="submit" value="Search"
+							<td ><input type="submit" value="Search"
 								id="searchTransaction" /></td>
 						</tr>
 					</table>

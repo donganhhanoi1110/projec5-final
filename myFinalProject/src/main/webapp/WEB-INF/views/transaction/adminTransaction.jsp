@@ -44,7 +44,7 @@
 
 			<li><a href="homeTransaction.html">Home Transaction</a></li>
 			<li><a href="viewTransaction.html">View All Transaction</a></li>
-	<li>
+			<li>
 				<form action="searchSavingAccount.html" method="post">
 					<table>
 
@@ -92,16 +92,22 @@
 					</h1>
 
 				</div>
-				<div class="panel-body">
-					<div><!-- Start search -->
-						
+				<div >
+					<div>
+						<h1>Waiting Transaction</h1>
+						<!-- Start search -->
+
 						<form action="searchTransaction.html" method="post">
+							<input type="hidden" name="${_csrf.parameterName}"
+								style="width: 15px; height: 30px;" value="${_csrf.token}" />
 							<table>
 								<tr>
-									<td><input type="hidden" name="${_csrf.parameterName}"
-										style="width: 15px; height: 30px;" value="${_csrf.token}" /></td>
+
 									<th valign="top">Date Start:</th>
 									<td><input class="textox datepicker" name="dateStart" /></td>
+									<td></td>
+								</tr>
+								<tr>
 									<th valign="top">Date End:</th>
 									<td><input class="textox datepicker" name="dateEnd" /></td>
 
@@ -112,7 +118,7 @@
 						</form>
 					</div>
 					<!-- End search -->
-					<h1>Waiting Transaction</h1>
+				
 					<div class="dataTable_wrapper">
 						<table class="mytable1 table table-striped table-bordered "
 							id="table">
