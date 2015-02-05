@@ -37,7 +37,25 @@
 			responsive : true
 		});
 		/*For Create new Transaciton  */
-		
+		$("#inlineRadio2").change(function(e){
+			$("#amountTran").attr('disabled', false);
+		});
+		$("#inlineRadio1").change(function(e){
+			$("#amountTran").attr('disabled', true);
+		});
+		$("#amountTran").attr('disabled', false);
+		$(".radio-inline").hide();
+		$("#typeTran").change(function(e){
+			//alert($(this).val());
+			var selectedItem = $(this).val();
+			if (selectedItem == "deposit") {
+				$(".radio-inline").slideUp();
+				$("#amountTran").attr('disabled', false);
+			} else if (selectedItem == "withdraw"){
+				$(".radio-inline").slideDown();
+				$("#amountTran").attr('disabled', true);
+			}
+		});
 	});
 </script>
 <script src="js/popup/createSavingAccountOnSearchPage.js"></script>
@@ -261,7 +279,15 @@
 							<tr>
 								<th valign="top"><form:label path="amount">Amount</form:label>
 								</th>
-								<td><form:input path="amount" class="form-control " id="amountTran" /></td>
+								<td>
+									<label class="radio-inline">
+									  <input type="radio" name="chooseAmmount" id="inlineRadio1" value="all" checked> All
+									</label>
+									<label class="radio-inline">
+									  <input type="radio" name="chooseAmmount" id="inlineRadio2" value="apart"> 2
+									</label>
+									<form:input path="amount" class="form-control " id="amountTran" />
+								</td>
 							</tr>
 							<tr>
 								<th valign="top"><form:label path="savingAccountId.savingAccountNumber">Saving Account</form:label></th>
