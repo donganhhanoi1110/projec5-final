@@ -294,17 +294,28 @@ public class TransactionController {
 		String message = "";
 		String error_code = "";
 		boolean check = false;
-
+		request.getParameter("chooseAmmount");
 		if (session.getAttribute("loginSession") != null) {
 			Date dateStart = new Date();
 			SavingAccount savingAccount = savingAccountService
 					.getSavingAccountByNumber(transaction.getSavingAccountId().getSavingAccountNumber());
 
 			float currentBalance = savingAccount.getBalanceAmount();
+			if(transaction.getTransactionType().equals("withdraw")){
+				if(request.getParameter("chooseAmmount").equals("all")){
+					transaction.setTransactionType("withdrawAll");					
+					transaction.setAmount(currentBalance);
+					
+				}
+				if(request.getParameter("chooseAmmount").equals("apart")){
+					transaction.setTransactionType("withdraw");
+				}
+			}
 			transaction.setCurrentBalance(currentBalance);
 			transaction.setDateStart(savingAccountService
 					.convertDateToString(dateStart));
 			transaction.setState("hold");
+			
 			try {
 				System.out.println("Json Saving Account: "
 						+ transaction.toString());
@@ -532,6 +543,7 @@ public class TransactionController {
 				Transaction tran = transactionService
 						.getTransaction(TransactionId);
 				if (tran.getTransactionType().equals("withdraw")) {
+					
 					if (!transactionService.ApproveWithdraw(tran)) {
 						message = "Approve Transaction" + TransactionId
 								+ " FAIL";
@@ -720,32 +732,4 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
-	@RequestMapping(value = "/searchTransaction", method = RequestMethod.POST)
-	public ModelAndView createTransactionAttribute(HttpServletRequest request,
-			Model model, HttpSession session) {
-		// Create a new AccountDAO
-		User user = null;
-		String dateStart = request.getParameter("dateStart");
-		String dateEnd = request.getParameter("dateEnd");
-		System.out.println("Date Format" + dateStart);
-		ModelAndView modelAndView = new ModelAndView("searchTran");
-		if (session.getAttribute("loginSession") != null) {
-
-			List<Transaction> listTrans = new ArrayList<Transaction>();
-			List<Transaction> listTransaction = transactionService
-					.getAllTransaction();
-			for (Transaction trans : listTransaction) {
-				if (transactionService.checkDate(dateStart, dateEnd,
-						trans.getDateStart()) == true) {
-					listTrans.add(trans);
-				}
-			}
-
-			modelAndView.addObject("listTrans", listTrans);
-			return modelAndView;
-		} else {
-			return new ModelAndView("redirect:/login");
-		}
-	}	
-	
 }
