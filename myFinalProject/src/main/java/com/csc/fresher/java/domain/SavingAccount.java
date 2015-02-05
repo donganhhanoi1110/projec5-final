@@ -45,7 +45,7 @@ public class SavingAccount {
 
 	@Column(name = "repeatable")
 	@NotNull(message="Saving Account Number Cant Be Null")
-	private Integer repeatable;
+	private String repeatable;
 
 	@Column(name = "state")
 	@NotEmpty(message = "Please Input Select State.") 
@@ -70,7 +70,7 @@ public class SavingAccount {
 	private List<Transaction> transactions;
 
 	public SavingAccount(Integer id, Integer savingAccountNumber, Float balanceAmount,
-			Integer repeatable, String state, String dateStart, String dateEnd,
+			String repeatable, String state, String dateStart, String dateEnd,
 			Customer customerId, InterestRate interestRateId,
 			List<Transaction> transactions) {
 		super();
@@ -112,7 +112,7 @@ public class SavingAccount {
 		this.dateEnd = dateEnd;
 	}
 
-	public SavingAccount(Integer id, Float balanceAmount, Integer repeatable,
+	public SavingAccount(Integer id, Float balanceAmount, String repeatable,
 			String state, Customer customerId, InterestRate interestRateId,
 			List<Transaction> transactions, Integer savingaccountnumber) {
 		super();
@@ -166,15 +166,15 @@ public class SavingAccount {
 		this.balanceAmount = i;
 	}
 
-	public Integer getRepeatable() {
+	public String getRepeatable() {
 		return repeatable;
 	}
 
-	public void setRepeatable(Integer repeatable) {
+	public void setRepeatable(String repeatable) {
 		this.repeatable = repeatable;
 	}
 
-	public SavingAccount(Integer id, Float balanceAmount, Integer repeatable,
+	public SavingAccount(Integer id, Float balanceAmount, String repeatable,
 			String state) {
 		super();
 
@@ -197,7 +197,7 @@ public class SavingAccount {
 
 	}
 
-	public SavingAccount(Integer id, Float balanceAmount, Integer repeatable,
+	public SavingAccount(Integer id, Float balanceAmount, String repeatable,
 			String state, Customer customerId, Integer savingaccountnumber) {
 		super();
 		this.id = id;
@@ -216,7 +216,7 @@ public class SavingAccount {
 		this.interestRateId = interestRateId;
 	}
 
-	public SavingAccount(Integer id, Float balanceAmount, Integer repeatable,
+	public SavingAccount(Integer id, Float balanceAmount, String repeatable,
 			String state, Customer customerId, InterestRate interestRateId) {
 		super();
 		this.id = id;

@@ -61,7 +61,7 @@ public class HomeController {
 		// Get the list of all accounts from DB
 		try {
 			
-
+			
 			modelview.addObject("listUser", userService.getAllUser());
 
 			return modelview;
@@ -81,7 +81,14 @@ public class HomeController {
 		String error_code = request.getParameter("ERROR_CODE");
 		ModelAndView modelview = new ModelAndView("home");
 		try {
-		
+//			List<SavingAccount> list=savingaccountService.getListSavingAccountByRepeatable("0");
+//			for(SavingAccount mysaving:list)
+//			{
+//				
+//						System.out.println(mysaving.getSavingAccountNumber() + " repeat: "+ mysaving.getRepeatable());
+//			}
+			
+			System.out.println("Message My After Balance: "+savingaccountService.myAfterBalanceAmount());
 			modelview.addObject("loginSession", principal.getName());
 
 		} catch (Exception e) {

@@ -275,9 +275,7 @@
 										class="form-control">
 										<form:option value="deposit">deposit</form:option>
 										<form:option value="withdraw">withdraw</form:option>
-
 									</form:select></td>
-
 							</tr>
 							<tr>
 								<td></td>

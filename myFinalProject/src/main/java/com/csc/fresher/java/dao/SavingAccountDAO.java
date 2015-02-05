@@ -3,6 +3,7 @@
 package com.csc.fresher.java.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import com.csc.fresher.java.domain.Customer;
 import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
 import com.csc.fresher.java.domain.SavingAccount;
+import com.csc.fresher.java.service.SavingAccountService;
 
 @Repository("savingAccountDAO")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -26,8 +29,9 @@ public class SavingAccountDAO {
 	@PersistenceContext
 	public EntityManager entityManager;
 
+	SavingAccountService savingAccSer = new SavingAccountService();
+
 	@Transactional
-	@SuppressWarnings("unchecked")
 	public SavingAccount getSavingAccount(int id) {
 		SavingAccount SavingAccount = null;
 		try {
@@ -47,6 +51,7 @@ public class SavingAccountDAO {
 
 	}
 
+	@Transactional
 	public List<SavingAccount> getSavingAccountByState(String state) {
 		List<SavingAccount> list = null;
 		try {
@@ -64,6 +69,7 @@ public class SavingAccountDAO {
 
 	}
 
+	@Transactional
 	public SavingAccount getSavingAccountByNumber(int savingaccount_number) {
 
 		SavingAccount savingAccount = null;
@@ -84,6 +90,7 @@ public class SavingAccountDAO {
 		return savingAccount;
 	}
 
+	@Transactional
 	public List<SavingAccount> getSavingAccountByCustomerIDNumber(
 			String IDNumber) {
 
@@ -105,6 +112,28 @@ public class SavingAccountDAO {
 		return list;
 	}
 
+	@Transactional
+	public List<SavingAccount> getListSavingAccountByRepeatable(String repeat) {
+
+		List<SavingAccount> list = null;
+
+		try {
+
+			TypedQuery<SavingAccount> query = entityManager.createQuery(
+					"SELECT s FROM " + SavingAccount.class.getName()
+							+ " s where s.repeatable=:repeat",
+					SavingAccount.class);
+			query.setParameter("repeat", repeat);
+			list = query.getResultList();
+			System.out.println("Get Saving Account List Repeateable");
+		} catch (Exception e) {
+			System.out.println("Error get Saving Account List Repeateable");
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Transactional
 	public List<SavingAccount> getSavingAccountListbyCustomerId(int id) {
 
 		List<SavingAccount> list = null;
@@ -125,6 +154,7 @@ public class SavingAccountDAO {
 		return list;
 	}
 
+	@Transactional
 	public List<SavingAccount> getSavingAccountList() {
 
 		List<SavingAccount> list = null;
@@ -144,12 +174,11 @@ public class SavingAccountDAO {
 	}
 
 	@Transactional
-	@SuppressWarnings("unchecked")
 	public boolean createSavingAccount(SavingAccount savingAccount) {
 		boolean check = false;
 
 		try {
-			
+
 			// Insert a row to SavingAccount table
 			entityManager.persist(savingAccount);
 			check = true;
@@ -167,9 +196,9 @@ public class SavingAccountDAO {
 
 		boolean check = false;
 		try {
-			
+
 			entityManager.merge(savingAccount);
-			entityManager.flush();
+
 			check = true;
 			System.out.println("SavingAccount " + savingAccount.getId()
 					+ "updated");
@@ -208,5 +237,63 @@ public class SavingAccountDAO {
 		}
 		return check;
 	}
-	
+
+	// calculator amount interest rate for after balance and calculator amount
+	// interest rate to present
+	public String myAfterBalanceAmount() {
+		int max = 0;
+		List<SavingAccount> acc = null;
+		try {
+			System.out.println("Before");
+			acc = getListSavingAccountByRepeatable("0");
+			for (SavingAccount savingAcc2 : acc) {
+				int maxRepeat = Integer.parseInt(savingAcc2.getRepeatable());
+				if (maxRepeat > max) {
+					max = maxRepeat;
+				}
+			}
+			for (SavingAccount savingAcc : acc) {
+
+				if (savingAcc.getState().equals("active")) {
+					int maxRepeat = Integer.parseInt(savingAcc.getRepeatable());
+
+					Date date = new Date();
+					Date systemDate = savingAccSer
+							.convertStringToDate(savingAccSer
+									.convertDateToString(date));
+
+					Date dateEnd = savingAccSer.convertStringToDate(savingAcc
+							.getDateEnd());
+
+					if (systemDate.getTime() == dateEnd.getTime()) {
+						Date newEndDate = DateUtils.addMonths(systemDate, savingAcc.getInterestRateId().getMonth());
+						
+						float balance = savingAcc.getBalanceAmount();
+						float interest = savingAcc.getInterestRateId()
+								.getInterestRate();
+
+						int month = savingAcc.getInterestRateId().getMonth();
+						float amountAll = balance
+								+ (balance * (interest / (100)) * month);
+						savingAcc.setDateStart(savingAccSer.convertDateToString(systemDate));
+						savingAcc.setDateEnd(savingAccSer.convertDateToString(newEndDate));
+						savingAcc.setBalanceAmount(amountAll);
+						savingAcc.setRepeatable("" + (maxRepeat + 1));
+					}
+
+					updateSavingAccount(savingAcc);
+				}
+			}
+
+			System.out.println("Minh Map");
+			return "success";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception");
+
+		}
+		return "Fail";
+	}
+
 }

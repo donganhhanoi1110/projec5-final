@@ -12,7 +12,14 @@
 <title>CSC Banking System</title>
 
 <script src="js/popup/getTransactionsPopup.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#table").DataTable({
+		responsive : true
+	});
+});
 
+</script>
 </head>
 <body>
 	<jsp:include page="popup/getTransactionPopup.jsp"></jsp:include>
@@ -68,7 +75,7 @@
 						</c:if>
 					</h1>
 					<h1>Saving Account Information</h1>
-					
+
 
 				</div>
 
@@ -101,9 +108,9 @@
 
 									<tr>
 										<td>${savingAccount.savingAccountNumber}</td>
-									<td>${savingAccount.customerId.lastName} &nbsp;
-										${savingAccount.customerId.midName} &nbsp;
-										${savingAccount.customerId.firstName} </td>
+										<td>${savingAccount.customerId.lastName}&nbsp;
+											${savingAccount.customerId.midName} &nbsp;
+											${savingAccount.customerId.firstName}</td>
 										<td>${savingAccount.balanceAmount}</td>
 										<td>${savingAccount.repeatable}</td>
 										<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
@@ -140,7 +147,7 @@
 
 	</div>
 
-	
+
 
 </body>
 </html>

@@ -41,7 +41,10 @@ public class SavingAccountService {
 	public List<SavingAccount> getSavingAccountList() {
 		return this.savingAccountDAO.getSavingAccountList();
 	}
-
+	public List<SavingAccount> getListSavingAccountByRepeatable(
+			String repeat) {
+		return this.savingAccountDAO.getListSavingAccountByRepeatable(repeat);
+	}
 	public boolean createSavingAccount(SavingAccount SavingAccount) {
 		return this.getSavingAccountDAO().createSavingAccount(SavingAccount);
 	}
@@ -146,6 +149,10 @@ public class SavingAccountService {
 	public String convertTimeToString(Date date) {
 		String myDate = new SimpleDateFormat("hh:mm:ss").format(date);
 		return myDate;
+	}
+	
+	public String myAfterBalanceAmount() {
+		return this.savingAccountDAO.myAfterBalanceAmount();
 	}
 	public static void main(String[] args) {
 		 String d1 = "20/11/2015 00:00:00";
