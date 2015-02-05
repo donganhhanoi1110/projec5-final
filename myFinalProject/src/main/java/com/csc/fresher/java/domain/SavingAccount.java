@@ -40,7 +40,6 @@ public class SavingAccount {
 
 	@Column(name = "balance_amount")
 	@NotNull(message="Balance Amount Cant Be Null")
-	@Min(10000)//,message="Balance Amount must be greater ")
 	private Float balanceAmount;
 
 	@Column(name = "repeatable")
