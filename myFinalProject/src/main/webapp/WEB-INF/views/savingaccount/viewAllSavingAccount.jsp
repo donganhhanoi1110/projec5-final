@@ -116,7 +116,7 @@ $(document).ready(function(){
 										<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
 											${savingAccount.interestRateId.interestRate}%&nbsp;
 											(${savingAccount.interestRateId.currency})</td>
-									
+										<td>${savingAccount.state}</td>
 										<td>${savingAccount.dateStart}</td>
 										<td>${savingAccount.dateEnd}</td>
 										<td><a
