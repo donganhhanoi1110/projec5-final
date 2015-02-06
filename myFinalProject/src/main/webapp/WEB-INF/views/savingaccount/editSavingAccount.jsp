@@ -54,7 +54,7 @@
 		<div id="content">
 
 			<!--  start page-heading -->
-		
+
 
 			<div id="content-table-inner">
 				<div id="page-heading">
@@ -94,7 +94,7 @@
 										<th valign="top"><form:label path="savingAccountNumber">Saving Account Number</form:label>
 										</th>
 										<td><form:input path="savingAccountNumber"
-												class="form-control" /></td>
+												class="form-control" readonly="true" /></td>
 									</tr>
 									<tr>
 										<th valign="top"><form:label path="balanceAmount">Balance Amount</form:label>
@@ -131,7 +131,7 @@
 											</form:select></td>
 									</tr>
 									<tr>
-										<th valign="top"><form:label path="interestRateId.id">Saving Account</form:label></th>
+										<th valign="top"><form:label path="interestRateId.id">Saving Account Type</form:label></th>
 										<td><form:select path="interestRateId.id"
 												multiple="false" class="form-control">
 												<form:options items="${interestrateList}" itemValue="id"
@@ -147,8 +147,12 @@
 									</tr>
 									<tr>
 										<td></td>
-										<td><input type="submit" class="myButton" value="Save"
-											id="addAccount" /></td>
+										<td><div class=" myButton ">
+												<span class="fa fa-floppy-o"></span> <input type="submit"
+													value="Save" id="addAccount" class=" myButtonNone"/>
+											</div>
+											
+											</td>
 
 									</tr>
 								</table>

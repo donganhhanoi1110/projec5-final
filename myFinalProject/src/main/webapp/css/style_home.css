@@ -2,8 +2,13 @@
 	margin: 0px;
 	padding: 0px;
 }
-.myFooter1{
-	
+
+.myButtonNone {
+	background: none;
+	border: none;
+}
+
+.myFooter1 {
 	background-image: url(../images/myimage/footer.png);
 	min-height: 160px;
 	background-repeat: no-repeat;
@@ -14,6 +19,7 @@
 	border-top: 1px solid whitesmoke;
 	/* box-shadow: 1px 1px 1px rgba(0,0,0,8.5); */
 }
+
 .searchBox {
 	width: 150px;
 	height: 20px;
@@ -164,7 +170,6 @@
 	border-bottom: 4px solid #9ea7af;
 	border-right: 1px solid #343a45;
 	font-size: small;
-
 	padding: 10px;
 	text-align: left;
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -332,7 +337,7 @@
 	text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
 }
 
-.myFooter1 > label {
+.myFooter1>label {
 	color: yellowgreen;
 	margin: 10px;
 }

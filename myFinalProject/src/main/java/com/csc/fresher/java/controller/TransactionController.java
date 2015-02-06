@@ -764,7 +764,7 @@ public class TransactionController {
 			List<Transaction> listTransaction = transactionService
 					.getAllTransaction();
 			for (Transaction trans : listTransaction) {
-				if (transactionService.checkDate(dateStart, dateEnd,
+				if (savingAccountService.checkDate(dateStart, dateEnd,
 						trans.getDateStart()) == true) {
 					listTrans.add(trans);
 				}

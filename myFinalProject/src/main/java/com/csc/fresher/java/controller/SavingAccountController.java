@@ -389,7 +389,10 @@ public class SavingAccountController {
 				System.out.println(savingAccount.toString()
 						+ "-Edit SavingAccount");
 				modelview.addObject("savingaccount", savingAccount);
-				List<Customer> cus = customerService.getAllCustomer();
+				List<Customer> cus = new ArrayList<Customer>();
+				Customer myCus=customerService.getCustomerBySavingAccountId(savingAccount);
+				cus.add(myCus);
+				
 				List<InterestRate> interestRate = interestRateService
 						.getInterestRateList();
 				String[] states = { "new", "hold", "done" };

@@ -92,33 +92,32 @@
 					</h1>
 
 				</div>
-				<div >
+				<div>
 					<div>
 						<h1>Waiting Transaction</h1>
 						<!-- Start search -->
-
-						<form action="searchTransaction.html" method="post">
+						<form action="searchTransaction.html" method="post"
+							style="width: 400px; margin-bottom: 20px;">
 							<input type="hidden" name="${_csrf.parameterName}"
 								style="width: 15px; height: 30px;" value="${_csrf.token}" />
-							<table>
-								<tr>
+							<div class="form-group">
+								<label>Date Start:</label> <input
+									class="textox datepicker form-control" name="dateStart" />
+							</div>
+							<div class="form-group">
+								<label>Date End:</label> <input
+									class="textox datepicker form-control" name="dateEnd" />
+							</div>
 
-									<th valign="top">Date Start:</th>
-									<td><input class="textox datepicker" name="dateStart" /></td>
-									<td></td>
-								</tr>
-								<tr>
-									<th valign="top">Date End:</th>
-									<td><input class="textox datepicker" name="dateEnd" /></td>
-
-									<td><input type="submit" value="Search"
-										id="searchTransaction" /></td>
-								</tr>
-							</table>
+							<div class=" myButton ">
+								<span class="fa fa-search"></span> <input type="submit"
+									value="Search" id="searchTransaction" class=" myButtonNone" />
+							</div>
 						</form>
+						<div class="clearfix"></div>
 					</div>
 					<!-- End search -->
-				
+
 					<div class="dataTable_wrapper">
 						<table class="mytable1 table table-striped table-bordered "
 							id="table">

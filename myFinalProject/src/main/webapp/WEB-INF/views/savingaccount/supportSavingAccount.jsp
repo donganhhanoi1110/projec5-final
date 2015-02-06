@@ -95,8 +95,8 @@
 				<div>
 					<h1>New Saving Account</h1>
 					<sec:authorize access="hasRole('support')">
-						<button class="addSavingAccount myButton" value="addSavingAccount">
-							>>Add New Saving Account<<</button>
+						<button class="addSavingAccount myButton " value="addSavingAccount">
+							<span class="fa fa-plus"></span> Add New Saving Account</button>
 					</sec:authorize>
 				</div>
 				<div class="panel-body">

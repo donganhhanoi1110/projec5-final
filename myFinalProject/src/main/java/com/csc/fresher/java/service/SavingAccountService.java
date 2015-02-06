@@ -141,7 +141,29 @@ public class SavingAccountService {
 		}
 		return date;
 	}
-
+	
+	public boolean checkDate(String dateStart, String dateEnd, String transStart) {
+		
+		Date myDateStart = convertStringToDate(dateStart);
+		Date myDateEnd = convertStringToDate(dateEnd);
+		Date myTransStart = convertStringToDate(transStart);
+		
+		boolean res = false;
+		try{
+			if ((myTransStart.compareTo(myDateStart) >= 0) && (myTransStart.compareTo(myDateEnd) <= 0)) {
+				res = true;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			res = false;
+		}
+/*		 if ((myDateStart.getTime() <= myTransStart.getTime()) && (
+		 myTransStart.getTime() <= myDateEnd.getTime()) ) {
+		 return true;
+		 } else*/
+		return res;
+	}
 	public String convertDateToString(Date date) {
 		String myDate = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(date);
 		return myDate;

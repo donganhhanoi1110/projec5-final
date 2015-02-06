@@ -201,7 +201,9 @@
 							</table>
 						</div>
 					</div>
-
+					<div>
+						<h2>Customer Information</h2>
+					</div>
 					<!--End If check for Account Information, null => dont show  -->
 					<table id="id-form" class="table table-striped table-bordered">
 
@@ -251,8 +253,8 @@
 						<sec:authorize access="hasRole('support')">
 							<tr>
 
-								<td><input type="button" class="myButton"
-									value="Create SavingAccount" id="createMySavingAccount" /></td>
+								<td><button type="button" class="myButton"
+									 id="createMySavingAccount" ><span class="fa fa-plus"> </span>Create New Saving Account</button></td>
 
 							</tr>
 						</sec:authorize>
@@ -290,9 +292,9 @@
 							</tr>
 							<tr>
 								<th valign="top"><form:label
-										path="savingAccountId.savingAccountNumber">Saving Account</form:label></th>
+										path="savingAccountId.savingAccountNumber">Saving Account Number</form:label></th>
 								<td><form:input path="savingAccountId.savingAccountNumber"
-										class="form-control " id="savingAccountId" /></td>
+										class="form-control " id="savingAccountId" readonly="true" /></td>
 							</tr>
 							<tr>
 								<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
@@ -305,14 +307,15 @@
 							<tr>
 								<td></td>
 								<td><button class="myButton"
-										id="addTransactionJsonOnSearchPage" value="Save">Save</button></td>
-
+										id="addTransactionJsonOnSearchPage" value="Save">
+										<span class="fa fa-floppy-o"></span>Save
+									</button>
 							</tr>
 						</table>
 					</form:form>
 
 					<!-- Saving Account Information  -->
-					<table class="myPadding table-striped table-bordered "
+					<table class="mytable1 table table-striped table-bordered "
 						id="tableShowSavingAccInfo">
 						<thead>
 							<tr>
@@ -417,8 +420,13 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td><input type="submit" class="myButton" value="Save"
-							id="addSavingAccountSubmit" /></td>
+						<td>
+							<div class=" myButton ">
+								<span class="fa fa-floppy-o"></span> <input type="submit"
+									value="Save" id="addSavingAccountSubmit" class=" myButtonNone" />
+							</div>
+
+						</td>
 
 					</tr>
 				</table>

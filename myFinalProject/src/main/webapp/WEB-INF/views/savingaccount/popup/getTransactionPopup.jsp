@@ -6,8 +6,8 @@
 						<div>
 						
 
-							<div>
-								<table class="myPadding table-striped table-bordered "
+							<div class="dataTable_wrapper">
+								<table class="mytable1 table table-striped table-bordered "
 									id="tableGetTransactions">
 									<thead>
 										<tr>

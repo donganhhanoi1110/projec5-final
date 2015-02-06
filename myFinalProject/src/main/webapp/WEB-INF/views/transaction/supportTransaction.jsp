@@ -57,7 +57,8 @@
 									<option value="accountNumber">Account Number</option>
 									<option value="idNumber">ID Number's Customer</option>
 							</select></td>
-							<td><input type="submit" value="Search" id="addAccount" class="myButton"/></td>
+							<td><input type="submit" value="Search" id="addAccount"
+								class="myButton" /></td>
 						</tr>
 
 					</table>
@@ -101,19 +102,23 @@
 			<div class="panel-body">
 				<h1>Done Transaction Information</h1>
 				<!-- Start search -->
-				<form action="searchTransaction.html" method="post" style="width: 400px; margin-bottom: 20px;">
+				<form action="searchTransaction.html" method="post"
+					style="width: 400px; margin-bottom: 20px;">
 					<input type="hidden" name="${_csrf.parameterName}"
 						style="width: 15px; height: 30px;" value="${_csrf.token}" />
-					  <div class="form-group">
-					    <label>Date Start:</label>
-					    <input class="textox datepicker form-control" name="dateStart" />
-					  </div>
-					  <div class="form-group">
-					    <label>Date End:</label>
-					    <input class="textox datepicker form-control" name="dateEnd" />
-					  </div>
-					  <input type="submit" value="Search"
-								id="searchTransaction" class="myButton"/>
+					<div class="form-group">
+						<label>Date Start:</label> <input
+							class="textox datepicker form-control" name="dateStart" />
+					</div>
+					<div class="form-group">
+						<label>Date End:</label> <input
+							class="textox datepicker form-control" name="dateEnd" />
+					</div>
+
+					<div class=" myButton ">
+						<span class="fa fa-search"></span> <input type="submit"
+							value="Search" id="searchTransaction" class=" myButtonNone" />
+					</div>
 				</form>
 				<div class="clearfix"></div>
 				<div class="dataTable_wrapper">
