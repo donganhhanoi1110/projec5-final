@@ -8,9 +8,6 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   <!--For Job Schedule  -->
-  <listener>
-	<listener-class>com.csc.fresher.java.controller.JobScheduler</listener-class>
-	</listener>
 	
   	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

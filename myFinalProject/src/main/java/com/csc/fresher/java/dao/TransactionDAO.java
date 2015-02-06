@@ -257,7 +257,7 @@ public class TransactionDAO {
 				float afterBalance = newBalance;
 
 				tran.setState("done");
-				tran.setDateEnd(date.toString());
+				tran.setDateEnd(savingService.convertDateToString(date));
 				tran.setAfterBalance(afterBalance);
 
 				tran.setSavingAccountId(acc);

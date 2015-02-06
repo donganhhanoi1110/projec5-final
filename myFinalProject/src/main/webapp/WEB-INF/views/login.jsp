@@ -19,7 +19,11 @@
 
 <script src="js/bootstrap.min.js"></script>
 
-
+<style type="text/css">
+	body{
+	background-image:url(images/myimage/nen25.jpg);
+}
+</style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#show").click(function() {

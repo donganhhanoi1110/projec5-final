@@ -47,7 +47,7 @@
 
 			<li>
 				<form action="searchSavingAccount.html" method="post">
-					<table>
+					<table >
 
 						<tr>
 							<td><input type="hidden" name="${_csrf.parameterName}"
@@ -168,7 +168,10 @@
 	</div>
 	<div class="popupContainer">
 		<div class="popup">
-			<button class="popupCloseButton">X</button>
+			<div class="headerPopup">
+				<span> Add New Saving Account</span>
+				<button class="popupCloseButton">X</button>
+			</div>
 
 			<form:form action="createSavingAccount.html" method="post"
 				modelAttribute="savingaccount" class="createSavingForm">
@@ -194,7 +197,6 @@
 						<td><form:select path="state" class="textox">
 								<form:options items="${states }" />
 							</form:select></td>
-
 					</tr>
 
 					<tr>
@@ -221,7 +223,11 @@
 
 						<th valign="top"><form:label path="repeatable">Repeatable:</form:label>
 						</th>
-						<td><form:input path="repeatable" class="textox" /></td>
+						<td> <form:select
+								path="repeatable" class="textox">
+								<form:option value="1">Yes</form:option>
+								<form:option value="0">No</form:option>
+							</form:select></td>
 					</tr>
 					<tr>
 						<td></td>

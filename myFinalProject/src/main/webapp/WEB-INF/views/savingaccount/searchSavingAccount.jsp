@@ -29,7 +29,7 @@
 				dateFormat : 'dd/mm/yy'
 			});
 		});
-		
+
 		$("#tableShowSavingAccInfo").DataTable({
 			responsive : true
 		});
@@ -37,21 +37,21 @@
 			responsive : true
 		});
 		/*For Create new Transaciton  */
-		$("#inlineRadio2").change(function(e){
+		$("#inlineRadio2").change(function(e) {
 			$("#amountTran").attr('disabled', false);
 		});
-		$("#inlineRadio1").change(function(e){
+		$("#inlineRadio1").change(function(e) {
 			$("#amountTran").attr('disabled', true);
 		});
 		$("#amountTran").attr('disabled', false);
 		$(".radio-inline").hide();
-		$("#typeTran").change(function(e){
+		$("#typeTran").change(function(e) {
 			//alert($(this).val());
 			var selectedItem = $(this).val();
 			if (selectedItem == "deposit") {
 				$(".radio-inline").slideUp();
 				$("#amountTran").attr('disabled', false);
-			} else if (selectedItem == "withdraw"){
+			} else if (selectedItem == "withdraw") {
 				$(".radio-inline").slideDown();
 				$("#amountTran").attr('disabled', true);
 			}
@@ -272,28 +272,27 @@
 					<form:form modelAttribute="transaction" method="post" action=""
 						id="formCreateTransactionId">
 						<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
+							value="${_csrf.token}" />
 						<table id="id-form" class="table table-striped table-bordered">
-							
+
 
 							<tr>
 								<th valign="top"><form:label path="amount">Amount</form:label>
 								</th>
-								<td>
-									<label class="radio-inline">
-									  <input type="radio" name="chooseAmmount" id="inlineRadio1" value="all" checked> All
-									</label>
-									<label class="radio-inline">
-									  <input type="radio" name="chooseAmmount" id="inlineRadio2" value="apart"> Apart
-									</label>
-									<form:input path="amount" class="form-control " id="amountTran" />
+								<td><label class="radio-inline"> <input
+										type="radio" name="chooseAmmount" id="inlineRadio1"
+										value="all" checked> All
+								</label> <label class="radio-inline"> <input type="radio"
+										name="chooseAmmount" id="inlineRadio2" value="apart">
+										Apart
+								</label> <form:input path="amount" class="form-control " id="amountTran" />
 								</td>
 							</tr>
 							<tr>
-								<th valign="top"><form:label path="savingAccountId.savingAccountNumber">Saving Account</form:label></th>
-								<td>
-									<form:input path="savingAccountId.savingAccountNumber" class="form-control " id="savingAccountId" />
-									</td>
+								<th valign="top"><form:label
+										path="savingAccountId.savingAccountNumber">Saving Account</form:label></th>
+								<td><form:input path="savingAccountId.savingAccountNumber"
+										class="form-control " id="savingAccountId" /></td>
 							</tr>
 							<tr>
 								<th valign="top"><form:label path="transactionType">Transaction Type</form:label></th>
@@ -305,8 +304,8 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td><button class="myButton" id="addTransactionJsonOnSearchPage" value="Save"
-								>Save</button></td>
+								<td><button class="myButton"
+										id="addTransactionJsonOnSearchPage" value="Save">Save</button></td>
 
 							</tr>
 						</table>
@@ -361,7 +360,8 @@
 				<button class="popupCloseButton">X</button>
 			</div>
 			<form:form action="createSavingAccount.html" method="post"
-				modelAttribute="savingaccount" class="createSavingForm" id="savingAccountFormId">
+				modelAttribute="savingaccount" class="createSavingForm"
+				id="savingAccountFormId">
 				<table class="mytable2">
 					<input type="hidden" name="${_csrf.parameterName}"
 						value="${_csrf.token}" />
@@ -409,7 +409,10 @@
 
 						<th valign="top"><form:label path="repeatable">Repeatable:</form:label>
 						</th>
-						<td><form:input path="repeatable" class="textox" /></td>
+						<td><form:select path="repeatable" class="textox">
+								<form:option value="1">Yes</form:option>
+								<form:option value="0">No</form:option>
+							</form:select></td>
 
 					</tr>
 					<tr>

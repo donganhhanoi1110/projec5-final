@@ -11,8 +11,9 @@
 	 font-size: x-large;
 	 color:white;
 	padding:5px 3px 3px 8px;
-	background-color: #3399CC;
+	background-color: yellowgreen;
 	margin-bottom: 5px;
+	border-radius: 6px;
  
 }
 #hide {
@@ -99,7 +100,8 @@ button.popupCloseButtonGetTransactions {
 	color: white;
 	float:right;
 	font-size: large; 
-		background: none; 
+		background: none;
+		
 }
 
 .popupContainerCreateTransaction {
@@ -161,14 +163,10 @@ button.popupCloseButton {
 	color: white;
 	float:right;
 	font-size: large; 
-		background: none; 
-/* 	position: absolute;
-	bottom: 10%;
-	top: 1%;
-	right: 1%;
+	background: none; 
+	outline: none;
 	border: none;
-	*/
-
+	margin-right: 10px;
 }
 
 .error {

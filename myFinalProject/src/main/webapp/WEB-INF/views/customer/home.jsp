@@ -94,7 +94,10 @@
 			<!-- begin popup -->
 	<div class="popupContainer">
 		<div class="popup">
-			<button class="popupCloseButton">X</button>
+		<div class="headerPopup">
+						<span> Add New Customer</span>
+						<button class="popupCloseButton">X</button>
+					</div>
 			<div class="panel-body">
 				<div>
 					<div style="float: left;">
@@ -180,7 +183,7 @@
 		</div>
 	</div>
 	<!-- End popupContainer -->
-	<button class="CreateCustomer myButton" value="CreateCustomer">
+	<button class="CreateCustomer myButton" value="CreateCustomer"><span class="fa fa-plus"></span> 
 		Add New Saving Account</button>
 	<div id="content-outer">
 		<!-- start content -->
@@ -212,13 +215,7 @@
 					<h1>Add customer Information</h1>
 
 				</div>
-
-				
-
-
-				<div id="show">
-					<b> Manage Customer </b>
-				</div>
+				<div class="clearfix"></div>
 				<div class="panel-body">
 					<div class="dataTable_wrapper">
 						<table class="mytable1 table table-striped table-bordered "
