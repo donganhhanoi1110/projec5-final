@@ -190,7 +190,6 @@ public class TransactionController {
 		if (session.getAttribute("loginSession") != null) {
 			int savingAccountNumber = Integer.parseInt(request
 					.getParameter("savingAccountNumber"));
-
 			try {
 				SavingAccount savingAccount = savingAccountService
 						.getSavingAccountByNumber(savingAccountNumber);
@@ -270,19 +269,14 @@ public class TransactionController {
 					saving.setTransactions(null);
 					saving.getCustomerId().setSavingaccounts(null);
 					saving.getInterestRateId().setSavingaccounts(null);
-
 					return saving;
-
 				}
 			} catch (Exception e) {
 				return null;
-
 			}
-
 		} else {
 			return null;
 		}
-
 	}
 
 	@RequestMapping(value = "/createTransactionJson", method = RequestMethod.POST)
@@ -290,6 +284,7 @@ public class TransactionController {
 			HttpServletRequest request, Model model, HttpSession session,
 			@ModelAttribute Transaction transaction) {
 		// Create a new AccountDAO
+		
 		AjaxResponse response = new AjaxResponse();
 		String message = "";
 		String error_code = "";
@@ -299,19 +294,37 @@ public class TransactionController {
 			Date dateStart = new Date();
 			SavingAccount savingAccount = savingAccountService
 					.getSavingAccountByNumber(transaction.getSavingAccountId().getSavingAccountNumber());
-
+			//checking have transaction or not
+			List<Transaction> transactions = transactionService
+					.getTransactionBySavingAccountNumber(transaction.getSavingAccountId().getSavingAccountNumber());
+			boolean checkHold=false;
+			for( Transaction a: transactions){
+				if(a.getState().equalsIgnoreCase("hold") || a.getState().equalsIgnoreCase("new")){
+				checkHold=true;break;
+				}
+			}
+			if(checkHold==false){
 			float currentBalance = savingAccount.getBalanceAmount();
 			if(transaction.getTransactionType().equals("withdraw")){
+			if(transaction.getAmount()<=currentBalance){
 				if(request.getParameter("chooseAmmount").equals("all")){
 					transaction.setTransactionType("withdrawAll");					
 					transaction.setAmount(currentBalance);
-					
-					
-					
 				}
 				if(request.getParameter("chooseAmmount").equals("apart")){
 					transaction.setTransactionType("withdraw");
 				}
+			}else{
+				message = "The amount withdraw is greater the amount of Saving Account";
+				error_code = "0";
+				check = false;
+				
+				response.setSuccess(check);
+				response.setMessage(message);
+				response.setError_code(error_code);
+				response.setLogin(true);
+				return response;
+			}
 			}
 			transaction.setCurrentBalance(currentBalance);
 			transaction.setDateStart(savingAccountService
@@ -334,17 +347,13 @@ public class TransactionController {
 					// Create transaction of this saving account to admin
 
 					message = "Create Transaction"
-
 					+ " Successfully";
 					error_code = "1";
-
 					check = true;
-
 				} else {
 					message = "Create Transaction" + " FAIL";
 					error_code = "0";
 					check = false;
-
 				}
 			} catch (Exception e) {
 				System.out
@@ -352,15 +361,21 @@ public class TransactionController {
 				message = "Create TransactionJson Controller has Error";
 				error_code = "0";
 				check = false;
-
 			}
-
 			response.setSuccess(check);
 			response.setMessage(message);
 			response.setError_code(error_code);
 			response.setLogin(true);
-
-		} else {
+		}else{
+			response.setSuccess(false);
+			message = "Hold Transaction is being available!!!";
+			response.setMessage(message);
+			response.setError_code("0");
+			response.setLogin(true);
+		}
+		
+		}
+		else {
 			response.setLogin(false);
 		}
 		return response;
@@ -478,7 +493,6 @@ public class TransactionController {
 				modelview.addObject("message", message);
 				return modelview;
 			}
-
 			return modelview;
 		} else {
 			return new ModelAndView("redirect:/login");

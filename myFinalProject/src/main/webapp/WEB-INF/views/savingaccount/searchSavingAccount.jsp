@@ -284,7 +284,7 @@
 									  <input type="radio" name="chooseAmmount" id="inlineRadio1" value="all" checked> All
 									</label>
 									<label class="radio-inline">
-									  <input type="radio" name="chooseAmmount" id="inlineRadio2" value="apart"> 2
+									  <input type="radio" name="chooseAmmount" id="inlineRadio2" value="apart"> Apart
 									</label>
 									<form:input path="amount" class="form-control " id="amountTran" />
 								</td>
