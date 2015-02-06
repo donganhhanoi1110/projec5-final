@@ -100,4 +100,7 @@
 	<!-- InterestRate -->
 	<bean name="interestRateService" class="com.csc.fresher.java.service.InterestRateService"></bean>
 	<bean name="interestRateDAO" class="com.csc.fresher.java.dao.InterestRateDAO"></bean>
+	
+	<bean id="hashCode" class="com.csc.fresher.java.hash.HashCode"></bean>
+	
 </beans>
