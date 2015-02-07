@@ -214,7 +214,7 @@ public class TransactionService {
 		
 		Date myDateStart = convertStringToDate(dateStart);
 		Date myDateEnd = convertStringToDate(dateEnd);
-		Date myTransStart = convertStringToDateDB(transStart);
+		Date myTransStart = convertStringToDate(transStart);
 		
 		boolean res = false;
 		try{
