@@ -341,3 +341,21 @@
 	color: yellowgreen;
 	margin: 10px;
 }
+
+td.new {
+    background-color: darkturquoise!important;
+    color: white;
+    text-align: center;
+}
+
+td.hold {
+	background-color: orange!important;
+    color: white;
+    text-align: center;
+}
+
+td.active {
+    background-color: springgreen!important;
+    color: white;
+    text-align: center;
+}
