@@ -248,7 +248,7 @@
 											<td>${Transaction.dateStart}</td>
 											<td>${Transaction.dateEnd}</td>
 											<td>${Transaction.savingAccountId}</td>
-											<td>${Transaction.state}</td>
+											<td class="${Transaction.state}">${Transaction.state}</td>
 											<sec:authorize access="hasRole('admin')">
 												<td><a
 													href="approveTransaction.html?TransactionId=${Transaction.id}"

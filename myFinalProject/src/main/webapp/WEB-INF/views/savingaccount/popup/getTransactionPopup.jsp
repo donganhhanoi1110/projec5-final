@@ -30,7 +30,7 @@
 											<td></td>
 											<td></td>
 											<td></td>
-											<td></td>
+											<td id="myState" class="myState"></td>
 											<td></td>
 											<td></td>
 											<td></td>

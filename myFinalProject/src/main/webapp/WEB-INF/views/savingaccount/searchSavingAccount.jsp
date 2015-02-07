@@ -12,6 +12,20 @@
 <title>CSC Banking System</title>
 
 <script type="text/javascript">
+	function validateForm() {
+		var balanceAmount = document.getElementById("myBlanceAmount");
+		var numberReg = /^[0-9]+$/;
+		if (balanceAmount != numberRef) {
+			alert("Balance Amount must be Number!!!");
+			return false;
+		} else {
+			if (balanceAmount < 100000) {
+				alert("Balance Amount must be < 100.000!!!");
+				return false;
+			}
+		}
+		return true;
+	}
 	$(document).ready(function() {
 		$("#table").DataTable({
 			responsive : true
@@ -172,7 +186,7 @@
 											<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
 												${savingAccount.interestRateId.interestRate}%&nbsp;
 												(${savingAccount.interestRateId.currency})</td>
-											<td>${savingAccount.state}</td>
+											<td class="${savingAccount.state}">${savingAccount.state}</td>
 											<td>${savingAccount.dateStart}</td>
 											<td>${savingAccount.dateEnd}</td>
 											<td><a
@@ -254,7 +268,9 @@
 							<tr>
 
 								<td><button type="button" class="myButton"
-									 id="createMySavingAccount" ><span class="fa fa-plus"> </span>Create New Saving Account</button></td>
+										id="createMySavingAccount">
+										<span class="fa fa-plus"> </span>Create New Saving Account
+									</button></td>
 
 							</tr>
 						</sec:authorize>
@@ -377,7 +393,8 @@
 								value="${savingAccountNumber }" /></td>
 						<th valign="top"><form:label path="balanceAmount">Balance Amount:</form:label>
 						</th>
-						<td><form:input path="balanceAmount" class="textox" /></td>
+						<td><form:input path="balanceAmount" class="textox"
+							/></td>
 					</tr>
 					<tr>
 						<th valign="top"><form:label path="dateStart">Date Start:</form:label></th>

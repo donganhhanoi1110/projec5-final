@@ -50,6 +50,10 @@ $(document)
 																	table
 																			.clear();
 																	for (var i = 0; i < data.listTransactions.length; i++) {
+																		$(
+																		".myState")
+																		.addClass(
+																				data.listTransactions[i].state);
 																		console
 																				.log(data.listTransactions[i].id);
 																		table.row
@@ -67,6 +71,7 @@ $(document)
 
 																				)
 																				.draw();
+																
 																	}
 
 																}

@@ -1,11 +1,11 @@
-
 $(document)
 		.ready(
 				function() {
-					
+
 					$(function() {
 						var token = $("meta[name='_csrf']").attr("content");
-						var header = $("meta[name='_csrf_header']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr(
+								"content");
 						$(document).ajaxSend(function(e, xhr, options) {
 							xhr.setRequestHeader(header, token);
 						});
@@ -30,67 +30,79 @@ $(document)
 													success : function(data) {
 														console.log(data);
 														if (data.login == true) {
-															if(!data.errorValidattionCheck){
+															if (!data.errorValidattionCheck) {
 
-															if (data.success == true) {
-																alert("Create successfully!");
-																if (data.error_code == '0') {
-																	window.location.href = 'viewAllSavingAccount?ERROR_CODE='
-																			+ data.error_code;
-																} else {
-																	/*
-																	 * window.location.href =
-																	 * 'viewAllSavingAccount';
-																	 */
-																	var t = $(
-																			'#table')
-																			.DataTable();
-																	var transaction = $('#transactions')
-																	t.row
-																			.add(
-																					[
-																							data.savingAccount.savingAccountNumber,
-																							data.savingAccount.customerId.lastName
-																									+ '&nbsp;'
-																									+ data.savingAccount.customerId.midName
-																									+ '&nbsp;'
-																									+ data.savingAccount.customerId.firstName,
-																							data.savingAccount.balanceAmount,
-																							data.savingAccount.repeatable,
-																							data.savingAccount.interestRateId.savingAccountType
-																									+ '&nbsp; '
-																									+ data.savingAccount.interestRateId.interestRate
-																									+ '% &nbsp;'
-																									+ '('+data.savingAccount.interestRateId.currency+')',
-																							data.savingAccount.state,
-																							data.savingAccount.dateStart,
-																							data.savingAccount.dateEnd,
-																							'<a href='
-																									+ '"submitSavingAccount.html?SavingAccountId=${savingAccount.id}"'
-																									+ 'class="myButton">Submit</a>',
-																									'<a href='
-																									+ '"editSavingAccount.html?SavingAccountId=${savingAccount.id}"'
-																									+ 'class="myButton">Edit</a>']
+																if (data.success == true) {
+																	alert("Create successfully!");
+																	if (data.error_code == '0') {
+																		window.location.href = 'viewAllSavingAccount?ERROR_CODE='
+																				+ data.error_code;
+																	} else {
+																		/*
+																		 * window.location.href =
+																		 * 'viewAllSavingAccount';
+																		 */
+																		var t = $(
+																				'#table')
+																				.DataTable();
 
-																			)
-																			.draw();
-																	$(
-																			".popupContainer")
-																			.hide();
-																}
-																//else success
-															} else {
-																alert("Fail: "+data.message);
-															}
-															//Close ErrorValidation
-															}else{
-																errorInfo="Please correct following errors:";
-																for(var i=0;i<data.errorValidation.length;i++)
-																	{
-																	 errorInfo += "\n" + (i + 1) +". " + data.errorValidation[i].defaultMessage;
+																		t.row
+																				.add(
+																						[
+																								data.savingAccount.savingAccountNumber,
+																								data.savingAccount.customerId.lastName
+																										+ '&nbsp;'
+																										+ data.savingAccount.customerId.midName
+																										+ '&nbsp;'
+																										+ data.savingAccount.customerId.firstName,
+																								data.savingAccount.balanceAmount,
+																								data.savingAccount.repeatable,
+																								data.savingAccount.interestRateId.savingAccountType
+																										+ '&nbsp; '
+																										+ data.savingAccount.interestRateId.interestRate
+																										+ '% &nbsp;'
+																										+ '('
+																										+ data.savingAccount.interestRateId.currency
+																										+ ')',
+																								data.savingAccount.state,
+																								data.savingAccount.dateStart,
+																								data.savingAccount.dateEnd,
+																								'<a href='
+																										+ '"submitSavingAccount.html?SavingAccountId=${savingAccount.id}"'
+																										+ 'class="myButton">Submit</a>',
+																								'<a href='
+																										+ '"editSavingAccount.html?SavingAccountId=${savingAccount.id}"'
+																										+ 'class="myButton">Edit</a>' ]
 
+																				)
+																				.draw();
+																		$(
+																				"#"
+																						+ data.savingAccount.savingAccountNumber)
+																				.toggleClass(
+																						data.savingAccount.state);
+																		$(
+																				".popupContainer")
+																				.hide();
 																	}
-															alert(errorInfo);
+																	// else
+																	// success
+																} else {
+																	alert("Fail: "
+																			+ data.message);
+																}
+																// Close
+																// ErrorValidation
+															} else {
+																errorInfo = "Please correct following errors:";
+																for (var i = 0; i < data.errorValidation.length; i++) {
+																	errorInfo += "\n"
+																			+ (i + 1)
+																			+ ". "
+																			+ data.errorValidation[i].defaultMessage;
+
+																}
+																alert(errorInfo);
 															}
 														} else {
 															window.location.href = 'login';
@@ -105,7 +117,6 @@ $(document)
 									});
 					/* End Create SavingAccount Json */
 
-					
 					$(".addSavingAccount").bind("click", function(e) {
 						$(".popupContainer").fadeIn("fast", function() {
 
@@ -137,7 +148,5 @@ $(document)
 						}
 					})
 					/* Popup Saving Account Close */
-			
-					
 
 				});

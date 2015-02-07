@@ -146,7 +146,7 @@
 										<td>${Transaction.dateStart}</td>
 										<td>${Transaction.dateEnd}</td>
 										<td>${Transaction.savingAccountId.savingAccountNumber}</td>
-										<td>${Transaction.state}</td>
+										<td class="${Transaction.state}">${Transaction.state}</td>
 										<td>${Transaction.transactionType}</td>
 										<td>${Transaction.currentBalance}</td>
 										<td>${Transaction.afterBalance}</td>

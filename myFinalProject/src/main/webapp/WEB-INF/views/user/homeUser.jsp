@@ -62,8 +62,8 @@
 																			window.location.href = 'home?ERROR_CODE='
 																					+ data.error_code;
 																		} else {
-																			 window.location.href = 'homeUser'; 
-																			
+																			window.location.href = 'homeUser';
+
 																		}
 
 																	} else {
@@ -96,132 +96,105 @@
 
 				<h1 style="color: red">${message}</h1>
 			</div>
-			<table border="0" width="100%" cellpadding="0" cellspacing="0"
-				id="content-table">
-				<tr>
-					<th rowspan="3" class="sized"><img
-						src="images/shared/side_shadowleft.jpg" width="20" height="300"
-						alt="" /></th>
-					<th class="topleft"></th>
-					<th class="topright"></th>
-					<th rowspan="3" class="sized"><img
-						src="images/shared/side_shadowright.jpg" width="20" height="300"
-						alt="" /></th>
-				</tr>
-				<tr>
-					<td id="tbl-border-left"></td>
-					<td>
-						<div id="content-table-inner">
-							<div id="page-heading">
-								<h1 style="color: red;">
-									<c:if test="${!empty ERROR_CODE }">
-										<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
-										<c:if test="${ ERROR_CODE == '1'}">
-											<script>
-												alert("Successfully!!!");
-											</script>
-										</c:if>
-										<c:if test="${ ERROR_CODE == '0'}">
-											<script>
-												alert("You are getting Error when Create, Update or Delete!!!");
-											</script>
-										</c:if>
+
+			<div id="content-table-inner">
+				<div id="page-heading">
+					<h1 style="color: red;">
+						<c:if test="${!empty ERROR_CODE }">
+							<%-- <c:out value="${ERROR_CODE }"></c:out> --%>
+							<c:if test="${ ERROR_CODE == '1'}">
+								<script>
+									alert("Successfully!!!");
+								</script>
+							</c:if>
+							<c:if test="${ ERROR_CODE == '0'}">
+								<script>
+									alert("You are getting Error when Create, Update or Delete!!!");
+								</script>
+							</c:if>
+						</c:if>
+					</h1>
+					<h1>Add User Information</h1>
+
+				</div>
+
+				<div id="hide">
+					<div style="float: left;">
+
+						<form action="createUser.html" method="post">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" />
+							<table id="id-form" class="table table-striped table-bordered">
+
+								<tr>
+									<th valign="top">User Name:</th>
+									<td><input type="text" class="form-control"
+										name="username" /></td>
+								</tr>
+								<tr>
+									<th valign="top">Password:</th>
+									<td><input type="text" class="form-control"
+										name="password" /></td>
+
+								</tr>
+								<tr>
+									<th valign="top">Enable</th>
+									<td><select class="form-control" name="enable">
+											<option value="1">active</option>
+											<option value="0">non-active</option>
+									</select></td>
+
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type="submit" class="myButton" value="Save"
+										id="addAccount" /></td>
+
+								</tr>
+							</table>
+						</form>
+
+					</div>
+
+				</div>
+				<div id="show">Show</div>
+				<div class="panel-body">
+					<div class="dataTable_wrapper">
+						<table class="mytable1 table table-striped table-bordered "
+							id="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>User Name</th>
+
+									<th>Enable</th>
+									<th>Delete User</th>
+									<th>Edit User</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="user" items="${listUser}">
+									<c:if test="${user.userName != null}">
+										<tr>
+											<td>${user.userId}</td>
+											<td>${user.userName}</td>
+
+											<td>${user.enable}</td>
+											<td><a user="${user.userId}" href="" id="linkDeleteUser"
+												class="myButton"> Delete </a></td>
+											<td><a href="editUser.html?userId=${user.userId}"
+												class="myButton">Edit</a></td>
+
+										</tr>
 									</c:if>
-								</h1>
-								<h1>Add User Information</h1>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
 
-							</div>
+			</div>
 
-							<div id="hide">
-								<div style="float: left;">
-
-									<form action="createUser.html" method="post">
-										<input type="hidden" name="${_csrf.parameterName}"
-											value="${_csrf.token}" />
-										<table id="id-form" class="table table-striped table-bordered">
-
-											<tr>
-												<th valign="top">User Name:</th>
-												<td><input type="text" class="form-control"
-													name="username" /></td>
-											</tr>
-											<tr>
-												<th valign="top">Password:</th>
-												<td><input type="text" class="form-control"
-													name="password" /></td>
-
-											</tr>
-											<tr>
-												<th valign="top">Enable</th>
-												<td><input type="text" class="form-control"
-													name="enable" /> <select type="text" class="form-control"
-													name="enable">
-														<option value="1">active</option>
-														<option value="0">non-active</option>
-												</select></td>
-
-											</tr>
-											<tr>
-												<td></td>
-												<td><input type="submit" class="myButton" value="Save"
-													id="addAccount" /></td>
-
-											</tr>
-										</table>
-									</form>
-
-								</div>
-
-							</div>
-
-
-							<div id="show">
-								<b> >>>Manage User<<< </b>
-							</div>
-							<div class="panel-body">
-								<div class="dataTable_wrapper">
-									<table class="mytable1 table table-striped table-bordered "
-										id="table">
-										<thead>
-											<tr>
-												<th>ID</th>
-												<th>User Name</th>
-												<th>Password</th>
-												<th>Enable</th>
-												<th>Delete User</th>
-												<th>Edit User</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="user" items="${listUser}">
-												<c:if test="${user.userName != null}">
-													<tr>
-														<td>${user.userId}</td>
-														<td>${user.userName}</td>
-														<td>${user.password}</td>
-														<td>${user.enable}</td>
-														<td><a user="${user.userId}" href=""
-															id="linkDeleteUser" class="myButton"> Delete </a></td>
-														<td><a href="editUser.html?userId=${user.userId}"
-															class="myButton">Edit</a></td>
-
-													</tr>
-												</c:if>
-											</c:forEach>
-										</tbody>
-									</table>
-								</div>
-							</div>
-
-						</div>
-					</td>
-					<td id="tbl-border-right"></td>
-				</tr>
-				<tr>
-					<th class="sized bottomleft"></th>
-					<th class="sized bottomright"></th>
-				</tr>
-			</table>
 			<br />
 		</div>
 

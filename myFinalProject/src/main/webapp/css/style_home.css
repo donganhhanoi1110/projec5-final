@@ -338,7 +338,7 @@
 }
 
 .myFooter1>label {
-	color: yellowgreen;
+	color: rgb(50, 69, 205);
 	margin: 10px;
 }
 
@@ -347,9 +347,23 @@ td.new {
     color: white;
     text-align: center;
 }
-
+td.deactive {
+    background-color: red!important;
+    color: white;
+    text-align: center;
+}
+td.deny {
+    background-color: red!important;
+    color: white;
+    text-align: center;
+}
 td.hold {
 	background-color: orange!important;
+    color: white;
+    text-align: center;
+}
+td.done{
+	background-color: blue!important;
     color: white;
     text-align: center;
 }

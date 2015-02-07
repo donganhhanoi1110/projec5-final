@@ -12,6 +12,8 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -173,8 +175,18 @@ public class SavingAccountController {
 	@RequestMapping(value = { "/getSavingAccountNumber" })
 	public @ResponseBody String getSavingAccountNumber(
 			HttpServletRequest request) {
-		int savingAccountNumber = myRandom(100, 400);
+		int savingAccountNumber = myRandom(200, 500);
 		String number = "123" + savingAccountNumber;
+		List<SavingAccount> savingList = savingAccountService
+				.getSavingAccountList();
+		for (SavingAccount a : savingList) {
+			if (number.equals(a.getSavingAccountNumber())) {
+				int savingAccountNumber2 = myRandom(500, 1000);
+				number = "234" + savingAccountNumber2;
+				break;
+
+			}
+		}
 		return number;
 	}
 
@@ -211,7 +223,7 @@ public class SavingAccountController {
 					// Set new date to database
 					savingaccount.setDateStart(dateStart);
 					savingaccount.setDateEnd(dateEndtemp);
-				
+
 					// Check error when Delete to Database
 
 					response.setErrorValidattionCheck(false);
@@ -226,8 +238,9 @@ public class SavingAccountController {
 						Transaction transaction = new Transaction(0,
 								saving.getBalanceAmount(),
 								savingAccountService
-								.convertDateToString(new Date()), "", "deposit", "new",
-								(float) 0, saving.getBalanceAmount(), saving);
+										.convertDateToString(new Date()), "",
+								"deposit", "new", (float) 0,
+								saving.getBalanceAmount(), saving);
 
 						if (transactionService.createTransaction(transaction)) {
 							System.out
@@ -390,9 +403,10 @@ public class SavingAccountController {
 						+ "-Edit SavingAccount");
 				modelview.addObject("savingaccount", savingAccount);
 				List<Customer> cus = new ArrayList<Customer>();
-				Customer myCus=customerService.getCustomerBySavingAccountId(savingAccount);
+				Customer myCus = customerService
+						.getCustomerBySavingAccountId(savingAccount);
 				cus.add(myCus);
-				
+
 				List<InterestRate> interestRate = interestRateService
 						.getInterestRateList();
 				String[] states = { "new", "hold", "done" };
@@ -460,8 +474,10 @@ public class SavingAccountController {
 
 		if (session.getAttribute("loginSession") != null) {
 			try {
+				
 				int savingAccountId = Integer.parseInt(request
 						.getParameter("SavingAccountId"));
+				
 
 				SavingAccount savingAccount = savingAccountService
 						.getSavingAccount(savingAccountId);
@@ -539,8 +555,7 @@ public class SavingAccountController {
 	@RequestMapping(value = "/submitSavingAccount")
 	public ModelAndView submitSavingAccount(HttpServletRequest request,
 			Model model, HttpSession session) {
-		ModelAndView modelview = new ModelAndView(
-				"forward:/viewAllSavingAccount");
+		ModelAndView modelview = new ModelAndView("forward:/homeSavingAccount");
 
 		String message = "";
 

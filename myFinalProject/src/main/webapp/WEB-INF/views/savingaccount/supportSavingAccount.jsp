@@ -135,7 +135,7 @@
 										<td>${savingAccount.interestRateId.savingAccountType}&nbsp;
 											${savingAccount.interestRateId.interestRate}%&nbsp;
 											(${savingAccount.interestRateId.currency})</td>
-										<td>${savingAccount.state}</td>
+										<td id="${savingAccount.savingAccountNumber}" class="${savingAccount.state}">${savingAccount.state}</td>
 
 										<td>${savingAccount.dateStart}</td>
 										<td>${savingAccount.dateEnd}</td>
@@ -187,7 +187,7 @@
 
 						<th valign="top"><form:label path="balanceAmount">Balance Amount:</form:label>
 						</th>
-						<td><form:input path="balanceAmount" class="textox" /></td>
+						<td><form:input path="balanceAmount" class="textox" id="myBalanceAmount"/></td>
 					</tr>
 					<tr>
 						<th valign="top"><form:label path="dateStart">Date Start:</form:label></th>

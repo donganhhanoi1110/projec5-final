@@ -23,7 +23,11 @@
 	type="text/css">
 
 <link rel="stylesheet" href="css/screen.css" type="text/css" />
-
+<style type="text/css">
+body {
+	background-image: url(images/myimage/nen25.jpg);
+}
+</style>
 <!-- jQuery -->
 <script src="js/jquery/jquery.js"></script>
 

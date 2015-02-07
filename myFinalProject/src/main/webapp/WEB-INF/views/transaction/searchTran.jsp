@@ -33,7 +33,7 @@
 				dateFormat : 'dd/mm/yy'
 			});
 		});
-		
+
 	});
 </script>
 </head>
@@ -95,7 +95,7 @@
 				</div>
 				<div class="panel-body">
 
-					<h1> List Transaction: </h1>
+					<h1>List Transaction:</h1>
 					<div class="dataTable_wrapper">
 						<table class="mytable1 table table-striped table-bordered "
 							id="table">
@@ -109,12 +109,7 @@
 									<th>Transaction Type</th>
 									<th>Current Balance</th>
 									<th>After Balance</th>
-									<sec:authorize access="hasRole('admin')">
-										<th>Approve Transaction</th>
-										<th>Deny Transaction</th>
 
-										<th>Edit Transaction</th>
-									</sec:authorize>
 
 								</tr>
 							</thead>
@@ -126,23 +121,11 @@
 											<td>${Transaction.amount}</td>
 											<td>${Transaction.dateStart}</td>
 											<td>${Transaction.savingAccountId.savingAccountNumber}</td>
-											<td>${Transaction.state}</td>
+											<td class="${Transaction.state}">${Transaction.state}</td>
 											<td>${Transaction.transactionType}</td>
 											<td>${Transaction.currentBalance}</td>
 											<td>${Transaction.afterBalance}</td>
-											<sec:authorize access="hasRole('admin')">
-												<td><a
-													href="approveTransaction.html?TransactionId=${Transaction.id}"
-													class="myButton">Approve</a></td>
-												<td><a
-													href="denyTransaction.html?TransactionId=${Transaction.id}"
-													class="myButton">Deny</a></td>
-												<td><a
-													href="editTransaction.html?TransactionId=${Transaction.id}"
-													class="myButton">Edit</a></td>
-												<input type="hidden" name="${_csrf.parameterName}"
-													value="${_csrf.token}" />
-											</sec:authorize>
+
 
 
 										</tr>
