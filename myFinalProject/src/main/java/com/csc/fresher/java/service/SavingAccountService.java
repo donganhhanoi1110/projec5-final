@@ -1,6 +1,7 @@
 // Saving Account Service 
 package com.csc.fresher.java.service;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ import com.csc.fresher.java.domain.SavingAccount;
 import com.csc.fresher.java.domain.Transaction;
 
 @Service(value = "savingAccountService")
-public class SavingAccountService {
+public class SavingAccountService implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Autowired
 	private SavingAccountDAO savingAccountDAO;
 

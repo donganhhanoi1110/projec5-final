@@ -19,7 +19,7 @@
 	<!-- Use @Component annotations for bean definitions -->
 	<context:component-scan base-package="com.csc.fresher.java.controller" />
 	<!-- Enable @Transactional annotation -->
-	<tx:annotation-driven />
+	<tx:annotation-driven proxy-target-class="true" />
 	<!-- Use @Controller annotations for MVC controller definitions -->
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
@@ -100,7 +100,60 @@
 	<!-- InterestRate -->
 	<bean name="interestRateService" class="com.csc.fresher.java.service.InterestRateService"></bean>
 	<bean name="interestRateDAO" class="com.csc.fresher.java.dao.InterestRateDAO"></bean>
-	
+
 	<bean id="hashCode" class="com.csc.fresher.java.hash.HashCode"></bean>
-	
+
+	<!-- FOr job Schedule -->
+	<bean id="runMeTask" class="com.csc.fresher.java.job.RunMeTask"></bean>
+	<bean name="runMeJob"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.csc.fresher.java.job.RunMeJob"></property>
+		<property name="durability" value="true" />
+		<property name="jobDataAsMap">
+			<map>
+
+				<entry key="runMeTask" value-ref="runMeTask"></entry>
+				<!-- <entry key="savingAccountDAO" value-ref="savingAccountDAO"></entry> 
+					<entry key="savingAccountDAO" value-ref="savingAccountDAO"></entry> -->
+			</map>
+		</property>
+
+	</bean>
+
+	<!-- Simple Trigger, run every 5 seconds -->
+	<bean id="simpleTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="runMeJob" />
+		<property name="repeatInterval" value="15000" />
+		<property name="startDelay" value="1000" />
+	</bean>
+	<!-- Cron Trigger, run every 5 seconds <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> 
+		<property name="jobDetail" ref="runMeJob" /> <property name="cronExpression" 
+		value="0/5 * * * * ?" /> </bean> -->
+
+	<!--Below trigger use for when connect database but fail -->
+	<!-- <bean id="firstTrigger" class="com.csc.fresher.java.job.PersistableCronTriggerFactoryBean"> 
+		<property name="jobDetail" ref="runMeJob" /> <property name="cronExpression" 
+		value="0/5 * * * * ?" /> </bean> -->
+	<!-- <bean id="firstTrigger" class="com.csc.fresher.java.job.PersistableCronTriggerFactoryBean"> 
+		<property name="jobDetail" ref="runMeJob" /> <property name="repeatInterval" 
+		value="5000" /> </bean> -->
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+
+		<property name="jobDetails">
+			<list>
+				<ref bean="runMeJob" />
+			</list>
+		</property>
+
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTrigger" />
+
+			</list>
+		</property>
+	</bean>
+
+
 </beans>

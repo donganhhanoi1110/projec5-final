@@ -1,5 +1,6 @@
 package com.csc.fresher.java.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,33 +27,32 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 @Entity
 @Table(name = "savingaccount", uniqueConstraints = { @UniqueConstraint(columnNames = "savingaccount_number") })
-public class SavingAccount {
-
+public class SavingAccount implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Integer id;
 
-	
 	@Column(name = "savingaccount_number")
-	@NotNull(message="Saving Account Number Cant Be Null")
+	@NotNull(message = "Saving Account Number Cant Be Null")
 	private Integer savingAccountNumber;
 
 	@Column(name = "balance_amount")
-	@NotNull(message="Balance Amount Cant Be Null")
+	@NotNull(message = "Balance Amount Cant Be Null")
 	private Float balanceAmount;
 
 	@Column(name = "repeatable")
-	@NotNull(message="Saving Account Number Cant Be Null")
+	@NotNull(message = "Saving Account Number Cant Be Null")
 	private String repeatable;
 
 	@Column(name = "state")
-	@NotEmpty(message = "Please Input Select State.") 
+	@NotEmpty(message = "Please Input Select State.")
 	private String state;
 
 	@Column(name = "date_start")
 	@NotEmpty(message = "Please Input Date Start.")
-	 @DateTimeFormat(pattern="dd/MM/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private String dateStart;
 
 	@Column(name = "date_end")
@@ -68,10 +68,10 @@ public class SavingAccount {
 	@OneToMany(mappedBy = "savingAccountId")
 	private List<Transaction> transactions;
 
-	public SavingAccount(Integer id, Integer savingAccountNumber, Float balanceAmount,
-			String repeatable, String state, String dateStart, String dateEnd,
-			Customer customerId, InterestRate interestRateId,
-			List<Transaction> transactions) {
+	public SavingAccount(Integer id, Integer savingAccountNumber,
+			Float balanceAmount, String repeatable, String state,
+			String dateStart, String dateEnd, Customer customerId,
+			InterestRate interestRateId, List<Transaction> transactions) {
 		super();
 		this.id = id;
 		this.savingAccountNumber = savingAccountNumber;

@@ -21,7 +21,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name="customer",uniqueConstraints = {
 		@UniqueConstraint(columnNames = "id_number")})
 public class Customer implements Serializable {
-
+	private static final long serialVersionUID = 1L;
 		@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")

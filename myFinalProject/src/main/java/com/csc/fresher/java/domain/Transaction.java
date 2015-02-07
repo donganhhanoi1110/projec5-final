@@ -22,8 +22,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "transaction")
-public class Transaction {
-
+public class Transaction implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,5 +1,6 @@
 package com.csc.fresher.java.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,8 +14,8 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "interestrate")
-public class InterestRate {
-
+public class InterestRate implements Serializable{
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -2,6 +2,7 @@
 
 package com.csc.fresher.java.dao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ import com.csc.fresher.java.service.SavingAccountService;
 
 @Repository("savingAccountDAO")
 @Transactional(propagation = Propagation.REQUIRED)
-public class SavingAccountDAO {
+public class SavingAccountDAO implements Serializable{
 
 	@PersistenceContext
 	public EntityManager entityManager;
