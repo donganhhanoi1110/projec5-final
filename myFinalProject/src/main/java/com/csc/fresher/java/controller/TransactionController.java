@@ -754,8 +754,8 @@ public class TransactionController {
 			Model model, HttpSession session) {
 		// Create a new AccountDAO
 		User user = null;
-		String dateStart = request.getParameter("dateStart");
-		String dateEnd = request.getParameter("dateEnd");
+		String dateStart = request.getParameter("dateStart") +  " 00:00:00" ;
+		String dateEnd = request.getParameter("dateEnd") +" 00:00:00";
 		System.out.println("Date Format" + dateStart);
 		ModelAndView modelAndView = new ModelAndView("searchTran");
 		if (session.getAttribute("loginSession") != null) {
@@ -764,7 +764,7 @@ public class TransactionController {
 			List<Transaction> listTransaction = transactionService
 					.getAllTransaction();
 			for (Transaction trans : listTransaction) {
-				if (savingAccountService.checkDate(dateStart, dateEnd,
+				if (transactionService.checkDate(dateStart, dateEnd,
 						trans.getDateStart()) == true) {
 					listTrans.add(trans);
 				}
