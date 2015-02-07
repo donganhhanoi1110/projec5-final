@@ -45,18 +45,18 @@ public class MainController {
 			HttpSession session) {
 
 		ModelAndView model = new ModelAndView();
-		if (session.getAttribute("loginSession") != null) {
-			model.setViewName("home");
-			return model;
-		} else {
-			if (error != null) {
-				model.addObject("error", "Invalid username and password");
-			}
-			if (logout != null) {
-				model.addObject("msg", "You've been logged out successfully.");
-			}
-			return new ModelAndView("login");
+		// if (session.getAttribute("loginSession") != null) {
+		// model.setViewName("home");
+		// return model;
+		// } else {
+		if (error != null) {
+			model.addObject("error", "Invalid username and password");
 		}
+		if (logout != null) {
+			model.addObject("msg", "You've been logged out successfully.");
+		}
+		return new ModelAndView("login");
+		// }
 
 	}
 

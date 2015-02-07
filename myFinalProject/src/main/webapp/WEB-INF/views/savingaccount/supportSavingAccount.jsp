@@ -177,7 +177,7 @@
 				modelAttribute="savingaccount" class="createSavingForm">
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
-				<table class="mytable2">
+				<table class="mytable2 input-group">
 					<tr>
 						<th valign="top"><form:label path="savingAccountNumber">Saving Account Number:</form:label>
 						</th>
