@@ -119,8 +119,9 @@
 		<put-attribute name="title" value="Home" />
 		<put-attribute name="body" value="/WEB-INF/views/admin.jsp" />
 	</definition>
-	<definition name="403" template="/WEB-INF/views/403.jsp">
-
+	<definition name="403" template="/WEB-INF/views/Error403.jsp"></definition>
+	<definition name="404" template="/WEB-INF/views/Error404.jsp"></definition>
+	<definition name="405" template="/WEB-INF/views/Error405.jsp">
 	</definition>
 	<definition name="hello" extends="DefaultTemplate">
 		<put-attribute name="title" value="Home" />
