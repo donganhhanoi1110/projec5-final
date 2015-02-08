@@ -522,7 +522,7 @@ public class SavingAccountController {
 	public ModelAndView denySavingAccount(HttpServletRequest request,
 			Model model, HttpSession session) {
 		ModelAndView modelview = new ModelAndView(
-				"forward:/viewAllSavingAccount");
+				"forward:/homeSavingAccount");
 
 		String message = "";
 
@@ -533,7 +533,17 @@ public class SavingAccountController {
 
 				SavingAccount savingAccount = savingAccountService
 						.getSavingAccount(SavingAccountId);
-				savingAccount.setState("deny");
+				List<Transaction> listTran=transactionService.getTransactionBySavingAccountNumber(savingAccount.getSavingAccountNumber());
+				for(Transaction tran:listTran)
+				{
+					if("new".equals(tran.getState()))
+					{
+						tran.setState("deny");
+						transactionService.updateTransaction(tran);
+					}
+				}
+			
+				savingAccount.setState("deactive");
 				// Check error when Update to Database
 				if (!savingAccountService.updateSavingAccount(savingAccount)) {
 					message = "Deny SavingAccount" + SavingAccountId + " FAIL";
