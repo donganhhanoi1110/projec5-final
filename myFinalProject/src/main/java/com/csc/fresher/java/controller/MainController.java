@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,7 +43,7 @@ public class MainController {
 	public ModelAndView login(
 			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout,
-			HttpSession session) {
+			HttpSession session, Model myModel) {
 
 		ModelAndView model = new ModelAndView();
 		// if (session.getAttribute("loginSession") != null) {
@@ -50,10 +51,11 @@ public class MainController {
 		// return model;
 		// } else {
 		if (error != null) {
-			model.addObject("error", "Invalid username and password");
+			System.out.println("Invalid username and password");
+			myModel.addAttribute("error", "Invalid username and password");
 		}
 		if (logout != null) {
-			model.addObject("msg", "You've been logged out successfully.");
+			myModel.addAttribute("msg", "You've been logged out successfully.");
 		}
 		return new ModelAndView("login");
 		// }

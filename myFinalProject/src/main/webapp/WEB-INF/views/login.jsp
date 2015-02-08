@@ -20,8 +20,28 @@
 <script src="js/bootstrap.min.js"></script>
 
 <style type="text/css">
-	body{
-	background-image:url(images/myimage/nen25.jpg);
+body {
+	background-image: url(images/myimage/nen25.jpg);
+}
+
+.error {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+
+.msg {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #31708f;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
 }
 </style>
 <script type="text/javascript">
