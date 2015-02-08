@@ -103,6 +103,11 @@
 
 	<bean id="hashCode" class="com.csc.fresher.java.hash.HashCode"></bean>
 
+
+
+
+
+
 	<!-- FOr job Schedule -->
 	<bean id="runMeTask" class="com.csc.fresher.java.job.RunMeTask"></bean>
 	<bean name="runMeJob"
@@ -111,10 +116,8 @@
 		<property name="durability" value="true" />
 		<property name="jobDataAsMap">
 			<map>
-
-				<entry key="runMeTask" value-ref="runMeTask"></entry>
-				<!-- <entry key="savingAccountDAO" value-ref="savingAccountDAO"></entry> 
-					<entry key="savingAccountDAO" value-ref="savingAccountDAO"></entry> -->
+				<!-- <entry key="runMeTask" value-ref="runMeTask"></entry> -->
+				<entry key="savingAccountDAO" value-ref="savingAccountDAO"></entry> 
 			</map>
 		</property>
 
@@ -124,11 +127,16 @@
 	<bean id="simpleTrigger"
 		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
 		<property name="jobDetail" ref="runMeJob" />
-		<property name="repeatInterval" value="15000" />
+		<property name="repeatInterval" value="10000" />
 		<property name="startDelay" value="1000" />
 	</bean>
-	<!-- Cron Trigger, run every 5 seconds <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> 
-		<property name="jobDetail" ref="runMeJob" /> <property name="cronExpression" 
+	<bean id="applicationContextProvder"
+                        class="com.csc.fresher.java.job.ApplicationContextProvider"/>
+
+	<!-- Cron Trigger, run every 5 seconds
+	 <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> 
+		<property name="jobDetail" ref="runMeJob" /> 
+		<property name="cronExpression" 
 		value="0/5 * * * * ?" /> </bean> -->
 
 	<!--Below trigger use for when connect database but fail -->
@@ -153,6 +161,7 @@
 
 			</list>
 		</property>
+		
 	</bean>
 
 

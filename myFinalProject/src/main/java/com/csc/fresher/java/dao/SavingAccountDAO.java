@@ -13,6 +13,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ import com.csc.fresher.java.service.SavingAccountService;
 
 @Repository("savingAccountDAO")
 @Transactional(propagation = Propagation.REQUIRED)
-public class SavingAccountDAO implements Serializable{
+public class SavingAccountDAO implements Serializable {
 
 	@PersistenceContext
 	public EntityManager entityManager;
@@ -242,51 +244,69 @@ public class SavingAccountDAO implements Serializable{
 	// calculator amount interest rate for after balance and calculator amount
 	// interest rate to present
 	public String myAfterBalanceAmount() {
-		int max = 0;
+		int count=0;
 		List<SavingAccount> acc = null;
 		try {
-			System.out.println("Before");
-			acc = getListSavingAccountByRepeatable("0");
-			for (SavingAccount savingAcc2 : acc) {
-				int maxRepeat = Integer.parseInt(savingAcc2.getRepeatable());
-				if (maxRepeat > max) {
-					max = maxRepeat;
-				}
-			}
+			System.out.println("Before Repeat");
+			acc = getSavingAccountList();
+
 			for (SavingAccount savingAcc : acc) {
+				if (!("0".equals(savingAcc.getState()))) {
+					if (savingAcc.getState().equals("active")) {
+						int maxRepeat = Integer.parseInt(savingAcc
+								.getRepeatable());
 
-				if (savingAcc.getState().equals("active")) {
-					int maxRepeat = Integer.parseInt(savingAcc.getRepeatable());
+						Date date = new Date();
+						Date systemDate = savingAccSer
+								.convertStringToDateDDmmYYYY(savingAccSer
+										.convertDateToStringDDmmYYYY(date));
 
-					Date date = new Date();
-					Date systemDate = savingAccSer
-							.convertStringToDate(savingAccSer
-									.convertDateToString(date));
+						Date dateEnd = savingAccSer
+								.convertStringToDateDDmmYYYY(savingAcc
+										.getDateEnd());
 
-					Date dateEnd = savingAccSer.convertStringToDate(savingAcc
-							.getDateEnd());
+						if (systemDate.getTime() == dateEnd.getTime()) {
+							Date newEndDate = DateUtils.addMonths(systemDate,
+									savingAcc.getInterestRateId().getMonth());
 
-					if (systemDate.getTime() == dateEnd.getTime()) {
-						Date newEndDate = DateUtils.addMonths(systemDate, savingAcc.getInterestRateId().getMonth());
-						
-						float balance = savingAcc.getBalanceAmount();
-						float interest = savingAcc.getInterestRateId()
-								.getInterestRate();
+							float balance = savingAcc.getBalanceAmount();
+							float interest = savingAcc.getInterestRateId()
+									.getInterestRate();
 
-						int month = savingAcc.getInterestRateId().getMonth();
-						float amountAll = balance
-								+ (balance * (interest / (100)) * month);
-						savingAcc.setDateStart(savingAccSer.convertDateToString(systemDate));
-						savingAcc.setDateEnd(savingAccSer.convertDateToString(newEndDate));
-						savingAcc.setBalanceAmount(amountAll);
-						savingAcc.setRepeatable("" + (maxRepeat + 1));
+							int month = savingAcc.getInterestRateId()
+									.getMonth();
+							int days = Days
+									.daysBetween(
+											new DateTime(
+													savingAccSer
+															.convertStringToDate(savingAcc
+																	.getDateStart())),
+											new DateTime(
+													savingAccSer
+															.convertStringToDate(savingAcc
+																	.getDateEnd())))
+									.getDays();
+							float amountAll = balance
+									+ (balance * ((interest / (100)) / 360) * days);
+							savingAcc.setDateStart(savingAccSer
+									.convertDateToString(systemDate));
+							savingAcc.setDateEnd(savingAccSer
+									.convertDateToString(newEndDate));
+							savingAcc.setBalanceAmount(amountAll);
+							savingAcc.setRepeatable("" + (maxRepeat + 1));
+							updateSavingAccount(savingAcc);
+							count+=1;
+						} else {
+							continue;
+						}
+
 					}
-
-					updateSavingAccount(savingAcc);
 				}
+
 			}
 
-			System.out.println("Minh Map");
+			System.out.println("Successfully!! "+ count +" Saving Account has been updated. Minh Map!!!");
+			
 			return "success";
 
 		} catch (Exception e) {

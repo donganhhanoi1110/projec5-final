@@ -143,6 +143,22 @@ public class SavingAccountService implements Serializable {
 		}
 		return date;
 	}
+	public String convertDateToStringDDmmYYYY(Date date) {
+		String myDate = new SimpleDateFormat("dd/MM/yyyy").format(date);
+		return myDate;
+	}
+	public Date convertStringToDateDDmmYYYY(String mydate) {
+		Date date = null;
+		try {
+			SimpleDateFormat formatter;
+
+			formatter = new SimpleDateFormat("dd/MM/yyyy");
+			date = (Date) formatter.parse(mydate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
 	
 	public boolean checkDate(String dateStart, String dateEnd, String transStart) {
 		
