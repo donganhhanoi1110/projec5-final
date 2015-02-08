@@ -539,6 +539,7 @@ public class SavingAccountController {
 					if("new".equals(tran.getState()))
 					{
 						tran.setState("deny");
+						tran.setDateEnd(savingAccountService.convertDateToString(new Date()));
 						transactionService.updateTransaction(tran);
 					}
 				}

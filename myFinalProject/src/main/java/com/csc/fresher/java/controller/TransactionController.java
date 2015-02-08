@@ -211,8 +211,7 @@ public class TransactionController {
 					savingAccount.setInterestRateId(null);
 					savingAccount.setTransactions(null);
 					response.setSavingAccount(savingAccount);
-					message = "Get Transactions"
-					+ " Successfully";
+					message = "Get Transactions" + " Successfully";
 					error_code = "1";
 
 					check = true;
@@ -283,7 +282,7 @@ public class TransactionController {
 			HttpServletRequest request, Model model, HttpSession session,
 			@ModelAttribute Transaction transaction) {
 		// Create a new AccountDAO
-		
+
 		AjaxResponse response = new AjaxResponse();
 		String message = "";
 		String error_code = "";
@@ -292,124 +291,139 @@ public class TransactionController {
 		if (session.getAttribute("loginSession") != null) {
 			Date dateStart = new Date();
 			SavingAccount savingAccount = savingAccountService
-					.getSavingAccountByNumber(transaction.getSavingAccountId().getSavingAccountNumber());
-			//checking have transaction or not
+					.getSavingAccountByNumber(transaction.getSavingAccountId()
+							.getSavingAccountNumber());
+			// checking have transaction or not
 			List<Transaction> transactions = transactionService
-					.getTransactionBySavingAccountNumber(transaction.getSavingAccountId().getSavingAccountNumber());
-			boolean checkHold=false;
-			for( Transaction a: transactions){
-				if(a.getState().equalsIgnoreCase("hold")){
-				checkHold=true;break;
+					.getTransactionBySavingAccountNumber(transaction
+							.getSavingAccountId().getSavingAccountNumber());
+			boolean checkHold = false;
+			for (Transaction a : transactions) {
+				if (a.getState().equalsIgnoreCase("hold")) {
+					checkHold = true;
+					break;
 				}
 			}
-			if(checkHold==false){
-			float currentBalance = savingAccount.getBalanceAmount();
-			if(transaction.getTransactionType().equals("withdraw")){
-				Date startWithdraw =new Date();
-				float totalAmount = 0;
-				SimpleDateFormat formatter = new SimpleDateFormat(
-						"dd/MM/yyyy hh:mm");
-				try{
-				Date dateStar = formatter.parse(savingAccount
-						.getDateStart());
-				Date dateEnd = formatter.parse(savingAccount.getDateEnd());
-				
-				float interestPerDay=0;
-				float interest=0;
-				if (startWithdraw.compareTo(dateEnd) >= 0) {
-					interestPerDay = ((savingAccount.getInterestRateId()
-							.getInterestRate())/360)/100;
-					
-				}else{
-					List<InterestRate> interestRate = interestRateService.getInterestRateList();
-					for(InterestRate a:interestRate){
-						if(a.getMonth()==0){
-							interest=a.getInterestRate();
-							break;
+			if (checkHold == false) {
+				float currentBalance = savingAccount.getBalanceAmount();
+				if (transaction.getTransactionType().equals("withdraw")) {
+					Date startWithdraw = new Date();
+					float totalAmount = 0;
+					SimpleDateFormat formatter = new SimpleDateFormat(
+							"dd/MM/yyyy hh:mm");
+					try {
+						Date dateStar = formatter.parse(savingAccount
+								.getDateStart());
+						Date dateEnd = formatter.parse(savingAccount
+								.getDateEnd());
+
+						float interestPerDay = 0;
+						float interest = 0;
+						if (startWithdraw.compareTo(dateEnd) >= 0) {
+							interestPerDay = ((savingAccount
+									.getInterestRateId().getInterestRate()) / 360) / 100;
+
+						} else {
+							List<InterestRate> interestRate = interestRateService
+									.getInterestRateList();
+							for (InterestRate a : interestRate) {
+								if (a.getMonth() == 0) {
+									interest = a.getInterestRate();
+									break;
+								}
+							}
+							interestPerDay = (interest / 360) / 100;
 						}
+
+						int days = Days.daysBetween(new DateTime(dateStar),
+								new DateTime(startWithdraw)).getDays();
+						totalAmount = savingAccount.getBalanceAmount()
+								+ savingAccount.getBalanceAmount()
+								* interestPerDay * days;
+					} catch (Exception ex) {
+						ex.printStackTrace();
 					}
-					interestPerDay=(interest/360)/100;
-				}
-				
-				int days=Days.daysBetween(new DateTime(dateStar),new DateTime(startWithdraw)).getDays();
-				totalAmount = savingAccount.getBalanceAmount()
-							+ savingAccount.getBalanceAmount() * interestPerDay*days;
-			}catch(Exception ex){
-				ex.printStackTrace();
-			}
-			transaction.setCurrentBalance(totalAmount);
-			if(transaction.getAmount()<=totalAmount){
-				if(request.getParameter("chooseAmmount").equals("all")){
-					transaction.setTransactionType("withdrawAll");
-					transaction.setAmount(totalAmount);
+					transaction.setCurrentBalance(totalAmount);
+					if (transaction.getAmount() <= totalAmount) {
+						if (request.getParameter("chooseAmmount").equals("all")) {
+							transaction.setTransactionType("withdrawAll");
+							transaction.setAmount(totalAmount);
+						}
+						if (request.getParameter("chooseAmmount").equals(
+								"apart")) {
+							transaction.setTransactionType("withdraw");
+						}
+					} else {
+						message = "The amount withdraw is greater the amount of Saving Account";
+						error_code = "0";
+						check = false;
+
+						response.setSuccess(check);
+						response.setMessage(message);
+						response.setError_code(error_code);
+						response.setLogin(true);
+						return response;
 					}
-				if(request.getParameter("chooseAmmount").equals("apart")){
-					transaction.setTransactionType("withdraw");
 				}
-			}else{
-				message = "The amount withdraw is greater the amount of Saving Account";
-				error_code = "0";
-				check = false;
-				
+				if (transaction.getTransactionType()
+						.equalsIgnoreCase("deposit")) {
+					transaction.setCurrentBalance(currentBalance);
+				}
+				transaction.setDateStart(savingAccountService
+						.convertDateToString(dateStart));
+				transaction.setState("hold");
+
+				try {
+					System.out.println("Json Saving Account: "
+							+ transaction.toString());
+
+					// Business With Saving Account
+
+					if (transaction.getAmount() > 10000000) {
+						transaction.setState("hold");
+					}
+					transaction.setSavingAccountId(savingAccount);
+					// Check error when Delete to Database
+					if (transactionService.createTransaction(transaction)) {
+
+						String username = request.getSession()
+								.getAttribute("loginSession").toString();
+						// Add to table transactionuser in database bcz
+						// @ManyToMany
+						User user = userService.getUserbyUserName(username);
+						Collection<User> userSets = transaction
+								.getTransactions();
+						userSets.add(user);
+						transaction.setTransactions(userSets);
+						transactionService.updateTransaction(transaction);
+						message = "Create Transaction" + " Successfully";
+						error_code = "1";
+						check = true;
+					} else {
+						message = "Create Transaction" + " FAIL";
+						error_code = "0";
+						check = false;
+					}
+				} catch (Exception e) {
+					System.out
+							.println("Create TransactionJson Controller has Error");
+					message = "Create TransactionJson Controller has Error";
+					error_code = "0";
+					check = false;
+				}
 				response.setSuccess(check);
 				response.setMessage(message);
 				response.setError_code(error_code);
 				response.setLogin(true);
-				return response;
+			} else {
+				response.setSuccess(false);
+				message = " Hold Transaction is being available!!!";
+				response.setMessage(message);
+				response.setError_code("0");
+				response.setLogin(true);
 			}
-			}
-			if(transaction.getTransactionType().equalsIgnoreCase("deposit")){
-							transaction.setCurrentBalance(currentBalance);
-			}
-			transaction.setDateStart(savingAccountService
-					.convertDateToString(dateStart));
-			transaction.setState("hold");
-			
-			try {
-				System.out.println("Json Saving Account: "
-						+ transaction.toString());
 
-				// Business With Saving Account
-
-				if (transaction.getAmount() > 10000000) {
-					transaction.setState("hold");
-				}
-				transaction.setSavingAccountId(savingAccount);
-				// Check error when Delete to Database
-				if (transactionService.createTransaction(transaction)) {
-
-					// Create transaction of this saving account to admin
-
-					message = "Create Transaction"
-					+ " Successfully";
-					error_code = "1";
-					check = true;
-				} else {
-					message = "Create Transaction" + " FAIL";
-					error_code = "0";
-					check = false;
-				}
-			} catch (Exception e) {
-				System.out
-						.println("Create TransactionJson Controller has Error");
-				message = "Create TransactionJson Controller has Error";
-				error_code = "0";
-				check = false;
-			}
-			response.setSuccess(check);
-			response.setMessage(message);
-			response.setError_code(error_code);
-			response.setLogin(true);
-		}else{
-			response.setSuccess(false);
-			message = " Hold Transaction is being available!!!";
-			response.setMessage(message);
-			response.setError_code("0");
-			response.setLogin(true);
-		}
-		
-		}
-		else {
+		} else {
 			response.setLogin(false);
 		}
 		return response;
@@ -593,7 +607,7 @@ public class TransactionController {
 				Transaction tran = transactionService
 						.getTransaction(TransactionId);
 				if (tran.getTransactionType().startsWith("withdraw")) {
-					
+
 					if (!transactionService.ApproveWithdraw(tran)) {
 						message = "Approve Transaction" + TransactionId
 								+ " FAIL";
@@ -782,14 +796,14 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
-	
+
 	@RequestMapping(value = "/searchTransaction", method = RequestMethod.POST)
 	public ModelAndView createTransactionAttribute(HttpServletRequest request,
 			Model model, HttpSession session) {
 		// Create a new AccountDAO
 		User user = null;
-		String dateStart = request.getParameter("dateStart") +  " 00:00:00" ;
-		String dateEnd = request.getParameter("dateEnd") +" 00:00:00";
+		String dateStart = request.getParameter("dateStart") + " 00:00:00";
+		String dateEnd = request.getParameter("dateEnd") + " 00:00:00";
 		System.out.println("Date Format" + dateStart);
 		ModelAndView modelAndView = new ModelAndView("searchTran");
 		if (session.getAttribute("loginSession") != null) {
@@ -810,6 +824,5 @@ public class TransactionController {
 			return new ModelAndView("redirect:/login");
 		}
 	}
-
 
 }
