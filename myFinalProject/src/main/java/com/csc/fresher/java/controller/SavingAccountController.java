@@ -490,6 +490,7 @@ public class SavingAccountController {
 				for (Transaction tran : transactions) {
 					if (tran.getState().equals("new")) {
 						tran.setState("done");
+						tran.setDateEnd(savingAccountService.convertDateToString(new Date()));
 
 					}
 					newTrans.add(tran);

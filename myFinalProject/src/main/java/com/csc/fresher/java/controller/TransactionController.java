@@ -212,7 +212,6 @@ public class TransactionController {
 					savingAccount.setTransactions(null);
 					response.setSavingAccount(savingAccount);
 					message = "Get Transactions"
-
 					+ " Successfully";
 					error_code = "1";
 
@@ -299,18 +298,51 @@ public class TransactionController {
 					.getTransactionBySavingAccountNumber(transaction.getSavingAccountId().getSavingAccountNumber());
 			boolean checkHold=false;
 			for( Transaction a: transactions){
-				if(a.getState().equalsIgnoreCase("hold") || a.getState().equalsIgnoreCase("new")){
+				if(a.getState().equalsIgnoreCase("hold")){
 				checkHold=true;break;
 				}
 			}
 			if(checkHold==false){
 			float currentBalance = savingAccount.getBalanceAmount();
 			if(transaction.getTransactionType().equals("withdraw")){
-			if(transaction.getAmount()<=currentBalance){
-				if(request.getParameter("chooseAmmount").equals("all")){
-					transaction.setTransactionType("withdrawAll");					
-					transaction.setAmount(currentBalance);
+				Date startWithdraw =new Date();
+				float totalAmount = 0;
+				SimpleDateFormat formatter = new SimpleDateFormat(
+						"dd/MM/yyyy hh:mm");
+				try{
+				Date dateStar = formatter.parse(savingAccount
+						.getDateStart());
+				Date dateEnd = formatter.parse(savingAccount.getDateEnd());
+				
+				float interestPerDay=0;
+				float interest=0;
+				if (startWithdraw.compareTo(dateEnd) >= 0) {
+					interestPerDay = ((savingAccount.getInterestRateId()
+							.getInterestRate())/360)/100;
+					
+				}else{
+					List<InterestRate> interestRate = interestRateService.getInterestRateList();
+					for(InterestRate a:interestRate){
+						if(a.getMonth()==0){
+							interest=a.getInterestRate();
+							break;
+						}
+					}
+					interestPerDay=(interest/360)/100;
 				}
+				
+				int days=Days.daysBetween(new DateTime(dateStar),new DateTime(startWithdraw)).getDays();
+				totalAmount = savingAccount.getBalanceAmount()
+							+ savingAccount.getBalanceAmount() * interestPerDay*days;
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+			transaction.setCurrentBalance(totalAmount);
+			if(transaction.getAmount()<=totalAmount){
+				if(request.getParameter("chooseAmmount").equals("all")){
+					transaction.setTransactionType("withdrawAll");
+					transaction.setAmount(totalAmount);
+					}
 				if(request.getParameter("chooseAmmount").equals("apart")){
 					transaction.setTransactionType("withdraw");
 				}
@@ -326,7 +358,9 @@ public class TransactionController {
 				return response;
 			}
 			}
-			transaction.setCurrentBalance(currentBalance);
+			if(transaction.getTransactionType().equalsIgnoreCase("deposit")){
+							transaction.setCurrentBalance(currentBalance);
+			}
 			transaction.setDateStart(savingAccountService
 					.convertDateToString(dateStart));
 			transaction.setState("hold");
@@ -368,7 +402,7 @@ public class TransactionController {
 			response.setLogin(true);
 		}else{
 			response.setSuccess(false);
-			message = "Hold Transaction is being available!!!";
+			message = " Hold Transaction is being available!!!";
 			response.setMessage(message);
 			response.setError_code("0");
 			response.setLogin(true);
