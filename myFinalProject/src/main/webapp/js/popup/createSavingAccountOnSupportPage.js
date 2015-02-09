@@ -68,10 +68,10 @@ $(document)
 																								data.savingAccount.dateStart,
 																								data.savingAccount.dateEnd,
 																								'<a href='
-																										+ '"submitSavingAccount.html?SavingAccountId=${savingAccount.id}"'
+																										+ '"submitSavingAccount.html?SavingAccountId='+data.savingAccount.id+'"'
 																										+ 'class="myButton">Submit</a>',
 																								'<a href='
-																										+ '"editSavingAccount.html?SavingAccountId=${savingAccount.id}"'
+																										+ '"editSavingAccount.html?SavingAccountId='+data.savingAccount.id+'"'
 																										+ 'class="myButton">Edit</a>' ]
 
 																				)
