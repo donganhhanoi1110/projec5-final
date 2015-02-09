@@ -653,6 +653,7 @@ public class TransactionController {
 				Transaction tran = transactionService
 						.getTransaction(TransactionId);
 				tran.setState("deny");
+				tran.setDateEnd(savingAccountService.convertDateToString(new Date()));
 				// Check error when Update to Database
 				if (!transactionService.updateTransaction(tran)) {
 					message = "Deny Transaction" + TransactionId + " FAIL";
